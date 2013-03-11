@@ -118,6 +118,34 @@ public:
     int numEssentialVariables();
 };
 
+class SynapseTsodyksMarkramAn: public Synapse{
+    // Tsodyks-Markram analytical
+public:
+    static std::string synapsetype;
+    double x, y, z, u;
+    double xsp, ysp, zsp, usp;
+    double tau_one, tau_rec, tau_facil, U, A;
+    double efacil, eone, erec;
+    int exc;
+    int buf00;
+
+    static double init_tau_one, init_x, init_y, init_z, init_u;
+    static double init_tau_recee, init_tau_facilee, init_Uee, init_Aee;
+    static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
+    static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
+    static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
+
+    SynapseTsodyksMarkramAn ();
+    std::string getName();
+    double evolve(double dt, double time, double Vpre, double Vpost);
+    void setData(int pre, int pos, int preex, int posex, double dt);
+    double* exportData();
+    int initSynapses();
+    static int initSynapsesLocal();
+    int importData(double *arr);
+    int numEssentialVariables();
+};
+
 class SynapseSTDP: public Synapse{
 public:
     static std::string synapsetype;

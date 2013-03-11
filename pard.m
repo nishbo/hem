@@ -1,6 +1,6 @@
 %Print Analysed Raw Data
 function pard
-  fprintf('\n\t\tNew instance\n');
+  fprintf('\n\t\tNew instance %4.0f\n', Random('Uniform', 1, 99999));
   
   %Analyzing parameters.txt
   fid = fopen('data/parameters.txt');
@@ -12,7 +12,6 @@ function pard
   time_length = fscanf(fid,'\nLength of simulation (msec) _=_ %f;');
   tbe = fscanf(fid,'\nTime between exports (msec) _=_ %f');
   dt = fscanf(fid,';\nTime-step (msec) _=_ %f;');
-  disp(dt);
   fclose(fid);
 
   number_of_exports = floor(time_length / dt)+1;
@@ -78,23 +77,23 @@ function pard
   fprintf('Spikes loaded.\n');
   max_rastr_time = max(rastr_time);
   
-  %Analyzing export/synapses.txt
-  fid = fopen('export/synapses.txt', 'r');
-  Nsyn = fscanf(fid, 'Number of synapses = %d');
-  synnum = zeros(1, N);
-
-  for i=1 : 1 : Nsyn
-      buf = fscanf(fid, '%s', 1);
-      while(~strcmp(buf,'from'))
-          buf = fscanf(fid, '%s', 1);
-      end
-      buf00 = fscanf(fid, '%d', 1);
-      synnum(buf00+1) = synnum(buf00+1) + 1;
-  end
-  fclose(fid);
-  fprintf('Connections loaded.\n');
-  
-  fprintf('Simulation loaded.\n');
+%   %Analyzing export/synapses.txt
+%   fid = fopen('export/synapses.txt', 'r');
+%   Nsyn = fscanf(fid, 'Number of synapses = %d');
+%   synnum = zeros(1, N);
+% 
+%   for i=1 : 1 : Nsyn
+%       buf = fscanf(fid, '%s', 1);
+%       while(~strcmp(buf,'from'))
+%           buf = fscanf(fid, '%s', 1);
+%       end
+%       buf00 = fscanf(fid, '%d', 1);
+%       synnum(buf00+1) = synnum(buf00+1) + 1;
+%   end
+%   fclose(fid);
+%   fprintf('Connections loaded.\n');
+%   
+%   fprintf('\tSimulation loaded.\n\n');
   %Calculating stuff
 %   V_average = zeros(1, number_of_exports);
 %   for i=1 : 1 : number_of_exports
@@ -142,46 +141,48 @@ function pard
           end
       end
   end
-  amount_of_bursts = 0;
-  for i=1 : 1 : integrated_spikes_amount
-      if find_bursts(i)>0
-          amount_of_bursts = amount_of_bursts + 1;
-          burst_amps(amount_of_bursts) = find_bursts(i) * N;
-          burst_time(amount_of_bursts) = integrated_spikes_time(i);
-      end
-  end
-  average_burst_amp = 0;
-  for i=1 : 1 : amount_of_bursts
-      average_burst_amp = average_burst_amp + burst_amps(i);
-  end
-  average_burst_amp = average_burst_amp / amount_of_bursts;
-  sd_burst_amp = 0;
-  for i=1 : 1 : amount_of_bursts
-      sd_burst_amp = sd_burst_amp + (average_burst_amp - burst_amps(i))^2;
-  end
-  sd_burst_amp = sqrt(sd_burst_amp/amount_of_bursts);
-  fprintf('Bursts almost calculated.\n');
-  
-  burst_full_amps = zeros(size(burst_time));
-  for i=1 : 1 : length(rastr)
-      for j=1 : 1 : length(burst_time)
-          if burst_time(j) - rastr_time(i) > -time_int_spikes && ...
-                  burst_time(j) - rastr_time(i) <= 0
-              burst_full_amps(j) = burst_full_amps(j) + synnum(rastr(i)+1);
-          end
-      end
-  end
-  average_full_burst_amp = 0;
-  for i=1 : 1 : length(burst_time)
-      average_full_burst_amp = average_full_burst_amp + burst_full_amps(i);
-  end
-  average_full_burst_amp = average_full_burst_amp / length(burst_time);
-  sd_full_burst_amp = 0;
-  for i=1 : 1 : amount_of_bursts
-      sd_full_burst_amp = sd_full_burst_amp + (average_full_burst_amp - burst_full_amps(i))^2;
-  end
-  sd_full_burst_amp = sqrt(sd_full_burst_amp/length(burst_time));
-  fprintf('Bursts calculated.\n');
+  fprintf('Activity analyzed.\n');
+%   
+%   amount_of_bursts = 0;
+%   for i=1 : 1 : integrated_spikes_amount
+%       if find_bursts(i)>0
+%           amount_of_bursts = amount_of_bursts + 1;
+%           burst_amps(amount_of_bursts) = find_bursts(i) * N;
+%           burst_time(amount_of_bursts) = integrated_spikes_time(i);
+%       end
+%   end
+%   average_burst_amp = 0;
+%   for i=1 : 1 : amount_of_bursts
+%       average_burst_amp = average_burst_amp + burst_amps(i);
+%   end
+%   average_burst_amp = average_burst_amp / amount_of_bursts;
+%   sd_burst_amp = 0;
+%   for i=1 : 1 : amount_of_bursts
+%       sd_burst_amp = sd_burst_amp + (average_burst_amp - burst_amps(i))^2;
+%   end
+%   sd_burst_amp = sqrt(sd_burst_amp/amount_of_bursts);
+%   fprintf('Bursts almost calculated.\n');
+%   
+%   burst_full_amps = zeros(size(burst_time));
+%   for i=1 : 1 : length(rastr)
+%       for j=1 : 1 : length(burst_time)
+%           if burst_time(j) - rastr_time(i) > -time_int_spikes && ...
+%                   burst_time(j) - rastr_time(i) <= 0
+%               burst_full_amps(j) = burst_full_amps(j) + synnum(rastr(i)+1);
+%           end
+%       end
+%   end
+%   average_full_burst_amp = 0;
+%   for i=1 : 1 : length(burst_time)
+%       average_full_burst_amp = average_full_burst_amp + burst_full_amps(i);
+%   end
+%   average_full_burst_amp = average_full_burst_amp / length(burst_time);
+%   sd_full_burst_amp = 0;
+%   for i=1 : 1 : amount_of_bursts
+%       sd_full_burst_amp = sd_full_burst_amp + (average_full_burst_amp - burst_full_amps(i))^2;
+%   end
+%   sd_full_burst_amp = sqrt(sd_full_burst_amp/length(burst_time));
+%   fprintf('Bursts calculated.\n');
   
 %   %Plotting data
 %   figure(1);
@@ -204,7 +205,7 @@ function pard
   hold on;
   plot(integrated_spikes_time, integrated_spikes);
   plot([max_rastr_time max_rastr_time], [0 N], 'g.-');
-  plot(integrated_spikes_time, find_bursts, 'r');
+%   plot(integrated_spikes_time, find_bursts, 'r');
   title('Fraction of neurons spiking per time');
   axis([0 time_length 0 1]);
   xlabel('Time, ms');
@@ -224,10 +225,10 @@ function pard
 %   ylabel('Fraction');
 %   hold on;
 
-  fprintf('Burst info. Bursts:');
-  disp(burst_amps);
-  fprintf('Burst info. Mean: %f , sd: %f .',average_burst_amp,sd_burst_amp);
-  fprintf('Burst unnormal info. Mean: %f , sd: %f .', average_full_burst_amp, sd_full_burst_amp);
+%   fprintf('Burst info: Bursts:');
+%   disp(burst_amps);
+%   fprintf('Mean: %f, sd: %f.',average_burst_amp, sd_burst_amp);
+%   fprintf('\nBurst unnormal info. Mean: %f, sd: %f.', average_full_burst_amp, sd_full_burst_amp);
   
   fprintf('\n');
 end
