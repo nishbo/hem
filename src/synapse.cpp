@@ -316,10 +316,14 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
         tau_facil = init_tau_facilii;
         exc = 0;
     }
-    A = VFDistributions::normal(A, abs(A/2));
-    U = VFDistributions::normal(U, U/2);
-    tau_rec = dt + abs(VFDistributions::normal(tau_rec, tau_rec/2));
-    tau_facil = dt + abs(VFDistributions::normal(tau_facil, tau_facil/2));
+    if(A>0)
+        A = VFDistributions::normal(A, A/2, 0, 4*A);
+    else
+        A = VFDistributions::normal(A, -A/2, 4*A, 0);
+    U = VFDistributions::normal(U, U/2, 0, 4*U);
+    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+                                        dt, tau_facil*4);
 
     x = init_x;
     y = init_y;
@@ -585,10 +589,14 @@ void SynapseTsodyksMarkramAn::setData(int pre, int pos, \
         tau_facil = init_tau_facilii;
         exc = 0;
     }
-    A = VFDistributions::normal(A, abs(A/2));
-    U = VFDistributions::normal(U, U/2);
-    tau_rec = dt + abs(VFDistributions::normal(tau_rec, tau_rec/2));
-    tau_facil = dt + abs(VFDistributions::normal(tau_facil, tau_facil/2));
+    if(A>0)
+        A = VFDistributions::normal(A, A/2, 0, 4*A);
+    else
+        A = VFDistributions::normal(A, -A/2, 4*A, 0);
+    U = VFDistributions::normal(U, U/2, 0, 4*U);
+    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+                                        dt, tau_facil*4);
 
     x = init_x;
     y = init_y;
@@ -1017,10 +1025,14 @@ void SynapseTMSTDP::setData(int pre, int pos, \
         tau_facil = init_tau_facilii;
         exc = 0;
     }
-    A = VFDistributions::normal(A, abs(A/2));
-    U = VFDistributions::normal(U, U/2);
-    tau_rec = dt + abs(VFDistributions::normal(tau_rec, tau_rec/2));
-    tau_facil = dt + abs(VFDistributions::normal(tau_facil, tau_facil/2));
+    if(A>0)
+        A = VFDistributions::normal(A, A/2, 0, 4*A);
+    else
+        A = VFDistributions::normal(A, -A/2, 4*A, 0);
+    U = VFDistributions::normal(U, U/2, 0, 4*U);
+    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+                                        dt, tau_facil*4);
 
     x = init_x;
     y = init_y;
@@ -1188,6 +1200,19 @@ int SynapseTMSTDP::importData(double *arr){
     alpha = init_alpha;
     tau_corr = init_tau_corr;
     t_start = init_t_start;
+    switch(init_type_of_weight){
+    case 0:
+        weight = init_weight;
+        break;
+    case 1:
+        weight = VFDistributions::uniform(0, 1);
+        break;
+    case 2:
+        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        break;
+    default:
+        weight = init_weight;
+    }
     return 0;
 }
 

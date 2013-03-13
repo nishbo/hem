@@ -14,7 +14,7 @@ public:
     static int randomConnections(int N, int* com, double p);
     static int smallWorld(int N, int *com, int clu, double beta);
     static double setDelay(double prex, double prey, double posx, double posy,\
-                           int type_of_delay, double dt);
+                           int type_of_delay, double sv, double dm, double dt);
 private:
     Topology();
     Topology(Topology&p){}

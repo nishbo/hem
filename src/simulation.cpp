@@ -178,11 +178,10 @@ int SimulationSingleton::createSynapses(){
                                             neuron_array[i]->exc, \
                                             neuron_array[j]->exc, dt);
                 synapse_array[buf0]->delay = Topology::setDelay(\
-                            neuron_array[i]->x, \
-                            neuron_array[i]->y, \
-                            neuron_array[j]->x, \
-                            neuron_array[j]->y,
-                            type_of_delay, dt);
+                            neuron_array[i]->x, neuron_array[i]->y, \
+                            neuron_array[j]->x, neuron_array[j]->y, \
+                            type_of_delay, spike_velocity, \
+                            delay_max, dt);
                 synapse_array[buf0]->setDeliveries(dt);
             } else {
                 connectivity_matrix[buf0] = -1; // means NO CONNECTION

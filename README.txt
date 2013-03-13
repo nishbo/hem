@@ -17,7 +17,7 @@ Topology types:
 1: sm-w network
 
 Delay types:
-0: random (0, 10] msec
+0: random (0, delay_max] msec
 1: distance-dependent
 2: minimal
 

@@ -116,6 +116,12 @@ int SimulationSingleton::loadParametersFromFile(){
     Imean = buf01;
     fscanf(fid, "Sigma_stimulation = %f\n", &buf01);
     Isd = buf01;
+    fscanf(fid, "Border_length_of_box = %f\n", &buf01);
+    border_length_of_box = buf01;
+    fscanf(fid, "Spike_velocity = %f\n", &buf01);
+    spike_velocity = buf01;
+    fscanf(fid, "Delay_max = %f\n", &buf01);
+    delay_max = buf01;
     fscanf(fid, "Import_network_neurons = %d\n", &import_neurons);
     fscanf(fid, "Import_network_synapses = %d\n", &import_synapses);
 

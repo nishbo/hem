@@ -25,9 +25,6 @@
 // Disables asking perm for overwriting,
 #define ENABLE_TEST                 1
 // below in mm
-#define BORDER_LENGTH_OF_BOX        1.0
-// below in mm/msec
-#define SPIKE_VELOCITY              0.2
 
 #define Malloc(n,t) (t*)std::malloc((n)*sizeof(t))
 

@@ -44,8 +44,8 @@ std::string NeuronLeakyIAF::getName(){
 
 NeuronLeakyIAF::NeuronLeakyIAF (){
     // set random coordinates in box
-    x = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
-    y = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
+    x = VFDistributions::drand();
+    y = VFDistributions::drand();
     I = 0.0;
 }
 
@@ -151,8 +151,8 @@ std::string NeuronLeakyIAFRK::getName(){
 
 NeuronLeakyIAFRK::NeuronLeakyIAFRK (){
     // set random coordinates in box
-    x = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
-    y = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
+    x = VFDistributions::drand();
+    y = VFDistributions::drand();
     I = 0.0;
 }
 
@@ -227,8 +227,8 @@ std::string NeuronHodgkinHuxley::getName(){
 
 NeuronHodgkinHuxley::NeuronHodgkinHuxley(){
     // set random coordinates in box
-    x = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
-    y = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
+    x = VFDistributions::drand();
+    y = VFDistributions::drand();
     I = 0.0;
 }
 
@@ -334,8 +334,8 @@ std::string NeuronHodgkinHuxleyRK::getName(){
 
 NeuronHodgkinHuxleyRK::NeuronHodgkinHuxleyRK(){
     // set random coordinates in box
-    x = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
-    y = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
+    x = VFDistributions::drand();
+    y = VFDistributions::drand();
     I = 0.0;
 }
 
@@ -547,8 +547,8 @@ std::string NeuronPrototype::neurotype = "Insert_name_here";
 
 NeuronPrototype::NeuronPrototype(){
     // set random coordinates in box
-    x = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
-    y = VFDistributions::drand() * BORDER_LENGTH_OF_BOX;
+    x = VFDistributions::drand();
+    y = VFDistributions::drand();
     I = 0.0;
 }
 

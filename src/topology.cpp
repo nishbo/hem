@@ -40,19 +40,19 @@ int Topology::smallWorld(int N, int *com, int clu, double beta){
 }
 
 double Topology::setDelay(double prex, double prey, double posx, double posy, \
-                          int type_of_delay, double dt){
+                          int type_of_delay, double sv, double dm, double dt){
     // returns time of signal travel between two neurons depending on
     // type_of_delay
 
     double d;
     switch (type_of_delay){
     case 0:
-        d = dt + VFDistributions::drand() * 10;
+        d = VFDistributions::uniform(dt, dm);
         break;
     case 1:
         d = sqrt( (prex - posx) * (prex - posx) + \
                   (prey - posy) * (prey - posy) \
-                ) / SPIKE_VELOCITY;
+                ) / sv;
         break;
     case 2:
         d = dt;
