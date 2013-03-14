@@ -142,6 +142,10 @@ int SimulationSingleton::createSynapses(){
         for(int i=0; i<N*N; i++)
             synapse_array[i] = new SynapseTMSTDP;
         break;
+    case 8:
+        for(int i=0; i<N*N; i++)
+            synapse_array[i] = new SynapseTMSTDPAsymmetrical;
+        break;
     default:
         error_number = 4;
     }

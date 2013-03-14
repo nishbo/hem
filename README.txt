@@ -11,6 +11,7 @@ Synapse types:
 5: G Second type with cut
 6: STDP with g-transmission function
 7: STDP with Tsodyks-Markram
+8: Asymmetrical STDP with Tsodyks-Markram
 
 Topology types:
 0: random network

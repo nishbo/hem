@@ -218,6 +218,49 @@ public:
     int numEssentialVariables();
 };
 
+class SynapseTMSTDPAsymmetrical: public Synapse{
+    // Tsodyks-Markram + STDP (asymmetrical version)
+public:
+    static std::string synapsetype;
+    //STDP
+    double A_plus, A_minus, tau_corr_plus, tau_corr_minus;
+    double t_start;
+    //TM
+    double x, y, z, u;
+    double tau_one, tau_rec, tau_facil, U, A;
+    int exc;
+
+    // Runge-Kutta stuff:
+    double k_1_x, k_1_y, k_1_z, k_1_u;
+    double k_2_x, k_2_y, k_2_z, k_2_u;
+    double k_3_x, k_3_y, k_3_z, k_3_u;
+    double k_4_x, k_4_y, k_4_z, k_4_u;
+    double Xr(double x1, double y1, double z1, double u1, double t1, double dt);
+    double Yr(double x1, double y1, double z1, double u1, double t1, double dt);
+    double Zr(double x1, double y1, double z1, double u1, double t1, double dt);
+    double Ur(double x1, double y1, double z1, double u1, double t1, double dt);
+
+    static double init_tau_one, init_x, init_y, init_z, init_u;
+    static double init_tau_recee, init_tau_facilee, init_Uee, init_Aee;
+    static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
+    static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
+    static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
+    static double init_A_plus, init_A_minus;
+    static double init_tau_corr_plus, init_tau_corr_minus;
+    static double init_weight, init_t_start;
+    static int init_type_of_weight;
+
+    SynapseTMSTDPAsymmetrical ();
+    std::string getName();
+    double evolve(double dt, double time, double Vpre, double Vpost);
+    void setData(int pre, int post, int preex, int posex, double dt);
+    double* exportData();
+    int importData(double *arr);
+    int initSynapses();
+    static int initSynapsesLocal();
+    int numEssentialVariables();
+};
+
 class SynapseGFirstType: public Synapse{
     // Differential eq, no cut
 public:
