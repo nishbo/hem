@@ -762,6 +762,241 @@ int SynapseTsodyksMarkramAn::initSynapses(){
     return initSynapsesLocal();
 }
 
+/// Tsodyks-Markram rk nest style
+
+std::string SynapseTsodyksMarkramRKNest::synapsetype = \
+        "Tsodyks-Markram_synapse_(rk4_nest)";
+
+std::string SynapseTsodyksMarkramRKNest::getName(){
+    return synapsetype;
+}
+
+double SynapseTsodyksMarkramRKNest::init_tau_one = 3;
+double SynapseTsodyksMarkramRKNest::init_x = 0.98;
+double SynapseTsodyksMarkramRKNest::init_y = 0.01;
+double SynapseTsodyksMarkramRKNest::init_z = 0.01;
+double SynapseTsodyksMarkramRKNest::init_Aee = 38;
+double SynapseTsodyksMarkramRKNest::init_Uee = 0.5;
+double SynapseTsodyksMarkramRKNest::init_tau_recee = 800;
+double SynapseTsodyksMarkramRKNest::init_tau_facilee = 0;
+double SynapseTsodyksMarkramRKNest::init_Aei = 54;
+double SynapseTsodyksMarkramRKNest::init_Uei = 0.5;
+double SynapseTsodyksMarkramRKNest::init_tau_recei = 800;
+double SynapseTsodyksMarkramRKNest::init_tau_facilei = 0;
+double SynapseTsodyksMarkramRKNest::init_Aie = -72;
+double SynapseTsodyksMarkramRKNest::init_Uie = 0.04;
+double SynapseTsodyksMarkramRKNest::init_tau_recie = 100;
+double SynapseTsodyksMarkramRKNest::init_tau_facilie = 1000;
+double SynapseTsodyksMarkramRKNest::init_Aii = -72;
+double SynapseTsodyksMarkramRKNest::init_Uii = 0.04;
+double SynapseTsodyksMarkramRKNest::init_tau_recii = 100;
+double SynapseTsodyksMarkramRKNest::init_tau_facilii = 1000;
+
+SynapseTsodyksMarkramRKNest::SynapseTsodyksMarkramRKNest (){
+    working = 0;
+}
+void SynapseTsodyksMarkramRKNest::setData(int pre, int pos, \
+                                    int preex, int posex, double dt){
+    tau_one = init_tau_one;
+
+    working = 1;
+    presynaptic = pre;
+    postsynaptic = pos;
+    weight = 1;
+    last_spiked = -100;
+    lsp2 = 0;
+    last_spiked_post = -100;
+
+    if(preex && posex){
+        //exc exc
+        A = init_Aee;
+        U = init_Uee;
+        tau_rec = init_tau_recee;
+        tau_facil = init_tau_facilee;
+        exc = 1;
+    } else if(preex){
+        //exc inh
+        A = init_Aei;
+        U = init_Uei;
+        tau_rec = init_tau_recei;
+        tau_facil = init_tau_facilei;
+        exc = 1;
+    } else if(posex){
+        // inh exc
+        A = init_Aie;
+        U = init_Uie;
+        tau_rec = init_tau_recie;
+        tau_facil = init_tau_facilie;
+        exc = 0;
+    } else {
+        // inh inh
+        A = init_Aii;
+        U = init_Uii;
+        tau_rec = init_tau_recii;
+        tau_facil = init_tau_facilii;
+        exc = 0;
+    }
+    if(A>0)
+        A = VFDistributions::normal(A, A/2, 0, 4*A);
+    else
+        A = VFDistributions::normal(A, -A/2, 4*A, 0);
+    U = VFDistributions::normal(U, U/2, 0, 4*U);
+    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+                                        dt, tau_facil*4);
+
+    xo = init_x;
+    yo = init_y;
+    zo = init_z;
+    uo = U;
+    if(exc){
+        E = 0;
+        tau_g = 3;
+    } else {
+        E = 80;
+        tau_g = 7;
+    }
+    g = 0;
+}
+
+double SynapseTsodyksMarkramRKNest::evolve(double dt, double time, \
+                                       double Vpre, double Vpost){
+
+    if(VFDiscrete::diracDelta(time - last_spiked, dt)){
+        h = last_spiked - lsp2;
+        lsp2 = last_spiked;
+
+        zo = 1 - xo - yo;
+        if(exc)
+            u1 = 0;
+        else
+            u1 = uo * exp(- h / tau_facil);
+        x1 = xo + ((exp(-h/tau_rec)-1)*tau_rec - (exp(-h/tau_one)-1)*tau_one) *\
+                yo / (tau_one - tau_rec) + (1 - exp(-h/tau_rec))*zo;
+        y1 = yo * exp(-h/tau_one);
+        u2 = u1 + U * (1-u1);
+
+        g += A * u2 * x1;
+
+        xo = x1 - u2*x1;
+        yo = y1 + u2*x1;
+    }
+
+    g -= dt * (g / tau_g);
+    out_current = g;
+
+    return moveDeliveries();
+}
+
+double* SynapseTsodyksMarkramRKNest::exportData(){
+    if(!working)
+        return new double;
+    double* arr = new double[numEssentialVariables()+1];
+    arr[0] = numEssentialVariables()+1;
+    arr[1] = presynaptic;
+    arr[2] = postsynaptic;
+    arr[3] = weight;
+    arr[4] = delay;
+    arr[5] = xo;
+    arr[6] = yo;
+    arr[7] = zo;
+    arr[8] = uo;
+    arr[9] = tau_one;
+    arr[10] = tau_rec;
+    arr[11] = tau_facil;
+    arr[12] = U;
+    arr[13] = A;
+    arr[14] = exc;
+    return arr;
+}
+
+int SynapseTsodyksMarkramRKNest::importData(double *arr){
+    working = 1;
+    presynaptic = arr[0];
+    postsynaptic = arr[1];
+    weight = arr[2];
+    delay = arr[3];
+    xo = arr[4];
+    yo = arr[5];
+    zo = arr[6];
+    uo = arr[7];
+    tau_one = arr[8];
+    tau_rec = arr[9];
+    tau_facil = arr[10];
+    U = arr[11];
+    A = arr[12];
+    exc = arr[13];
+
+    if(tau_rec < 1e-3)
+        tau_rec = 1e-3;
+    if(tau_facil < 1e-3)
+        tau_facil = 1e-3;
+    return 0;
+}
+
+int SynapseTsodyksMarkramRKNest::numEssentialVariables(){
+    return 14;
+}
+
+int SynapseTsodyksMarkramRKNest::initSynapsesLocal(){
+    FILE* fid = fopen("./init/SynapseTsodyksMarkram.ini", "r");
+    if(!fid){
+        exit(29);
+    }
+    float buf01;
+    fscanf(fid, "tau_one = %f\n", &buf01);
+    init_tau_one = buf01;
+    fscanf(fid, "x = %f\n", &buf01);
+    init_x = buf01;
+    fscanf(fid, "y = %f\n", &buf01);
+    init_y = buf01;
+    fscanf(fid, "z = %f\n\n", &buf01);
+    init_z = buf01;
+
+    fscanf(fid, "Aee = %f\n", &buf01);
+    init_Aee = buf01;
+    fscanf(fid, "Uee = %f\n", &buf01);
+    init_Uee = buf01;
+    fscanf(fid, "tau_recee = %f\n", &buf01);
+    init_tau_recee = buf01;
+    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
+    init_tau_facilee = buf01;
+
+    fscanf(fid, "Aei = %f\n", &buf01);
+    init_Aei = buf01;
+    fscanf(fid, "Uei = %f\n", &buf01);
+    init_Uei = buf01;
+    fscanf(fid, "tau_recei = %f\n", &buf01);
+    init_tau_recei = buf01;
+    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
+    init_tau_facilei = buf01;
+
+    fscanf(fid, "Aie = %f\n", &buf01);
+    init_Aie = buf01;
+    fscanf(fid, "Uie = %f\n", &buf01);
+    init_Uie = buf01;
+    fscanf(fid, "tau_recie = %f\n", &buf01);
+    init_tau_recie = buf01;
+    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
+    init_tau_facilie = buf01;
+
+    fscanf(fid, "Aii = %f\n", &buf01);
+    init_Aii = buf01;
+    fscanf(fid, "Uii = %f\n", &buf01);
+    init_Uii = buf01;
+    fscanf(fid, "tau_recii = %f\n", &buf01);
+    init_tau_recii = buf01;
+    fscanf(fid, "tau_facilii = %f\n", &buf01);
+    init_tau_facilii = buf01;
+
+    fclose(fid);
+    return 0;
+}
+
+int SynapseTsodyksMarkramRKNest::initSynapses(){
+    return initSynapsesLocal();
+}
+
 /// Spike-Timing Dependent Plasticity Model
 
 std::string SynapseSTDP::synapsetype = "STDP";

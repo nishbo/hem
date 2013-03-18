@@ -146,6 +146,10 @@ int SimulationSingleton::createSynapses(){
         for(int i=0; i<N*N; i++)
             synapse_array[i] = new SynapseTMSTDPAsymmetrical;
         break;
+    case 9:
+        for(int i=0; i<N*N; i++)
+            synapse_array[i] = new SynapseTsodyksMarkramRKNest;
+        break;
     default:
         error_number = 4;
     }
