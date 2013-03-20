@@ -169,4 +169,9 @@ obj
 data
 export
 import
+<<<<<<< HEAD
 hem.exe
+=======
+hem
+hem.exe
+>>>>>>> Gitignore update

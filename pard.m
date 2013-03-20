@@ -133,6 +133,7 @@ function pard
               find_bursts(j) = 0;
           else
               find_bursts(i) = 0;
+              i = j-1;
               break;
           end
           j = j+1;
