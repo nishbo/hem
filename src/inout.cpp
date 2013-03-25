@@ -132,7 +132,7 @@ int SimulationSingleton::loadParametersFromFile(){
 void SimulationSingleton::outputChangingData(){
     if(VFDiscrete::inBetween(time_now, time_between_vi_exports, dt)){
         outputChangingDataInFile(time_now);
-//        outputSynapseDataInFile(time_now);
+        outputSynapseDataInFile(time_now);
         outputCurrentsInFile(time_now);
     }
     if(VFDiscrete::inBetween(time_now, time_between_exports, dt)){

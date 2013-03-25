@@ -121,25 +121,25 @@ function pard
   
   fprintf('Spikes calculated.\n');
   
-  %Average InterSpike Interval vs time
-  ISI = 1./(integrated_spikes * N);
-  
-  %Overall ISI
-  spikes_in_neuron = ones(1, N);
-  for i=1 : 1 : num
-      spikes_in_neuron(rastr(i)+1) = spikes_in_neuron(rastr(i)+1) + 1;
-  end
-  overall_ISI = max_rastr_time ./ spikes_in_neuron;
-  max_ISI_hist = max(max(overall_ISI));
-  disp(max_ISI_hist);
-  min_ISI_hist = 0;
-  N_ISI_hist = N / 5;
-  dISI_hist = (max_ISI_hist - min_ISI_hist) / N_ISI_hist;
-  hist_ISI = zeros(1, N_ISI_hist);
-  for i=1 : 1 : N
-      buf00 = floor(overall_ISI(i) / dISI_hist);
-      hist_ISI(buf00) = hist_ISI(buf00) + 1;
-  end
+%   %Average InterSpike Interval vs time
+%   ISI = 1./(integrated_spikes * N);
+%   
+%   %Overall ISI
+%   spikes_in_neuron = ones(1, N);
+%   for i=1 : 1 : num
+%       spikes_in_neuron(rastr(i)+1) = spikes_in_neuron(rastr(i)+1) + 1;
+%   end
+%   overall_ISI = max_rastr_time ./ spikes_in_neuron;
+%   max_ISI_hist = max(max(overall_ISI));
+%   disp(max_ISI_hist);
+%   min_ISI_hist = 0;
+%   N_ISI_hist = N / 5;
+%   dISI_hist = (max_ISI_hist - min_ISI_hist) / N_ISI_hist;
+%   hist_ISI = zeros(1, N_ISI_hist);
+%   for i=1 : 1 : N
+%       buf00 = floor(overall_ISI(i) / dISI_hist);
+%       hist_ISI(buf00) = hist_ISI(buf00) + 1;
+%   end
   
   %Burst calculating
   burst_threshold = 0.2;    % % of network
@@ -262,14 +262,14 @@ function pard
 %   ylabel('Fraction');
 %   hold on;
 
-  figure(5);
-  hold on;
-  plot(burst_time, IBI, 'k');
-  title('InterBurst Interval');
-%   axis([0 time_length 0 2000]);
-  xlabel('Time, ms');
-  ylabel('InterBurst Interval, ms');
-  hold off;
+%   figure(5);
+%   hold on;
+%   plot(burst_time, IBI, 'k');
+%   title('InterBurst Interval');
+% %   axis([0 time_length 0 2000]);
+%   xlabel('Time, ms');
+%   ylabel('InterBurst Interval, ms');
+%   hold off;
 
 %   figure(6);
 %   hold on;
@@ -280,14 +280,14 @@ function pard
 %   ylabel('InterSpikes Interval, ms');
 %   hold off;
 
-  figure(7);
-  hold on;
-  plot(1 : 1 : length(hist_ISI), hist_ISI, 'k');
-  title('InterSpikes Interval Histogram');
-%   axis([0 time_length 0 50]);
-  xlabel('Time, ms');
-  ylabel(' ');
-  hold off;
+%   figure(7);
+%   hold on;
+%   plot(1 : 1 : length(hist_ISI), hist_ISI, 'k');
+%   title('InterSpikes Interval Histogram');
+% %   axis([0 time_length 0 50]);
+%   xlabel('Time, ms');
+%   ylabel(' ');
+%   hold off;
 
   fprintf('Burst info: Bursts:');
   for i=1 : 1 : amount_of_bursts

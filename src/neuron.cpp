@@ -410,7 +410,7 @@ void NeuronHodgkinHuxleyRK::setExcitatory(int f){
 }
 
 void NeuronHodgkinHuxleyRK::addCurrent(double a){
-    I += a / divider;
+    I += a ;
 }
 
 double NeuronHodgkinHuxleyRK::mFRK(double V, double m, double h, \
@@ -452,8 +452,8 @@ double NeuronHodgkinHuxleyRK::VFRK(double V, double m, double h, \
 }
 
 int NeuronHodgkinHuxleyRK::subEvolve(double t, double dt){
-    if(dt > 0.01){
-        Ndt += this->subEvolve(t, dt/2) + this->subEvolve(t, dt/2);
+    if(dt > 0.001){
+        Ndt += subEvolve(t, dt/2) + subEvolve(t, dt/2);
         return Ndt;
     } else {
         k_1_h = dt * hFRK(V, m, h, n, dt);
@@ -488,7 +488,7 @@ int NeuronHodgkinHuxleyRK::subEvolve(double t, double dt){
 
 int NeuronHodgkinHuxleyRK::evolve(double dt, double time){
     Ndt = 0;
-    this->subEvolve(time, dt);
+    subEvolve(time, dt);
     I = 0;
 
     if(Ndt>0)

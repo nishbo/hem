@@ -233,12 +233,6 @@ std::string SynapseTsodyksMarkramRK::getName(){
     return synapsetype;
 }
 
-double SynapseTsodyksMarkramRK::xav = 0;
-double SynapseTsodyksMarkramRK::yav = 0;
-double SynapseTsodyksMarkramRK::zav = 0;
-double SynapseTsodyksMarkramRK::uav = 0;
-int SynapseTsodyksMarkramRK::number_of_synapses = 0;
-
 double SynapseTsodyksMarkramRK::init_tau_one = 3;
 double SynapseTsodyksMarkramRK::init_x = 0.98;
 double SynapseTsodyksMarkramRK::init_y = 0.01;
@@ -259,19 +253,6 @@ double SynapseTsodyksMarkramRK::init_Aii = -72;
 double SynapseTsodyksMarkramRK::init_Uii = 0.04;
 double SynapseTsodyksMarkramRK::init_tau_recii = 100;
 double SynapseTsodyksMarkramRK::init_tau_facilii = 1000;
-
-double* SynapseTsodyksMarkramRK::getInnerData(){
-    innerDataArr[0] = 5;
-    innerDataArr[1] = xav;
-    innerDataArr[2] = yav;
-    innerDataArr[3] = zav;
-    innerDataArr[4] = uav;
-    xav = 0;
-    yav = 0;
-    zav = 0;
-    uav = 0;
-    return innerDataArr;
-}
 
 SynapseTsodyksMarkramRK::SynapseTsodyksMarkramRK (){
     working = 0;
@@ -329,10 +310,6 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
     y = init_y;
     z = init_z;
     u = U;
-
-    number_of_synapses++;
-    if(number_of_synapses==1)
-      innerDataArr = new double[5];
 }
 
 double SynapseTsodyksMarkramRK::Xr(double x1, double y1, double z1, double u1, \
@@ -361,7 +338,6 @@ double SynapseTsodyksMarkramRK::Ur(double x1, double y1, double z1, double u1, \
 
 double SynapseTsodyksMarkramRK::evolve(double dt, double time, \
                                        double Vpre, double Vpost){
-
 
     k_1_x = dt * Xr(x, y, z, u, time, dt);
     k_1_y = dt * Yr(x, y, z, u, time, dt);
@@ -398,11 +374,6 @@ double SynapseTsodyksMarkramRK::evolve(double dt, double time, \
     if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
 
     out_current = A * y;
-
-    xav += x/number_of_synapses;
-    yav += y/number_of_synapses;
-    zav += z/number_of_synapses;
-    uav += u/number_of_synapses;
 
     return moveDeliveries();
 }

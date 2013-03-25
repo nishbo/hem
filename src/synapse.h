@@ -97,9 +97,6 @@ public:
     double Zr(double x1, double y1, double z1, double u1, double t1, double dt);
     double Ur(double x1, double y1, double z1, double u1, double t1, double dt);
 
-    static double xav, yav, zav, uav;
-    static int number_of_synapses;
-
     static double init_tau_one, init_x, init_y, init_z, init_u;
     static double init_tau_recee, init_tau_facilee, init_Uee, init_Aee;
     static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
@@ -110,7 +107,6 @@ public:
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
-    double* getInnerData();
     double* exportData();
     int initSynapses();
     static int initSynapsesLocal();
