@@ -131,7 +131,6 @@ function pard
 %   end
 %   overall_ISI = max_rastr_time ./ spikes_in_neuron;
 %   max_ISI_hist = max(max(overall_ISI));
-%   disp(max_ISI_hist);
 %   min_ISI_hist = 0;
 %   N_ISI_hist = N / 5;
 %   dISI_hist = (max_ISI_hist - min_ISI_hist) / N_ISI_hist;
@@ -140,6 +139,48 @@ function pard
 %       buf00 = floor(overall_ISI(i) / dISI_hist);
 %       hist_ISI(buf00) = hist_ISI(buf00) + 1;
 %   end
+  
+  %True ISI calculation
+  spike_per_neuron = zeros(N, 1);
+  for i=1 : 1 : length(rastr)
+      neuronum = rastr(i)+1;
+      neurotime = rastr_time(i);
+      spike_per_neuron(neuronum, 1) = spike_per_neuron(neuronum, 1) + 1;
+      spike_per_neuron(neuronum, spike_per_neuron(neuronum, 1)+1) = neurotime;
+      disp(i / length(rastr));
+  end
+  diff_spike_per_neuron = zeros(size(spike_per_neuron));
+  max_true_ISI = 0;
+  min_true_ISI = 0;
+  for i=1 : 1 : N
+      diff_spike_per_neuron(i, 1) = spike_per_neuron(i, 1);
+      diff_spike_per_neuron(i, 2) = spike_per_neuron(i, 2);
+      if diff_spike_per_neuron(i, 2) > max_true_ISI
+          max_true_ISI = diff_spike_per_neuron(i, 2);
+      end
+      if spike_per_neuron(i,1) > 1
+          for j=2 : 1 : spike_per_neuron(i, 1)
+              diff_spike_per_neuron(i, j+1) = spike_per_neuron(i, j+1) - spike_per_neuron(i, j);
+              if diff_spike_per_neuron(i, j+1) > max_true_ISI
+                  max_true_ISI = diff_spike_per_neuron(i, j+1);
+              end
+          end
+      end
+      disp(i);
+  end
+  N_true_ISI = 10;
+  true_ISI = zeros(1, N_true_ISI+1);
+  d_true_ISI = (max_true_ISI - min_true_ISI) / N_true_ISI;
+  for i=1 : 1 : N
+      if diff_spike_per_neuron(i,1) > 0
+          for j=1 : 1 : diff_spike_per_neuron(i, 1)
+              buf00 = floor(diff_spike_per_neuron(i, j+1) / d_true_ISI)+1;
+              true_ISI(buf00) = true_ISI(buf00) + 1;
+          end
+      end
+      disp(i);
+  end
+  true_ISI_ind = min_true_ISI : d_true_ISI : max_true_ISI;
   
   %Burst calculating
   burst_threshold = 0.2;    % % of network
@@ -288,6 +329,14 @@ function pard
 %   xlabel('Time, ms');
 %   ylabel(' ');
 %   hold off;
+
+  figure(8);
+  hold on;
+  plot(true_ISI_ind, true_ISI, 'k');
+  title('InterSpikes Interval Histogram');
+  xlabel('Time, ms');
+  ylabel(' ');
+  hold off;
 
   fprintf('Burst info: Bursts:');
   for i=1 : 1 : amount_of_bursts
