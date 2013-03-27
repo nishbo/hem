@@ -147,7 +147,6 @@ function pard
       neurotime = rastr_time(i);
       spike_per_neuron(neuronum, 1) = spike_per_neuron(neuronum, 1) + 1;
       spike_per_neuron(neuronum, spike_per_neuron(neuronum, 1)+1) = neurotime;
-      disp(i / length(rastr));
   end
   diff_spike_per_neuron = zeros(size(spike_per_neuron));
   max_true_ISI = 0;
@@ -166,9 +165,8 @@ function pard
               end
           end
       end
-      disp(i);
   end
-  N_true_ISI = 10;
+  N_true_ISI = max_true_ISI;
   true_ISI = zeros(1, N_true_ISI+1);
   d_true_ISI = (max_true_ISI - min_true_ISI) / N_true_ISI;
   for i=1 : 1 : N
@@ -178,7 +176,6 @@ function pard
               true_ISI(buf00) = true_ISI(buf00) + 1;
           end
       end
-      disp(i);
   end
   true_ISI_ind = min_true_ISI : d_true_ISI : max_true_ISI;
   
@@ -333,7 +330,8 @@ function pard
   figure(8);
   hold on;
   plot(true_ISI_ind, true_ISI, 'k');
-  title('InterSpikes Interval Histogram');
+  title('InterSpikes Interval Histogram')
+  axis([min_true_ISI max_true_ISI 0 1000]);
   xlabel('Time, ms');
   ylabel(' ');
   hold off;
