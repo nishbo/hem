@@ -452,7 +452,7 @@ double NeuronHodgkinHuxleyRK::VFRK(double V, double m, double h, \
 }
 
 int NeuronHodgkinHuxleyRK::subEvolve(double t, double dt){
-    if(dt > 0.001){
+    if(dt > 0.01){
         Ndt += subEvolve(t, dt/2) + subEvolve(t, dt/2);
         return Ndt;
     } else {

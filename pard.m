@@ -32,15 +32,28 @@ function pard
 %   fclose(fid);
 %   fprintf('Neuron parameters loaded.\n');
   
-%   %Analyzing output.txt
-%   fid = fopen('data/output.txt');
-%   V = zeros(number_of_exports, N);
-%   for i=1 : 1 : number_of_exports
-%       time(i) = fscanf(fid, '_________Time = %f');
-%       fscanf(fid, '\n____Potentials:\n');
+  %Analyzing output.txt
+  fid = fopen('data/output.txt');
+  number_of_exportsV = floor(time_length/10)+1;
+  V = zeros(number_of_exportsV, N);
+  timeV = zeros(number_of_exportsV, N);
+  for i=1 : 1 : number_of_exportsV
+      timeV(i) = fscanf(fid, '_________Time = %f');
+      fscanf(fid, '\n____Potentials:\n');
+      asd = fscanf(fid, '%f ', [1 inf]);
+      for j=1 : 1 : N
+          V(i, j) = asd(j);
+      end
+      fscanf(fid, '\n');
+  end
+  fclose(fid);
+%   fid = fopen('data/current.txt');
+%   I = zeros(number_of_exportsV, N);
+%   for i=1 : 1 : number_of_exportsV
+%       fscanf(fid, '_________Time = %f');
 %       asd = fscanf(fid, '%f ', [1 inf]);
 %       for j=1 : 1 : N
-%           V(i, j) = asd(j);
+%           I(i, j) = asd(j);
 %       end
 %       fscanf(fid, '\n');
 %   end
@@ -94,16 +107,16 @@ function pard
 %   fprintf('Connections loaded.\n');
 %   
 %   fprintf('\tSimulation loaded.\n\n');
+
   %Calculating stuff
-%   V_average = zeros(1, number_of_exports);
-%   for i=1 : 1 : number_of_exports
-%       for j=1 : 1 : N
-%         V_average(i) =  V_average(i) + V(i, j);
-%       end
-%       V_average(i) = V_average(i) / N;
-%   end
-%   
-%   fprintf('Average calculated.\n');
+  V_average = zeros(1, number_of_exportsV);
+  for i=1 : 1 : number_of_exportsV
+      for j=1 : 1 : N
+        V_average(i) =  V_average(i) + V(i, j);
+      end
+      V_average(i) = V_average(i) / N;
+  end
+  fprintf('Average calculated.\n');
   
   %Activity
   time_int_spikes = 1;
@@ -254,12 +267,14 @@ function pard
 %   sd_full_burst_amp = sqrt(sd_full_burst_amp/length(burst_time));
 %   fprintf('Synapse bursts calculated.\n');
   
-%   %Plotting data
-%   figure(1);
-%   plot(time, V_average);
-%   title('Average potential');
-%   xlabel('Time, ms');
-%   ylabel('Potential, mV');
+  %Plotting data
+  figure(1);
+  hold on;
+  plot(timeV, V_average, 'k');
+%   plot(timeV, I, 'g');
+  title('Average potential');
+  xlabel('Time, ms');
+  ylabel('Potential, mV');
   
   figure(2);
   hold on;

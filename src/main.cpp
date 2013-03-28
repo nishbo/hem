@@ -34,9 +34,9 @@ int main(){
         storage->time_now < storage->length_of_simulation ;\
         storage->time_now += storage->dt){
 
+        storage->evolveAllNeurons();
         storage->sendNeuralNoise();
         storage->sendSynapseNoise();
-        storage->evolveAllNeurons();
         storage->evolveAllSynapses();
         storage->outputChangingData();
 
