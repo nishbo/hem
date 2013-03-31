@@ -150,6 +150,10 @@ int SimulationSingleton::createSynapses(){
         for(int i=0; i<N*N; i++)
             synapse_array[i] = new SynapseTsodyksMarkramRKNest;
         break;
+    case 10:
+        for(int i=0; i<N*N; i++)
+            synapse_array[i] = new SynapseTMexcSTDP;
+        break;
     default:
         error_number = 4;
     }

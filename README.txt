@@ -13,6 +13,7 @@ Synapse types:
 7: STDP with Tsodyks-Markram
 8: Asymmetrical STDP with Tsodyks-Markram
 9: Tsodyks-Markram with g-transmission function as seen in NEST
+10: Canonical TM with exc synapse STDP and no 2 multiplier
 
 Topology types:
 0: random network

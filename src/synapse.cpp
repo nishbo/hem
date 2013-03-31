@@ -1496,6 +1496,351 @@ int SynapseTMSTDP::initSynapses(){
     return initSynapsesLocal();
 }
 
+
+/// STDP on exc synapses AND T-M
+
+std::string SynapseTMexcSTDP::synapsetype = "Tsodyks-Markram_and_exc_syn_STDP_model_(no2mult)";
+
+double SynapseTMexcSTDP::init_lambda = 0.1;
+double SynapseTMexcSTDP::init_alpha = 1;
+double SynapseTMexcSTDP::init_tau_corr = 20;
+double SynapseTMexcSTDP::init_weight = 0.5;
+double SynapseTMexcSTDP::init_tau_one = 3;
+double SynapseTMexcSTDP::init_x = 0.98;
+double SynapseTMexcSTDP::init_y = 0.01;
+double SynapseTMexcSTDP::init_z = 0.01;
+double SynapseTMexcSTDP::init_Aee = 38;
+double SynapseTMexcSTDP::init_Uee = 0.5;
+double SynapseTMexcSTDP::init_tau_recee = 800;
+double SynapseTMexcSTDP::init_tau_facilee = 0;
+double SynapseTMexcSTDP::init_Aei = 54;
+double SynapseTMexcSTDP::init_Uei = 0.5;
+double SynapseTMexcSTDP::init_tau_recei = 800;
+double SynapseTMexcSTDP::init_tau_facilei = 0;
+double SynapseTMexcSTDP::init_Aie = -72;
+double SynapseTMexcSTDP::init_Uie = 0.04;
+double SynapseTMexcSTDP::init_tau_recie = 100;
+double SynapseTMexcSTDP::init_tau_facilie = 1000;
+double SynapseTMexcSTDP::init_Aii = -72;
+double SynapseTMexcSTDP::init_Uii = 0.04;
+double SynapseTMexcSTDP::init_tau_recii = 100;
+double SynapseTMexcSTDP::init_tau_facilii = 1000;
+double SynapseTMexcSTDP::init_t_start = 5000;
+int SynapseTMexcSTDP::init_type_of_weight = 0;
+
+std::string SynapseTMexcSTDP::getName(){
+    return synapsetype;
+}
+
+SynapseTMexcSTDP::SynapseTMexcSTDP (){
+  working = 0;
+}
+void SynapseTMexcSTDP::setData(int pre, int pos, \
+                                    int preex, int posex, double dt){
+    tau_one = init_tau_one;
+    t_start = init_t_start;
+
+    working = 1;
+    presynaptic = pre;
+    postsynaptic = pos;
+    weight = 1;
+    last_spiked = -100;
+    last_spiked_post = -100;
+
+    if(preex && posex){
+        //exc exc
+        A = init_Aee;
+        U = init_Uee;
+        tau_rec = init_tau_recee;
+        tau_facil = init_tau_facilee;
+        exc = 1;
+    } else if(preex){
+        //exc inh
+        A = init_Aei;
+        U = init_Uei;
+        tau_rec = init_tau_recei;
+        tau_facil = init_tau_facilei;
+        exc = 1;
+    } else if(posex){
+        // inh exc
+        A = init_Aie;
+        U = init_Uie;
+        tau_rec = init_tau_recie;
+        tau_facil = init_tau_facilie;
+        exc = 0;
+    } else {
+        // inh inh
+        A = init_Aii;
+        U = init_Uii;
+        tau_rec = init_tau_recii;
+        tau_facil = init_tau_facilii;
+        exc = 0;
+    }
+    if(A>0)
+        A = VFDistributions::normal(A, A/2, 0, 4*A);
+    else
+        A = VFDistributions::normal(A, -A/2, 4*A, 0);
+    U = VFDistributions::normal(U, U/2, 0, 4*U);
+    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+                                        dt, tau_facil*4);
+
+    x = init_x;
+    y = init_y;
+    z = init_z;
+    u = U;
+
+    // STDP rule:
+    // Dt = t_post - t_pre,
+    // Dw = lambda*(1-w)^mu*exp(-|Dt|/tau), if Dt > 0,
+    // Dw = -lambda*alpha*w^mu*exp(-|Dt|/tau), if Dt <= 0,
+    // where 0 < lambda << 1, 0 <= mu <= 1, alpha ~ 1.
+    // tau_s * dg/dt = -g + sum_total (delta(t-t_j^pre),t_i<t),
+    //    mu = 1;
+
+    lambda = init_lambda;
+    alpha = init_alpha;
+    tau_corr = init_tau_corr; //ms
+    switch(init_type_of_weight){
+    case 0:
+        weight = init_weight;
+        break;
+    case 1:
+        weight = VFDistributions::uniform(0, 1);
+        break;
+    case 2:
+        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        break;
+    default:
+        weight = init_weight;
+    }
+
+}
+
+double SynapseTMexcSTDP::Xr(double x1, double y1, double z1, double u1, \
+                                  double t1, double dt){
+    return z1/tau_rec - VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+}
+
+double SynapseTMexcSTDP::Yr(double x1, double y1, double z1, double u1, \
+                                  double t1, double dt){
+    return -y1/tau_one + VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+}
+
+double SynapseTMexcSTDP::Zr(double x1, double y1, double z1, double u1, \
+                                  double t1, double dt){
+    return -z1/tau_rec + y1/tau_one;
+}
+
+double SynapseTMexcSTDP::Ur(double x1, double y1, double z1, double u1, \
+                                  double t1, double dt){
+    if(exc)
+        return U;
+    else
+        return -u1/tau_facil + VFDiscrete::diracDelta(t1 - last_spiked, dt) \
+                * U * (1 - u1);
+}
+
+double SynapseTMexcSTDP::evolve(double dt, double time, \
+                                       double Vpre, double Vpost){
+
+    k_1_x = dt * Xr(x, y, z, u, time, dt);
+    k_1_y = dt * Yr(x, y, z, u, time, dt);
+    k_1_z = dt * Zr(x, y, z, u, time, dt);
+    k_1_u = dt * Ur(x, y, z, u, time, dt);
+
+    k_2_x = dt * Xr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+                    u + k_1_u/2.0, time + dt/2.0, dt);
+    k_2_y = dt * Yr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+                    u + k_1_u/2.0, time + dt/2.0, dt);
+    k_2_z = dt * Zr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+                    u + k_1_u/2.0, time + dt/2.0, dt);
+    k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+                    u + k_1_u/2.0, time + dt/2.0, dt);
+
+    k_3_x = dt * Xr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+                    u + k_2_u/2.0, time + dt/2.0, dt);
+    k_3_y = dt * Yr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+                    u + k_2_u/2.0, time + dt/2.0, dt);
+    k_3_z = dt * Zr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+                    u + k_2_u/2.0, time + dt/2.0, dt);
+    k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+                    u + k_2_u/2.0, time + dt/2.0, dt);
+
+    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+
+    x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
+    y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
+    z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
+    u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
+
+    if(x >= 1) x = 0.9999999; if(x<=0) x = 0.0000001;
+    if(y >= 1) y = 0.9999999; if(y<=0) y = 0.0000001;
+    if(z >= 1) z = 0.9999999; if(z<=0) z = 0.0000001;
+    if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
+
+    if(time>t_start && exc){
+        if(last_spiked>0 && last_spiked_post>0 && \
+                VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
+                VFDiscrete::diracDelta(last_spiked - time, dt)){
+            if(last_spiked_post > last_spiked){
+                weight += lambda * (1-weight)*\
+                        exp(-abs(last_spiked_post - last_spiked)/tau_corr);
+            } else {
+                weight -= lambda * alpha * (weight) * \
+                        exp(-abs(last_spiked_post - last_spiked)/tau_corr);
+            }
+        }
+        if(weight < 1e-8) weight = 0; //bug? shows NaN else
+        if(weight > 1) weight = 1; //calc mistakes
+    }
+
+    out_current = A * y * weight;
+
+    return moveDeliveries();
+}
+
+double* SynapseTMexcSTDP::exportData(){
+    if(!working)
+        return new double;
+    double* arr = new double[numEssentialVariables()+1];
+    arr[0] = numEssentialVariables()+1;
+    arr[1] = presynaptic;
+    arr[2] = postsynaptic;
+    arr[3] = weight;
+    arr[4] = delay;
+    arr[5] = x;
+    arr[6] = y;
+    arr[7] = z;
+    arr[8] = u;
+    arr[9] = tau_one;
+    arr[10] = tau_rec;
+    arr[11] = tau_facil;
+    arr[12] = U;
+    arr[13] = A;
+    arr[14] = exc;
+    return arr;
+}
+
+int SynapseTMexcSTDP::importData(double *arr){
+    working = 1;
+    presynaptic = arr[0];
+    postsynaptic = arr[1];
+    weight = arr[2];
+    delay = arr[3];
+    x = arr[4];
+    y = arr[5];
+    z = arr[6];
+    u = arr[7];
+    tau_one = arr[8];
+    tau_rec = arr[9];
+    tau_facil = arr[10];
+    U = arr[11];
+    A = arr[12];
+    exc = arr[13];
+
+    if(tau_rec < 1e-3)
+        tau_rec = 1e-3;
+    if(tau_facil < 1e-3)
+        tau_facil = 1e-3;
+
+    lambda = init_lambda;
+    alpha = init_alpha;
+    tau_corr = init_tau_corr;
+    t_start = init_t_start;
+    switch(init_type_of_weight){
+    case 0:
+        weight = init_weight;
+        break;
+    case 1:
+        weight = VFDistributions::uniform(0, 1);
+        break;
+    case 2:
+        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        break;
+    default:
+        weight = init_weight;
+    }
+    return 0;
+}
+
+int SynapseTMexcSTDP::numEssentialVariables(){
+    return 14;
+}
+
+int SynapseTMexcSTDP::initSynapsesLocal(){
+    FILE* fid = fopen("./init/SynapseTMSTDP.ini", "r");
+    if(!fid){
+        exit(29);
+    }
+    float buf01;
+    fscanf(fid, "t_start = %f\n", &buf01);
+    init_t_start = buf01;
+    fscanf(fid, "type_of_weight = %d\n", &init_type_of_weight);
+    fscanf(fid, "lambda = %f\n", &buf01);
+    init_lambda = buf01;
+    fscanf(fid, "alpha = %f\n", &buf01);
+    init_alpha = buf01;
+    fscanf(fid, "tau_corr = %f\n", &buf01);
+    init_tau_corr = buf01;
+    fscanf(fid, "weight = %f\n", &buf01);
+    init_weight = buf01;
+    fscanf(fid, "tau_one = %f\n", &buf01);
+    init_tau_one = buf01;
+    fscanf(fid, "x = %f\n", &buf01);
+    init_x = buf01;
+    fscanf(fid, "y = %f\n", &buf01);
+    init_y = buf01;
+    fscanf(fid, "z = %f\n\n", &buf01);
+    init_z = buf01;
+
+    fscanf(fid, "Aee = %f\n", &buf01);
+    init_Aee = buf01;
+    fscanf(fid, "Uee = %f\n", &buf01);
+    init_Uee = buf01;
+    fscanf(fid, "tau_recee = %f\n", &buf01);
+    init_tau_recee = buf01;
+    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
+    init_tau_facilee = buf01;
+
+    fscanf(fid, "Aei = %f\n", &buf01);
+    init_Aei = buf01;
+    fscanf(fid, "Uei = %f\n", &buf01);
+    init_Uei = buf01;
+    fscanf(fid, "tau_recei = %f\n", &buf01);
+    init_tau_recei = buf01;
+    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
+    init_tau_facilei = buf01;
+
+    fscanf(fid, "Aie = %f\n", &buf01);
+    init_Aie = buf01;
+    fscanf(fid, "Uie = %f\n", &buf01);
+    init_Uie = buf01;
+    fscanf(fid, "tau_recie = %f\n", &buf01);
+    init_tau_recie = buf01;
+    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
+    init_tau_facilie = buf01;
+
+    fscanf(fid, "Aii = %f\n", &buf01);
+    init_Aii = buf01;
+    fscanf(fid, "Uii = %f\n", &buf01);
+    init_Uii = buf01;
+    fscanf(fid, "tau_recii = %f\n", &buf01);
+    init_tau_recii = buf01;
+    fscanf(fid, "tau_facilii = %f\n", &buf01);
+    init_tau_facilii = buf01;
+
+    fclose(fid);
+    return 0;
+}
+
+int SynapseTMexcSTDP::initSynapses(){
+    return initSynapsesLocal();
+}
+
 /// STDP AND T-M Asymmetrical
 
 std::string SynapseTMSTDPAsymmetrical::synapsetype = \

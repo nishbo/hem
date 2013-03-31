@@ -32,28 +32,15 @@ function pard
 %   fclose(fid);
 %   fprintf('Neuron parameters loaded.\n');
   
-  %Analyzing output.txt
-  fid = fopen('data/output.txt');
-  number_of_exportsV = floor(time_length/10)+1;
-  V = zeros(number_of_exportsV, N);
-  timeV = zeros(number_of_exportsV, N);
-  for i=1 : 1 : number_of_exportsV
-      timeV(i) = fscanf(fid, '_________Time = %f');
-      fscanf(fid, '\n____Potentials:\n');
-      asd = fscanf(fid, '%f ', [1 inf]);
-      for j=1 : 1 : N
-          V(i, j) = asd(j);
-      end
-      fscanf(fid, '\n');
-  end
-  fclose(fid);
-%   fid = fopen('data/current.txt');
-%   I = zeros(number_of_exportsV, N);
-%   for i=1 : 1 : number_of_exportsV
-%       fscanf(fid, '_________Time = %f');
+%   %Analyzing output.txt
+%   fid = fopen('data/output.txt');
+%   V = zeros(number_of_exports, N);
+%   for i=1 : 1 : number_of_exports
+%       time(i) = fscanf(fid, '_________Time = %f');
+%       fscanf(fid, '\n____Potentials:\n');
 %       asd = fscanf(fid, '%f ', [1 inf]);
 %       for j=1 : 1 : N
-%           I(i, j) = asd(j);
+%           V(i, j) = asd(j);
 %       end
 %       fscanf(fid, '\n');
 %   end
@@ -107,16 +94,16 @@ function pard
 %   fprintf('Connections loaded.\n');
 %   
 %   fprintf('\tSimulation loaded.\n\n');
-
   %Calculating stuff
-  V_average = zeros(1, number_of_exportsV);
-  for i=1 : 1 : number_of_exportsV
-      for j=1 : 1 : N
-        V_average(i) =  V_average(i) + V(i, j);
-      end
-      V_average(i) = V_average(i) / N;
-  end
-  fprintf('Average calculated.\n');
+%   V_average = zeros(1, number_of_exports);
+%   for i=1 : 1 : number_of_exports
+%       for j=1 : 1 : N
+%         V_average(i) =  V_average(i) + V(i, j);
+%       end
+%       V_average(i) = V_average(i) / N;
+%   end
+%   
+%   fprintf('Average calculated.\n');
   
   %Activity
   time_int_spikes = 1;
@@ -179,7 +166,7 @@ function pard
           end
       end
   end
-  N_true_ISI = max_true_ISI;
+  N_true_ISI = max_true_ISI/50;
   true_ISI = zeros(1, N_true_ISI+1);
   d_true_ISI = (max_true_ISI - min_true_ISI) / N_true_ISI;
   for i=1 : 1 : N
@@ -194,6 +181,7 @@ function pard
   
   %Burst calculating
   burst_threshold = 0.2;    % % of network
+  burst_width_threshold = 0.02;    % % of network
   window_size = 100;    %ms
   find_bursts = zeros(1, integrated_spikes_amount);
   for i=1 : 1 : integrated_spikes_amount
@@ -218,13 +206,46 @@ function pard
   end
   amount_of_bursts = 0;
   for i=1 : 1 : integrated_spikes_amount
-      if find_bursts(i)>0
+      if find_bursts(i) > 0
           amount_of_bursts = amount_of_bursts + 1;
           burst_amps(amount_of_bursts) = find_bursts(i) * N;
           burst_time(amount_of_bursts) = integrated_spikes_time(i);
+          
+          j = i-1;
+          while integrated_spikes(j) > burst_width_threshold
+              j = j - 1;
+              if j < 1
+                  j = 1;
+                  break;
+              end
+          end
+          burst_start(amount_of_bursts) = integrated_spikes_time(j);
+          
+          j = i+1;
+          while integrated_spikes(j) > burst_width_threshold
+              j = j + 1;
+              if j > integrated_spikes_amount
+                  j = integrated_spikes_amount;
+                  break;
+              end
+          end
+          burst_end(amount_of_bursts) = integrated_spikes_time(j);
       end
   end
+  burst_length = burst_end - burst_start;
   fprintf('Activity analyzed.\n');
+  
+  %Width of bursts average and sd
+  burst_length_average = 0;
+  for i=1 : 1 : amount_of_bursts
+      burst_length_average = burst_length_average + burst_length(i);
+  end
+  burst_length_average = burst_length_average / amount_of_bursts;
+  burst_length_sd = 0;
+  for i=1 : 1 : amount_of_bursts
+      burst_length_sd = burst_length_sd + (burst_length(i) - burst_length_average)^2;
+  end
+  burst_length_sd = sqrt(burst_length_sd / (amount_of_bursts - 1));
   
   average_burst_amp = 0;
   for i=1 : 1 : amount_of_bursts
@@ -245,6 +266,17 @@ function pard
       IBI(i) = burst_time(i) - burst_time(i-1);
   end
   fprintf('InterBurst Interval calculated.\n');
+  
+  %True IBI calculation
+  IBI_min = 0;
+  IBI_max = max(max(IBI));
+  IBI_N = 1000;
+  IBI_d = (IBI_max - IBI_min) / (IBI_N -1);
+  IBI_hist = zeros(1, IBI_N);
+  for i=1 : 1 : amount_of_bursts
+      IBI_hist(floor(IBI(i) / IBI_d) + 1) = IBI_hist(floor(IBI(i) / IBI_d) + 1) + 1;
+  end
+  IBI_hist_ind = IBI_min : IBI_d : IBI_max;
   
 %   burst_full_amps = zeros(size(burst_time));
 %   for i=1 : 1 : length(rastr)
@@ -267,14 +299,12 @@ function pard
 %   sd_full_burst_amp = sqrt(sd_full_burst_amp/length(burst_time));
 %   fprintf('Synapse bursts calculated.\n');
   
-  %Plotting data
-  figure(1);
-  hold on;
-  plot(timeV, V_average, 'k');
-%   plot(timeV, I, 'g');
-  title('Average potential');
-  xlabel('Time, ms');
-  ylabel('Potential, mV');
+%   %Plotting data
+%   figure(1);
+%   plot(time, V_average);
+%   title('Average potential');
+%   xlabel('Time, ms');
+%   ylabel('Potential, mV');
   
   figure(2);
   hold on;
@@ -346,7 +376,16 @@ function pard
   hold on;
   plot(true_ISI_ind, true_ISI, 'k');
   title('InterSpikes Interval Histogram')
-  axis([min_true_ISI max_true_ISI 0 1000]);
+%   axis([min_true_ISI max_true_ISI 0 1000]);
+  xlabel('Time, ms');
+  ylabel(' ');
+  hold off;
+
+  figure(9);
+  hold on;
+  plot(IBI_hist_ind, IBI_hist, 'k');
+  title('InterBurst Interval Histogram')
+%   axis([min_true_ISI max_true_ISI 0 1000]);
   xlabel('Time, ms');
   ylabel(' ');
   hold off;
@@ -357,6 +396,7 @@ function pard
   end
   fprintf('\n');
   fprintf('Mean: %f, sd: %f.', average_burst_amp, sd_burst_amp);
+  fprintf('\nBursts'' lengths: Mean: %f, sd: %f.', burst_length_average, burst_length_sd);
 %   fprintf('\nBurst unnormal info. Mean: %f, sd: %f.', average_full_burst_amp, sd_full_burst_amp);
   
   fprintf('\n');
