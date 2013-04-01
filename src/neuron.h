@@ -35,6 +35,7 @@ public:
     virtual int importData(double *arr);
     virtual int initNeurons();
     virtual int numEssentialVariables();
+    int setCoordinates(double xo, double yo);
 };
 
 class NeuronLeakyIAF: public Neuron{
@@ -50,7 +51,6 @@ public:
     static double init_tau_ref_abs_inh, init_Vreset;
     static double init_V, init_Vth, init_Vrest;
 
-    NeuronLeakyIAF();
     /// Overwriting abstract functions:
     void setExcitatory(int f);
     int evolve(double dt, double time);
@@ -78,7 +78,6 @@ public:
     double k_1_V, k_2_V, k_3_V, k_4_V;
     double Vr(double V1, double t, double dt);
 
-    NeuronLeakyIAFRK();
     /// Overwriting abstract functions:
     void setExcitatory(int f);
     int evolve(double dt, double time);
@@ -101,7 +100,6 @@ public:
     double hF(double V, double h, double dt);
     double nF(double V, double n, double dt);
 
-    NeuronHodgkinHuxley();
     /// Overwriting abstract functions:
     void setExcitatory(int f);
     void addCurrent(double a);
@@ -137,7 +135,6 @@ public:
     static double init_n, init_m, init_h;
     static double init_V, init_Vth, init_Vrest, init_divider;
 
-    NeuronHodgkinHuxleyRK();
     /// Overwriting abstract functions:
     void setExcitatory(int f);
     void addCurrent(double a);
@@ -156,7 +153,6 @@ public:
     static std::string neurotype;
     // Declaration of variables
 
-    NeuronPrototype();
     /// Overwriting abstract functions:
     void setExcitatory(int f);
     int evolve(double dt, double time);

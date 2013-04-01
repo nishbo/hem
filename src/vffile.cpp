@@ -9,6 +9,8 @@ char* VFFile::buf30 = new char[300];
 string VFFile::buf31 = "";
 stringstream VFFile::buf32;
 FILE *VFFile::buf40 = NULL;
+size_t VFFile::pos1;
+size_t VFFile::pos2;
 
 int VFFile::getYNFromCin(){
     // 1 for yes; 0 for no
@@ -36,11 +38,11 @@ string VFFile::loadFileToString(string filename){
     ostringstream out;
     out << in.rdbuf();
     buf31 = out.str();
+    in.close();
     return buf31;
 }
 
 double VFFile::getParameterIni(string paramname, string inifile){
-    size_t pos1, pos2;
     pos2 = inifile.find("=", inifile.find(paramname)) + 1; //Find start
 
     if(inifile.find(";", pos2) < inifile.find("\n", pos2))  //Find end
@@ -54,6 +56,7 @@ double VFFile::getParameterIni(string paramname, string inifile){
     inifile.copy(buf30, pos1 - pos2 + 1, pos2);
 
     buf0 = (int)(pos1 - pos2 + 1);
+    buf30[buf0] = '\0';
     while(!isdigit(buf30[buf0-1])){ //Find exact end - remove symbols
         buf0--;
         buf30[buf0] = '\0';
@@ -64,13 +67,19 @@ double VFFile::getParameterIni(string paramname, string inifile){
     return buf01;
 }
 
+int VFFile::tryReadFile(string name_of_file){
+    //Return 1 if file exists
+    buf40 = fopen(name_of_file.c_str(), "r");
+    if(!buf40)
+        return 0;
+    fclose(buf40);
+    return 1;
+}
+
 int VFFile::tryFile(string name_of_file){
     // 1 if OK, 0 if not
-    if(ENABLE_TEST)
-        return 1;
 
-    buf40 = fopen(name_of_file.c_str(), "r");
-    if(buf40){
+    if(tryReadFile(name_of_file)){
         cout<<"Overwrite "<<name_of_file<<"? (y/n)";
         buf0 = getYNFromCin();
         if(!buf0){
@@ -78,6 +87,21 @@ int VFFile::tryFile(string name_of_file){
             return 0;
         }
     }
-    fclose(buf40);
+
     return 1;
+}
+
+string VFFile::getFilenameFromIni(string file_with_files, string filename){
+    buf31 = loadFileToString(file_with_files);
+
+    pos2 = buf31.find("=", buf31.find(filename)) + 2;   //Find start
+    if(buf31.find(";", pos2) < buf31.find("\n", pos2))  //Find end
+        pos1 = buf31.find(";", pos2) - 1;
+    else
+        pos1 = buf31.find("\n", pos2) - 1;
+
+    buf31.copy(buf30, pos1 - pos2 + 1, pos2);
+    buf30[(int)(pos1 - pos2 + 1)] = '\0';
+
+    return (string)buf30;
 }

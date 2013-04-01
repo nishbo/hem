@@ -13,16 +13,11 @@ SimulationSingleton::SimulationSingleton(){
     neurons_in_simulation = 100;
     N = neurons_in_simulation;
     amount_of_inh_neurons = 0.2 * neurons_in_simulation;
-    probability_of_connection = 0.1 * 500 / neurons_in_simulation;
     length_of_simulation = 1000;
     dt = 0.1;
     time_between_exports = 1;
-    type_of_delay = 2;
     type_of_neuron = 0;
     type_of_synapse = 7;
-    type_of_topology = 0;
-    smw_beta = 0.2;
-    smw_local = 3;
     syn_noise_freq_mean = 0;
     tau_stim = 0;
     time_between_weight_exports = 100;
@@ -99,6 +94,7 @@ int SimulationSingleton::createNeurons(){
             neuron_array[i]->setExcitatory(0);
         else
             neuron_array[i]->setExcitatory(1);
+        neuron_array[i]->setCoordinates(x[i], y[i]);
     }
 
     if(import_neurons){
@@ -168,18 +164,6 @@ int SimulationSingleton::createSynapses(){
 
     /// Creating TOPOLOGY (CONNECTIONS and DELAYS)
 
-    switch(type_of_topology){
-    case 0:
-        Topology::randomConnections(N, connectivity_matrix, \
-                                    probability_of_connection);
-        break;
-    case 1:
-        Topology::smallWorld(N, connectivity_matrix, smw_local, smw_beta);
-        break;
-    default:
-        error_number = 6;
-    }
-
     buf0 = 0;  // for running through connectivity_matrix
     for(int i=0; i<N; i++){
         for(int j=0; j<N; j++){
@@ -189,11 +173,7 @@ int SimulationSingleton::createSynapses(){
                 synapse_array[buf0]->setData(i, j,
                                             neuron_array[i]->exc, \
                                             neuron_array[j]->exc, dt);
-                synapse_array[buf0]->delay = Topology::setDelay(\
-                            neuron_array[i]->x, neuron_array[i]->y, \
-                            neuron_array[j]->x, neuron_array[j]->y, \
-                            type_of_delay, spike_velocity, \
-                            delay_max, dt);
+                synapse_array[buf0]->delay = delays[buf0];
                 synapse_array[buf0]->setDeliveries(dt);
             } else {
                 connectivity_matrix[buf0] = -1; // means NO CONNECTION
@@ -233,15 +213,15 @@ int SimulationSingleton::createStimulation(){
     case 3:
     case 4:
     case 5:
-//        for(int i=0; i< neurons_in_simulation*neurons_in_simulation; i++){
-//            if(connectivity_matrix[i] > -1){
-//                syn_noise_period[i] = VFDistributions::normal(\
-//                            syn_noise_freq_mean, syn_noise_freq_mean,\
-//                            syn_noise_freq_mean/10, syn_noise_freq_mean*2);
-//            } else {
-//                syn_noise_period[i] = 0;
-//            }
-//        }
+        for(int i=0; i< neurons_in_simulation*neurons_in_simulation; i++){
+            if(connectivity_matrix[i] > -1){
+                syn_noise_period[i] = VFDistributions::normal(\
+                            syn_noise_freq_mean, syn_noise_freq_mean,\
+                            syn_noise_freq_mean/10, syn_noise_freq_mean*2);
+            } else {
+                syn_noise_period[i] = 0;
+            }
+        }
         break;
     default:
         for(int i=0; i < N*N; i++)
@@ -252,6 +232,7 @@ int SimulationSingleton::createStimulation(){
         if(syn_noise_period[i]>0){
             syn_noise_period[i] = 1000 / syn_noise_period[i];
         }
+    return 0;
 }
 
 void SimulationSingleton::createNetwork(){
@@ -263,10 +244,14 @@ void SimulationSingleton::createNetwork(){
     syn_noise_period = new double[N*N];
     stim_start_pers = new double[N];
 
+    x = new double[N];
+    y = new double[N];
+    delays = new double[N*N];
+    Topology::setTopology(N, x, y, connectivity_matrix, delays);
+
     createStimulation();
     createNeurons();
     createSynapses();
-
 
     /// Set BUFFER for SPIKES:
     buf0 = (floor(time_between_exports/dt)+2)*N;

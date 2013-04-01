@@ -35,14 +35,6 @@ public:
     int type_of_topology;   //0 for random, 1 for sm-w
     int type_of_stimulation;//0 for uniform, 1 for normal
 
-    // Topology parameters:
-    double probability_of_connection; // p in papers
-    int smw_local;          // *2 = local nodes connected to
-    double smw_beta;        //probability of rewriting
-    double border_length_of_box; //in mm
-    double spike_velocity;  //in mm/msec
-    double delay_max;       //in msec
-
     // Stimulation parameters:
     double* Inoise;         //Stimuli current
     double* Inoise2;        //Stimuli current buffer
@@ -79,6 +71,9 @@ public:
     string buf31;
     char* buf30;
     int error_number;     //number of error that occured. 0 if OK
+
+    //Topology getting:
+    double *x, *y, *delays;
 
     /// Functions.
     static SimulationSingleton* instance();

@@ -1,64 +1,142 @@
 #include "topology.h"
 
-int Topology::randomConnections(int N, int *com, double p){
-    //if connection exists return 1, 0 otherwise
-    for(int i = 0; i<N*N; i++)
-      if(VFDistributions::drand() < p)
-        com[i] = 1;
-      else
-        com[i] = 0;
-}
-int Topology::smallWorld(int N, int *com, int clu, double beta){
-    int num, sm;
+using namespace std;
 
-    for(int i=0; i<N; i++){
-      for(int j=0; j<N; j++){
-        num = i*N+j;
-        if(VFDiscrete::discreteDistanceOnCircle(i,j,N)<clu+1 && i!=j)
-          com[num] = 1;
-        else
-          com[num] = 0;
-      }
-    }
+string Topology::fle;
+int Topology::type;
+int Topology::delay_type;
+double Topology::r_p;
+double Topology::smw_beta;
+int Topology::smw_local;
+double Topology::border;
+double Topology::velocity;
+double Topology::max_delay;
+double Topology::min_delay;
 
-    for(int i=0; i<N; i++){
-      for(int j=0; j<N; j++){
-        num = i*N+j;
-        if(com[num])//connection exists
-          if(VFDistributions::drand()<beta){    //and we rewrite it
-            com[num] = 0;
-            while(1){
-              sm = rand() % N;
-              if(com[i*N +sm]==0){
-                com[i*N +sm] = 1;
-                break;
-              }
-            }
-          }
-      }
-    }
-}
+int Topology::setTopology(const int N, double *x, double *y, int *con, double *delays){
+    fle = VFFile::getFilenameFromIni(DATAFILES, "TOPOLOGY");
+    fle = VFFile::loadFileToString(fle);
 
-double Topology::setDelay(double prex, double prey, double posx, double posy, \
-                          int type_of_delay, double sv, double dm, double dt){
-    // returns time of signal travel between two neurons depending on
-    // type_of_delay
+    setCoordinates(N, x, y);
 
-    double d;
-    switch (type_of_delay){
+    type = VFFile::getParameterIni("Type_of_topology", fle);
+    switch(type){
     case 0:
-        d = VFDistributions::uniform(dt, dm);
+        randomTopology(N, con);
         break;
     case 1:
-        d = sqrt( (prex - posx) * (prex - posx) + \
-                  (prey - posy) * (prey - posy) \
-                ) / sv;
-        break;
-    case 2:
-        d = dt;
+        smallWorldTopology(N, con);
         break;
     default:
-        d = dt;
+        randomTopology(N, con);
     }
-    return d;
+
+    delay_type = VFFile::getParameterIni("Type_of_delay", fle);
+    switch(delay_type){
+    case 0:
+        setDelaysRandom(N, con, delays);
+        break;
+    case 1:
+        setDelaysCoord(N, con, x, y, delays);
+        break;
+    case 2:
+        setDelaysdt(N, con, delays);
+        break;
+    default:
+        setDelaysdt(N, con, delays);
+    }
+
+    return 0;
+}
+
+int Topology::setCoordinates(const int N, double *x, double *y){
+    border = VFFile::getParameterIni("Border_length_of_box", fle);
+    for(int i=0; i<N; i++){
+        x[i] = VFDistributions::uniform(0, border);
+        y[i] = VFDistributions::uniform(0, border);
+    }
+    return 0;
+}
+
+int Topology::randomTopology(const int N, int *con){
+    r_p = VFFile::getParameterIni("Probability_of_connection", fle);
+    for(int i = 0; i<N*N; i++)
+        if(VFDistributions::uniform(0, 1) < r_p)
+            con[i] = 1;
+        else
+            con[i] = 0;
+    return 0;
+}
+
+int Topology::smallWorldTopology(const int N, int *con){
+    int num, sm;
+    smw_beta = VFFile::getParameterIni("smw_beta", fle);
+    smw_local = VFFile::getParameterIni("smw_local", fle);
+
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            num = i*N + j;
+            if(VFDiscrete::discreteDistanceOnCircle(i, j, N) < smw_local + 1 && i!=j)
+                con[num] = 1;
+            else
+                con[num] = 0;
+        }
+    }
+
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            num = i*N + j;
+            if(con[num]){  //connection exists
+                if(VFDistributions::drand()<smw_beta){    //and we rewrite it
+                    con[num] = 0;
+                    while(1){
+                        sm = VFDistributions::uniform(0, N-1);
+                        if(con[i*N + sm] == 0){
+                            con[i*N + sm] = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int Topology::setDelaysdt(const int N, const int *con, double *delays){
+    min_delay = VFFile::getParameterIni("Delay_min", fle);
+
+    for(int i=0; i<N*N; i++)
+        if(con[i]>0)
+            delays[i] = min_delay;
+        else
+            delays[i] = 0;
+    return 0;
+}
+
+int Topology::setDelaysRandom(const int N, const int *con, double *delays){
+    min_delay = VFFile::getParameterIni("Delay_min", fle);
+    max_delay = VFFile::getParameterIni("Delay_max", fle);
+
+    for(int i=0; i<N*N; i++)
+        if(con[i]>0)
+            delays[i] = VFDistributions::uniform(min_delay, max_delay);
+        else
+            delays[i] = 0;
+    return 0;
+}
+
+int Topology::setDelaysCoord(const int N, const int *con, const double *x, const double *y, double *delays){
+    velocity = VFFile::getParameterIni("Spike_velocity", fle);
+    min_delay = VFFile::getParameterIni("Delay_min", fle);
+
+    for(int i=0; i<N; i++)
+        for(int j=0; j<N; j++)
+            if(con[i*N+j]>0)
+                delays[i*N+j] = min_delay + sqrt( (x[i] - x[j]) * (x[i] - x[j]) + \
+                                                  (y[i] - y[j]) * (y[i] - y[j]) ) / velocity;
+            else
+                delays[i*N+j] = 0;
+
+    return 0;
 }

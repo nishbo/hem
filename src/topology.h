@@ -3,21 +3,34 @@
 
 #include <ctime>
 #include <cstdio>
+#include <iostream>
 
 #include "cad.h"
 #include "vfdistributions.h"
 #include "vfdiscrete.h"
+#include "vffile.h"
 
 class Topology{
 public:
-    static int randomConnections(int N, int* com, double p);
-    static int smallWorld(int N, int *com, int clu, double beta);
-    static double setDelay(double prex, double prey, double posx, double posy,\
-                           int type_of_delay, double sv, double dm, double dt);
+    static int setTopology(const int N, double *x, double *y, int *con, double *delays);
 private:
+	static std::string fle;
+	static int type, delay_type;
+	static double r_p, smw_beta;
+	static int smw_local;
+	static double border, velocity, max_delay, min_delay;
+
+	static int setCoordinates(const int N, double *x, double *y);
+
+	static int randomTopology(const int N, int *con);
+	static int smallWorldTopology(const int N, int *con);
+
+	static int setDelaysdt(const int N, const int *con, double *delays);
+	static int setDelaysRandom(const int N, const int *con, double *delays);
+	static int setDelaysCoord(const int N, const int *con, const double *x, \
+							  const double *y, double *delays);
+
     Topology();
-    Topology(Topology&p){}
-    Topology& operator =(Topology&){}
 };
 
 #endif // TOPOLOGY_H

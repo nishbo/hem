@@ -13,9 +13,6 @@ private:
     static double buf1, buf2;
 
     VFDistributions();
-    VFDistributions(VFDistributions&p){}
-    VFDistributions& operator =(VFDistributions&){}
-
 public:
     static double drand();
     static double uniform(double min, double max);

@@ -3,8 +3,10 @@
 
 /// Constants and definitions and libraries.
 
+#define DATAFILES					"init/files.ini"
+
 // Files import:
-#define FILE_IMP_PARAMETERS         "./init/simulation.ini"
+#define FILE_IMP_PARAMETERS         "./init/Simulation.ini"
 #define FILE_IMP_NEURONS            "./import/neurons.txt"
 #define FILE_IMP_SYNAPSES           "./import/synapses.txt"
 

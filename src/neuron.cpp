@@ -27,6 +27,12 @@ int Neuron::numEssentialVariables(){
     return 0;
 }
 
+int Neuron::setCoordinates(double xo, double yo){
+    x = xo;
+    y = yo;
+    return 0;
+}
+
 /// Leaky integrate-and-fire neuron:
 std::string NeuronLeakyIAF::neurotype = "leaky_integrate-and-fire_(euler)";
 double NeuronLeakyIAF::init_Rin = 1.0;
@@ -40,13 +46,6 @@ double NeuronLeakyIAF::init_tau_ref_abs_inh = 2.0;
 
 std::string NeuronLeakyIAF::getName(){
     return neurotype;
-}
-
-NeuronLeakyIAF::NeuronLeakyIAF (){
-    // set random coordinates in box
-    x = VFDistributions::drand();
-    y = VFDistributions::drand();
-    I = 0.0;
 }
 
 int NeuronLeakyIAF::initNeuronsLocal(){
@@ -95,6 +94,7 @@ void NeuronLeakyIAF::setExcitatory(int f){
         tau_ref_abs = init_tau_ref_abs_inh;
     }
     last_spiked = -(tau_ref_abs + 1);
+    I = 0.0;
 }
 
 int NeuronLeakyIAF::evolve(double dt, double time){
@@ -147,13 +147,6 @@ std::string NeuronLeakyIAFRK::neurotype = "leaky_integrate-and-fire_(rk4)";
 
 std::string NeuronLeakyIAFRK::getName(){
     return neurotype;
-}
-
-NeuronLeakyIAFRK::NeuronLeakyIAFRK (){
-    // set random coordinates in box
-    x = VFDistributions::drand();
-    y = VFDistributions::drand();
-    I = 0.0;
 }
 
 void NeuronLeakyIAFRK::setExcitatory(int f){
@@ -225,13 +218,6 @@ std::string NeuronHodgkinHuxley::getName(){
     return neurotype;
 }
 
-NeuronHodgkinHuxley::NeuronHodgkinHuxley(){
-    // set random coordinates in box
-    x = VFDistributions::drand();
-    y = VFDistributions::drand();
-    I = 0.0;
-}
-
 void NeuronHodgkinHuxley::setExcitatory(int f){
     if(f){
         exc = 1;
@@ -256,6 +242,7 @@ void NeuronHodgkinHuxley::setExcitatory(int f){
     n = 0.3177;
     m = 0.0529;
     h = 0.5961;
+    I = 0.0;
 }
 
 void NeuronHodgkinHuxley::addCurrent(double a){
@@ -332,13 +319,6 @@ std::string NeuronHodgkinHuxleyRK::getName(){
     return neurotype;
 }
 
-NeuronHodgkinHuxleyRK::NeuronHodgkinHuxleyRK(){
-    // set random coordinates in box
-    x = VFDistributions::drand();
-    y = VFDistributions::drand();
-    I = 0.0;
-}
-
 int NeuronHodgkinHuxleyRK::initNeuronsLocal(){
     FILE* fid = fopen("./init/NeuronHodgkinHuxley.ini", "r");
     if(!fid){
@@ -407,6 +387,7 @@ void NeuronHodgkinHuxleyRK::setExcitatory(int f){
     m = init_m;
     h = init_h;
     divider = init_divider;
+    I = 0.0;
 }
 
 void NeuronHodgkinHuxleyRK::addCurrent(double a){
@@ -545,18 +526,12 @@ int NeuronHodgkinHuxleyRK::numEssentialVariables(){
 /// Prototype of new neuron class. Do not alter. Copy, then change.
 std::string NeuronPrototype::neurotype = "Insert_name_here";
 
-NeuronPrototype::NeuronPrototype(){
-    // set random coordinates in box
-    x = VFDistributions::drand();
-    y = VFDistributions::drand();
-    I = 0.0;
-}
-
 std::string NeuronPrototype::getName(){
     return neurotype;
 }
 
 void NeuronPrototype::setExcitatory(int f){
+    I = 0.0;
     if(f){
         exc = 1;
     } else {

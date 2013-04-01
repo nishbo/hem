@@ -13,8 +13,6 @@ private:
     static double buf1, buf2;
 
     VFDiscrete();
-    VFDiscrete(VFDiscrete&p){}
-    VFDiscrete& operator =(VFDiscrete&){}
 public:
     static int inBetween(double t, double spc, double dt);
     static int discreteDistanceOnCircle(int x, int y, int N);

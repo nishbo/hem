@@ -54,78 +54,40 @@ void SimulationSingleton::loadParametersFromTerminal(){
 }
 
 int SimulationSingleton::loadParametersFromFile(){
-    FILE* fid = fopen(FILE_IMP_PARAMETERS, "r");
-    if(!fid){
+    if(!(VFFile::tryReadFile(FILE_IMP_PARAMETERS))){
         error_number = 7;
-        fclose(fid);
         return error_number;
     }
 
-//    string* param_names = new string[16];
-//    param_names[0] = "--";
-//    param_names[1] = "Amount_of_neurons";
-//    param_names[2] = "Amount_of_inhibitory_neurons";
-//    param_names[3] = "Probability_of_connection";
-//    param_names[4] = "Length_of_simulation";
-//    param_names[5] = "dt";
-//    param_names[6] = "Time_between_exports";
-//    param_names[7] = "Type_of_delay";
-//    param_names[8] = "Type_of_neuron";
-//    param_names[9] = "Type_of_synapse";
-//    param_names[10] = "Type_of_topology";
-//    param_names[11] = "smw_beta";
-//    param_names[12] = "smw_local";
-//    param_names[13] = "Synaptic_noise_mean_frequency";
-//    param_names[14] = "Tau_stimulation";
-//    param_names[15] = "Time_between_weight_exports";
+    buf31 = VFFile::loadFileToString(FILE_IMP_PARAMETERS);
 
-    buf01 = 0;
-    fscanf(fid, "Amount_of_neurons = %d\n", &neurons_in_simulation);
+    neurons_in_simulation = VFFile::getParameterIni("Amount_of_neurons", buf31);
     N = neurons_in_simulation;
-    fscanf(fid, "Amount_of_inhibitory_neurons = %d\n", &amount_of_inh_neurons);
-    fscanf(fid, "Probability_of_connection = %f\n", &buf01);
-    probability_of_connection = buf01;
-    fscanf(fid, "Length_of_simulation = %f\n", &buf01);
-    length_of_simulation = buf01;
-    fscanf(fid, "dt = %f\n", &buf01);
-    dt = buf01;
-    fscanf(fid, "Time_between_exports = %f\n", &buf01);
-    time_between_exports = buf01;
-    fscanf(fid, "Time_between_vi_exports = %f\n", &buf01);
-    time_between_vi_exports = buf01;
-    fscanf(fid, "Type_of_delay = %d\n", &type_of_delay);
-    fscanf(fid, "Type_of_neuron = %d\n", &type_of_neuron);
-    fscanf(fid, "Type_of_synapse = %d\n", &type_of_synapse);
-    fscanf(fid, "Type_of_topology = %d\n", &type_of_topology);
-    fscanf(fid, "Type_of_stimulation = %d\n", &type_of_stimulation);
-    fscanf(fid, "smw_beta = %f\n", &buf01);
-    smw_beta = buf01;
-    fscanf(fid, "smw_local = %d\n", &smw_local);
-    fscanf(fid, "Synaptic_noise_mean_frequency = %d\n", &syn_noise_freq_mean);
-    fscanf(fid, "Tau_stimulation = %f\n", &buf01);
-    tau_stim = buf01;
-    fscanf(fid, "Start_of_stimulation = %f\n", &buf01);
-    stim_start = buf01;
-    fscanf(fid, "Time_between_weight_exports = %f\n", &buf01);
-    time_between_weight_exports = buf01;
-    fscanf(fid, "Min_noise = %f\n", &buf01);
-    Imin = buf01;
-    fscanf(fid, "Max_noise = %f\n", &buf01);
-    Imax = buf01;
-    fscanf(fid, "Mean_stimulation = %f\n", &buf01);
-    Imean = buf01;
-    fscanf(fid, "Sigma_stimulation = %f\n", &buf01);
-    Isd = buf01;
-    fscanf(fid, "Border_length_of_box = %f\n", &buf01);
-    border_length_of_box = buf01;
-    fscanf(fid, "Spike_velocity = %f\n", &buf01);
-    spike_velocity = buf01;
-    fscanf(fid, "Delay_max = %f\n", &buf01);
-    delay_max = buf01;
-    fscanf(fid, "Import_network_neurons = %d\n", &import_neurons);
-    fscanf(fid, "Import_network_synapses = %d\n", &import_synapses);
+    amount_of_inh_neurons = VFFile::getParameterIni(\
+        "Amount_of_inhibitory_neurons", buf31);
+    length_of_simulation = VFFile::getParameterIni("Length_of_simulation", \
+        buf31);
+    dt = VFFile::getParameterIni("dt", buf31);
+    time_between_exports = VFFile::getParameterIni("Time_between_exports", \
+        buf31);
+    time_between_vi_exports = VFFile::getParameterIni(\
+        "Time_between_vi_exports", buf31);
+    type_of_neuron = VFFile::getParameterIni("Type_of_neuron", buf31);
+    type_of_synapse = VFFile::getParameterIni("Type_of_synapse", buf31);
+    type_of_stimulation = VFFile::getParameterIni("Type_of_stimulation", buf31);
+    syn_noise_freq_mean = VFFile::getParameterIni(\
+        "Synaptic_noise_mean_frequency", buf31);
+    tau_stim = VFFile::getParameterIni("Tau_stimulation", buf31);
+    stim_start = VFFile::getParameterIni("Start_of_stimulation", buf31);
+    time_between_weight_exports = VFFile::getParameterIni(\
+        "Time_between_weight_exports", buf31);
+    Imin = VFFile::getParameterIni("Min_noise", buf31);
+    Imax = VFFile::getParameterIni("Max_noise", buf31);
+    Imean = VFFile::getParameterIni("Mean_stimulation", buf31);
+    Isd = VFFile::getParameterIni("Sigma_stimulation", buf31);
+    import_neurons = VFFile::getParameterIni("Import_network_neurons", buf31);
+    import_synapses = VFFile::getParameterIni("Import_network_synapses", buf31);
 
-    fclose(fid);
     return 0;
 }
 
@@ -144,14 +106,15 @@ void SimulationSingleton::outputChangingData(){
 }
 
 int SimulationSingleton::setOutputFile(){
-    if(!(VFFile::tryFile(FILE_EXP_MAIN_OUTPUT)) || \
-       !(VFFile::tryFile(FILE_EXP_SPIKES)) || \
-       !(VFFile::tryFile(FILE_EXP_SYNAPSE)) || \
-       !(VFFile::tryFile(FILE_EXP_WEIGHTS)) || \
-       !(VFFile::tryFile(FILE_EXP_CURRENT)) ){
-        error_number = 2;
-        return error_number;
-    }
+    if(ENABLE_TEST==0)
+        if(!(VFFile::tryFile(FILE_EXP_MAIN_OUTPUT)) || \
+           !(VFFile::tryFile(FILE_EXP_SPIKES)) || \
+           !(VFFile::tryFile(FILE_EXP_SYNAPSE)) || \
+           !(VFFile::tryFile(FILE_EXP_WEIGHTS)) || \
+           !(VFFile::tryFile(FILE_EXP_CURRENT)) ){
+            error_number = 2;
+            return error_number;
+        }
 
     storage_file = fopen (FILE_EXP_MAIN_OUTPUT, "w");
     spike_file = fopen (FILE_EXP_SPIKES, "w");
@@ -177,11 +140,12 @@ void SimulationSingleton::closeOutputFile(){
 
 int SimulationSingleton::outputParametersInFile(){
     // Saves parameters in parameters.txt
-    if(!(VFFile::tryFile(FILE_EXP_PARAMETERS)) || \
-       !(VFFile::tryFile(FILE_EXP_NEURON_PARAMS)) ){
-        error_number = 2;
-        return error_number;
-    }
+    if(ENABLE_TEST==0)
+        if(!(VFFile::tryFile(FILE_EXP_PARAMETERS)) || \
+           !(VFFile::tryFile(FILE_EXP_NEURON_PARAMS)) ){
+            error_number = 2;
+            return error_number;
+        }
     FILE* param_file = fopen (FILE_EXP_PARAMETERS, "w");
     if(!param_file){
         error_number = 2;
@@ -198,8 +162,6 @@ int SimulationSingleton::outputParametersInFile(){
     fprintf(param_file, ";\n");
 
     fprintf(param_file, "Neurons in simulation _=_ %d;\n", N);
-    fprintf(param_file, "Probability of connection _=_ %.2f;\n", \
-                        probability_of_connection);
     fprintf(param_file, "Length of simulation (msec) _=_ %.2f;\n", \
                         length_of_simulation);
     fprintf(param_file, "Time between exports (msec) _=_ %.2f;\n", \
@@ -252,10 +214,11 @@ int SimulationSingleton::outputParametersInFile(){
 
 int SimulationSingleton::outputConnectivityMatrixInFile(){
     // Saves parameters in parameters.txt
-    if(!(VFFile::tryFile(FILE_EXP_CONN_MATR))){
-        error_number = 2;
-        return error_number;
-    }
+    if(ENABLE_TEST==0)
+        if(!(VFFile::tryFile(FILE_EXP_CONN_MATR))){
+            error_number = 2;
+            return error_number;
+        }
     FILE *param_file = fopen (FILE_EXP_CONN_MATR, "w");
     if(!param_file){
         error_number = 2;
@@ -298,6 +261,7 @@ int SimulationSingleton::outputCurrentsInFile(double time){
         one_line += VFFile::convertDoubleToString(neuron_array[i]->I) + " ";
     fprintf(current_file, one_line.c_str());
     fprintf(current_file, "\n");
+    return 0;
 }
 
 void SimulationSingleton::outputSpikesInFile(){

@@ -6,8 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-
-#include "cad.h"
+#include <cstdlib>
 
 class VFFile{
 private:
@@ -19,17 +18,19 @@ private:
     static std::stringstream buf32;
     static FILE* buf40;
     static float buf01;
+    static size_t pos1, pos2;
 
     VFFile();
-    VFFile(VFFile&p){}
-    VFFile& operator =(VFFile&){}
 public:
     static std::string loadFileToString(std::string filename);
     static double getParameterIni(std::string paramname, std::string inifile);
     static double stringToDouble(std::string str);
     static int tryFile(std::string name_of_file);
+    static int tryReadFile(std::string name_of_file);
     static int getYNFromCin();
     static std::string convertDoubleToString(double number);
+    static std::string getFilenameFromIni(std::string file_with_files, \
+                                          std::string filename);
 };
 
 #endif // VFFILE_H
