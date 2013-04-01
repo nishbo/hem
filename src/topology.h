@@ -2,7 +2,6 @@
 #define TOPOLOGY_H
 
 #include <ctime>
-#include <conio.h>
 #include <cstdio>
 
 #include "cad.h"

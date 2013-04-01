@@ -25,32 +25,32 @@ void SimulationSingleton::loadDefaultParameters(){
 }
 
 void SimulationSingleton::loadParametersFromTerminal(){
-    cout<<"Type of neurons (0 for i-a-f, 1 for h-h, 2 for g):";
-    type_of_neuron = VFRandom::checkNumberFromCin();
-    cout<<"Type of synapse (0 for static, 1 for ts-m, 2 for g): ";
-    type_of_synapse = VFRandom::checkNumberFromCin();
-    cout<<"Amount of neurons in simulation: ";
-    neurons_in_simulation = VFRandom::checkNumberFromCin();
-    cout<<"Amount of inhibitory neurons in simulation: ";
-    amount_of_inh_neurons = VFRandom::checkNumberFromCin();
-    cout<<"Time-length of simulation (msec): ";
-    length_of_simulation = VFRandom::checkNumberFromCin();
-    cout<<"Choose type of topology. Type \"0\" for random, \"1\" for"<<\
-          " small-world: ";
-    type_of_topology = VFRandom::checkNumberFromCin();
-    if(type_of_topology == 0){
-        cout<<"\tProbability of connection between neurons: ";
-        probability_of_connection = VFRandom::checkNumberFromCin();
-    } else if(type_of_topology == 1){
-        cout<<"\tAmount of local nodes connections divided by 2 (for 4 conn"<<\
-              " type 2, for 6 type 3): ";
-        smw_local = VFRandom::checkNumberFromCin();
-        cout<<"\tProbability of rewriting of connection: ";
-        smw_beta = VFRandom::checkNumberFromCin();
-    }
-    cout<<"Choose type of delay. Type \"0\" for random, \"1\" for"<<\
-          " length-dependent: ";
-    type_of_delay = VFRandom::checkNumberFromCin();
+//    cout<<"Type of neurons (0 for i-a-f, 1 for h-h, 2 for g):";
+//    type_of_neuron = VFFile::checkNumberFromCin();
+//    cout<<"Type of synapse (0 for static, 1 for ts-m, 2 for g): ";
+//    type_of_synapse = VFFile::checkNumberFromCin();
+//    cout<<"Amount of neurons in simulation: ";
+//    neurons_in_simulation = VFFile::checkNumberFromCin();
+//    cout<<"Amount of inhibitory neurons in simulation: ";
+//    amount_of_inh_neurons = VFFile::checkNumberFromCin();
+//    cout<<"Time-length of simulation (msec): ";
+//    length_of_simulation = VFFile::checkNumberFromCin();
+//    cout<<"Choose type of topology. Type \"0\" for random, \"1\" for"<<\
+//          " small-world: ";
+//    type_of_topology = VFFile::checkNumberFromCin();
+//    if(type_of_topology == 0){
+//        cout<<"\tProbability of connection between neurons: ";
+//        probability_of_connection = VFFile::checkNumberFromCin();
+//    } else if(type_of_topology == 1){
+//        cout<<"\tAmount of local nodes connections divided by 2 (for 4 conn"<<\
+//              " type 2, for 6 type 3): ";
+//        smw_local = VFFile::checkNumberFromCin();
+//        cout<<"\tProbability of rewriting of connection: ";
+//        smw_beta = VFFile::checkNumberFromCin();
+//    }
+//    cout<<"Choose type of delay. Type \"0\" for random, \"1\" for"<<\
+//          " length-dependent: ";
+//    type_of_delay = VFFile::checkNumberFromCin();
 }
 
 int SimulationSingleton::loadParametersFromFile(){
@@ -144,11 +144,11 @@ void SimulationSingleton::outputChangingData(){
 }
 
 int SimulationSingleton::setOutputFile(){
-    if(!(VFRandom::tryFile(FILE_EXP_MAIN_OUTPUT)) || \
-       !(VFRandom::tryFile(FILE_EXP_SPIKES)) || \
-       !(VFRandom::tryFile(FILE_EXP_SYNAPSE)) || \
-       !(VFRandom::tryFile(FILE_EXP_WEIGHTS)) || \
-       !(VFRandom::tryFile(FILE_EXP_CURRENT)) ){
+    if(!(VFFile::tryFile(FILE_EXP_MAIN_OUTPUT)) || \
+       !(VFFile::tryFile(FILE_EXP_SPIKES)) || \
+       !(VFFile::tryFile(FILE_EXP_SYNAPSE)) || \
+       !(VFFile::tryFile(FILE_EXP_WEIGHTS)) || \
+       !(VFFile::tryFile(FILE_EXP_CURRENT)) ){
         error_number = 2;
         return error_number;
     }
@@ -177,8 +177,8 @@ void SimulationSingleton::closeOutputFile(){
 
 int SimulationSingleton::outputParametersInFile(){
     // Saves parameters in parameters.txt
-    if(!(VFRandom::tryFile(FILE_EXP_PARAMETERS)) || \
-       !(VFRandom::tryFile(FILE_EXP_NEURON_PARAMS)) ){
+    if(!(VFFile::tryFile(FILE_EXP_PARAMETERS)) || \
+       !(VFFile::tryFile(FILE_EXP_NEURON_PARAMS)) ){
         error_number = 2;
         return error_number;
     }
@@ -219,14 +219,14 @@ int SimulationSingleton::outputParametersInFile(){
     fprintf(param_file, "________Neurons potential threshold:\n");
     buf31 = "";
     for(int i=0; i<N; i++)
-        buf31+= VFRandom::convertDoubleToString(neuron_array[i]->Vth) + " ";
+        buf31+= VFFile::convertDoubleToString(neuron_array[i]->Vth) + " ";
     fprintf(param_file, buf31.c_str());
     fprintf(param_file, "\n");
 
     fprintf(param_file, "________Neurons Vrest:\n");
     buf31 = "";
     for(int i=0; i<N; i++)
-        buf31+= VFRandom::convertDoubleToString(neuron_array[i]->Vrest) + " ";
+        buf31+= VFFile::convertDoubleToString(neuron_array[i]->Vrest) + " ";
     fprintf(param_file, buf31.c_str());
     fprintf(param_file, "\n");
 
@@ -241,7 +241,7 @@ int SimulationSingleton::outputParametersInFile(){
             else
                 buf1 = 0;
             buf1 = buf1 - (buf1 * 100 - (int)(buf1 * 100))/100;
-            buf31 += VFRandom::convertDoubleToString(buf1) + " ";
+            buf31 += VFFile::convertDoubleToString(buf1) + " ";
         }
         fprintf(param_file, buf31.c_str());
         fprintf(param_file, "\n");
@@ -252,7 +252,7 @@ int SimulationSingleton::outputParametersInFile(){
 
 int SimulationSingleton::outputConnectivityMatrixInFile(){
     // Saves parameters in parameters.txt
-    if(!(VFRandom::tryFile(FILE_EXP_CONN_MATR))){
+    if(!(VFFile::tryFile(FILE_EXP_CONN_MATR))){
         error_number = 2;
         return error_number;
     }
@@ -285,7 +285,7 @@ void SimulationSingleton::outputChangingDataInFile(double time){
     fprintf(storage_file, "____Potentials:\n");
     one_line = "";
     for(int i=0; i<neurons_in_simulation; i++)
-        one_line += VFRandom::convertDoubleToString(neuron_array[i]->V) + " ";
+        one_line += VFFile::convertDoubleToString(neuron_array[i]->V) + " ";
     fprintf(storage_file, one_line.c_str());
     fprintf(storage_file, "\n");
 }
@@ -295,7 +295,7 @@ int SimulationSingleton::outputCurrentsInFile(double time){
 
     one_line = "";
     for(int i=0; i<neurons_in_simulation; i++)
-        one_line += VFRandom::convertDoubleToString(neuron_array[i]->I) + " ";
+        one_line += VFFile::convertDoubleToString(neuron_array[i]->I) + " ";
     fprintf(current_file, one_line.c_str());
     fprintf(current_file, "\n");
 }
@@ -303,8 +303,8 @@ int SimulationSingleton::outputCurrentsInFile(double time){
 void SimulationSingleton::outputSpikesInFile(){
     one_line = "";
     for(int i=0; i<spikes_resent; i++){
-        one_line += VFRandom::convertDoubleToString(spikes_time[i]) + " " + \
-                VFRandom::convertDoubleToString(spikes_numbers[i]) + "\n";
+        one_line += VFFile::convertDoubleToString(spikes_time[i]) + " " + \
+                VFFile::convertDoubleToString(spikes_numbers[i]) + "\n";
     }
     fprintf(spike_file, one_line.c_str());
 
@@ -317,7 +317,7 @@ void SimulationSingleton::outputSynapseDataInFile(double time){
         fprintf(synapse_file, "_________Time = %.2f\n", time);
         one_line = "";
         for(int i=1; i<buffer[0]; i++){
-            one_line += VFRandom::convertDoubleToString(buffer[i]) + " ";
+            one_line += VFFile::convertDoubleToString(buffer[i]) + " ";
         }
         fprintf(synapse_file, one_line.c_str());
         fprintf(synapse_file, "\n");
@@ -334,7 +334,7 @@ int SimulationSingleton::outputWeightsInFile(double time){
                 buf1 = synapse_array[buf0]->weight;
             else
                 buf1 = 0;
-            one_line+= VFRandom::convertDoubleToString(buf1) + " ";
+            one_line+= VFFile::convertDoubleToString(buf1) + " ";
         }
         fprintf(weight_file, one_line.c_str());
         fprintf(weight_file, "\n");
@@ -350,11 +350,11 @@ int SimulationSingleton::exportNeurons(){
     FILE* fid = fopen(FILE_EXP_NEURONS, "w");
     double *arr;
     for(int i=0; i<N; i++){
-        one_line = VFRandom::convertDoubleToString(i) + ": ";
+        one_line = VFFile::convertDoubleToString(i) + ": ";
         arr = neuron_array[i]->exportData();
         for(int j=1;j<arr[0];j++)
-            one_line += VFRandom::convertDoubleToString(arr[j]) + " ";
-        one_line += VFRandom::convertDoubleToString(Inoise[i]) + "\n";
+            one_line += VFFile::convertDoubleToString(arr[j]) + " ";
+        one_line += VFFile::convertDoubleToString(Inoise[i]) + "\n";
         fprintf(fid, one_line.c_str());
     }
     fclose(fid);
@@ -374,17 +374,17 @@ int SimulationSingleton::exportSynapses(){
             buf0++;
     }
     one_line = "Number of synapses = " + \
-            VFRandom::convertDoubleToString(buf0) + "\n";
+            VFFile::convertDoubleToString(buf0) + "\n";
     fprintf(fid, one_line.c_str());
 
     for(int i=0; i<N*N;i++)
         if(connectivity_matrix[i]>-1){
-            one_line = VFRandom::convertDoubleToString(i)+ ": ";
+            one_line = VFFile::convertDoubleToString(i)+ ": ";
             arr = synapse_array[i]->exportData();
-            one_line += "from " + VFRandom::convertDoubleToString(arr[1]) + \
-                    " to " + VFRandom::convertDoubleToString(arr[2]) + "; ";
+            one_line += "from " + VFFile::convertDoubleToString(arr[1]) + \
+                    " to " + VFFile::convertDoubleToString(arr[2]) + "; ";
             for(int j=3; j<arr[0];j++)
-                one_line += VFRandom::convertDoubleToString(arr[j]) + " ";
+                one_line += VFFile::convertDoubleToString(arr[j]) + " ";
             one_line += "\n";
             fprintf(fid, one_line.c_str());
         }

@@ -5,7 +5,7 @@ double VFDistributions::buf1 = 0;
 double VFDistributions::buf2 = 0;
 
 double VFDistributions::drand(){
-    return ((double) rand() / (RAND_MAX + 1));
+    return ((double) rand() / (RAND_MAX));
 }
 
 double VFDistributions::uniform(double min, double max){

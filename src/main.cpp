@@ -48,8 +48,8 @@ int main(){
 
     storage->closeOutputFile();
 
-    cout<<"Finished 1.00000"<<endl<<"Press any key..."<<endl;
-    getch();
+    cout<<"Finished 1.00000"<<endl<<"Press RETURN to exit..."<<endl;
+    cin.ignore();
     return 0;
 }
 

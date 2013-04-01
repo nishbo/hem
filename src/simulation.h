@@ -9,7 +9,7 @@
 #include "topology.h"
 #include "vfdistributions.h"
 #include "vfdiscrete.h"
-#include "vfrandom.h"
+#include "vffile.h"
 
 using namespace std;
 
