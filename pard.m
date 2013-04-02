@@ -92,8 +92,8 @@ function pard
 %   end
 %   fclose(fid);
 %   fprintf('Connections loaded.\n');
-%   
-%   fprintf('\tSimulation loaded.\n\n');
+  
+  fprintf('\tSimulation loaded.\n\n');
   %Calculating stuff
 %   V_average = zeros(1, number_of_exports);
 %   for i=1 : 1 : number_of_exports
