@@ -1,22 +1,18 @@
 function pard_weights
     fprintf('\t\tNew instance %5.0f\n', random('u',1,99999));
-    N = 10;
+    N = 500;
     
     weightmin = 0;
     weightmax = 1;
     histparts = 101;
-    weight_histograms = [0];
-    for i=1 : 1 : histparts
-        weight_index(i) = (i - 1) * (weightmax - weightmin) / (histparts - 1);
-    end
+    weight_histograms = [0 100000];
+    weight_index = weightmin : (weightmax - weightmin) / (histparts - 1) : weightmax;
     
-    Aweightmin = -150;
-    Aweightmax = 150;
-    Ahistparts = 10;
-    Aweight_histograms = [0];
-    for i=1 : 1 : Ahistparts
-        Aweight_index(i) = (i - 1) * (Aweightmax - Aweightmin) / (Ahistparts - 1);
-    end
+    Aweightmin = -200;
+    Aweightmax = 200;
+    Ahistparts = 101;
+    Aweight_histograms = [0 100000];
+    Aweight_index = Aweightmin : (Aweightmax - Aweightmin) / (Ahistparts - 1) : Aweightmax;
     
     %Finding A from export/synapse.txt
     A = zeros(1, N*N);
@@ -59,11 +55,10 @@ function pard_weights
         
         if isItHere(time(i), Aweight_histograms)
             Aarr = arr.*(A');
-            line = makeHistogramData(Aarr, length(Aarr), Ahistparts, Aweightmin, Aweightmax);
+            Aline = makeHistogramData(Aarr, length(Aarr), Ahistparts, Aweightmin, Aweightmax);
             Aweight_times(Aj) = time(i);
-            disp(line);
-            for k = 1 : 1 : length(line)
-                Aweight_hist_data(Aj, k) = line(k);
+            for k = 1 : 1 : length(Aline)
+                Aweight_hist_data(Aj, k) = Aline(k);
             end
             Aj = Aj + 1;
         end
@@ -78,9 +73,9 @@ function pard_weights
         
         disp(time(i));
         i = i + 1;
-%         if(time(i-1)>max(weight_histograms)+50)
-%             break;
-%         end
+        if(time(i-1)>max(weight_histograms)+50 && time(i-1)>max(Aweight_histograms)+50)
+            break;
+        end
     end
     
     figure(1);
@@ -105,7 +100,7 @@ function pard_weights
     Amax_hist = 1.2 * max(max(Aweight_hist_data));
     Amin_hist = 0;
     for i=1 : 1 : length(Aweight_times)
-        figure(i+30+length(weight_times));
+        figure(i+1+length(weight_times));
         plot(Aweight_index, Aweight_hist_data(i, :), 'k*');
         title('Histogram of weights'); 
         xlabel('Weight');
@@ -113,7 +108,10 @@ function pard_weights
         axis([Aweightmin Aweightmax Amin_hist Amax_hist]);
     end
     
-%     figure(length(weight_times)+20);
+%     figure(length(weight_times)+length(Aweight_times) + 1);
+%     plot(time, R);
+
+%     figure(length(weight_times)+length(Aweight_times) + 2);
 %     A = 8;
 %     B = 9;
 %     min_diff_hist = (min(weight_hist_data(B, :) - weight_hist_data(A, :)))*1.2;
@@ -124,8 +122,6 @@ function pard_weights
 %     ylabel('Part of synapses with this weight');
 %     axis([weightmin weightmax min_diff_hist max_diff_hist]);
     
-%     figure(length(weight_times)+2);
-%     plot(time, R);
     
     fclose(fid);
 end
@@ -166,8 +162,9 @@ function line = makeHistogramData(A, N, parts, mini, maxi)
     dx = (maxi - mini) / (parts - 1);
     
     for i=1 : 1 : N
-        if A(i)>0
-            line(floor(A(i)/dx) + 1) = line(floor(A(i)/dx) + 1) + 1;
+        if A(i)~=0
+            line(floor((A(i) - mini)/dx) + 1) = ...
+                line(floor((A(i) - mini)/dx) + 1) + 1;
         end
     end
 end
