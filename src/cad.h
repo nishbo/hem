@@ -1,36 +1,25 @@
 #ifndef CAD_H
 #define CAD_H
 
-/// Constants and definitions and libraries.
+/// File data.
 
 #define DATAFILES					"init/files.ini"
 
-// Files import:
-#define FILE_IMP_PARAMETERS         "./init/Simulation.ini"
-#define FILE_IMP_NEURONS            "./import/neurons.txt"
-#define FILE_IMP_SYNAPSES           "./import/synapses.txt"
-
-//Files export:
-#define FILE_EXP_MAIN_OUTPUT        "./data/output.txt"
-#define FILE_EXP_SPIKES             "./data/spikes.txt"
-#define FILE_EXP_PARAMETERS         "./data/parameters.txt"
-#define FILE_EXP_CONN_MATR          "./data/conn_matr.txt"
-#define FILE_EXP_SYNAPSE            "./data/synapse.txt"
-#define FILE_EXP_NEURON_PARAMS      "./data/neuron_parameters.txt"
-#define FILE_EXP_WEIGHTS            "./data/weights.txt"
-#define FILE_EXP_NEURONS            "./export/neurons.txt"
-#define FILE_EXP_SYNAPSES           "./export/synapses.txt"
-#define FILE_EXP_CURRENT            "./data/current.txt"
-
-//0 for terminal, 1 for built-in, 2 for file
-#define USE_DEFAULT_PARAMETERS      2
-// Disables asking perm for overwriting,
-#define ENABLE_TEST                 1
-// below in mm
-
-#define Malloc(n,t) (t*)std::malloc((n)*sizeof(t))
-
-#define MIN(a,b) (((a)>(b))?(b):(a))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+// Keywords for files:
+#define FILE_IMP_PARAMETERS         "PARAMETERS"
+#define FILE_SYS_DATA				"System_specifications"
+#define FILE_IMP_NEURONS            "Import_neurons"
+#define FILE_TOPOLOGY				"TOPOLOGY"
+#define FILE_IMP_SYNAPSES           "Import_synapses"
+#define FILE_EXP_MAIN_OUTPUT        "Main_output"
+#define FILE_EXP_SPIKES             "Spikes"
+#define FILE_EXP_PARAMETERS         "Export_parameters"
+#define FILE_EXP_CONN_MATR          "EXP_CONN_MATR"
+#define FILE_EXP_SYNAPSE            "EXP_SYNAPSE"
+#define FILE_EXP_NEURON_PARAMS      "EXP_NEURON_PARAMS"
+#define FILE_EXP_WEIGHTS            "EXP_WEIGHTS"
+#define FILE_EXP_NEURONS            "EXP_NEURONS"
+#define FILE_EXP_SYNAPSES           "EXP_SYNAPSES"
+#define FILE_EXP_CURRENT            "EXP_CURRENT"
 
 #endif // CAD_H

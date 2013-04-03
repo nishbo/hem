@@ -21,4 +21,12 @@ public:
     static int poisson(int lambda);
 };
 
+namespace vf_distributions{
+    double uniform(double min, double max);
+    double normal(double mean, double sd);
+    double normal(double mean, double sd, double from, double to);
+    int poisson(int lambda);
+
+}
+
 #endif // VFDISTRIBUTIONS_H

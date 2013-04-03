@@ -27,12 +27,17 @@ public:
     Neuron** neuron_array;      //array of all neurons
     Synapse** synapse_array;    //array of all synapses
     int* connectivity_matrix; //it is just an array. new line every N elements.
+    int M;                      //total number of synapses
+    int** outgoing_synapses;    //lists of outgoing synapses per neuron
+    int** incoming_synapses;    //lists of incoming synapses per neuron
+
+    //System parameters:
+    int number_of_threads;
+    int enable_test;                //if 1 = testing
 
     // Type parameters:
-    int type_of_delay;      //1 for position-based, 0 for random, 2 for dt
-    int type_of_neuron;     //see createNetwork()
-    int type_of_synapse;    //see createNetwork()
-    int type_of_topology;   //0 for random, 1 for sm-w
+    int type_of_neuron;
+    int type_of_synapse;
     int type_of_stimulation;//0 for uniform, 1 for normal
 
     // Stimulation parameters:
@@ -78,17 +83,27 @@ public:
     /// Functions.
     static SimulationSingleton* instance();
     // Creating network:
-    void loadParameters();
-    void loadDefaultParameters();
-    int loadParametersFromFile();
-    void loadParametersFromTerminal();
+    int createNetwork();
 
-    void createNetwork();
+    int loadParameters();
+    int loadParametersFromFile();
+
+    int createTopology();
+
+    int createStimulation();
+    int createSynapseStimulation();
+    int createNeuronStimulation();
+
     int importNeurons();
     int createNeurons();
+    int createNamedNeurons();
+
     int importSynapses();
     int createSynapses();
-    int createStimulation();
+    int createNamedSynapses();
+    int createSynapseLists();
+
+
     int errorReport();
     // Simulating:
     void sendNeuralNoise();

@@ -4,9 +4,9 @@
 #include <iostream>
 #include <cstdio>
 
-#include "cad.h"
 #include "vfdistributions.h"
 #include "vfdiscrete.h"
+#include "vffile.h"
 
 class Synapse{
 public:
@@ -19,7 +19,6 @@ public:
     double last_spiked_post;    //time of last spike of postsynaptic neuron
 
     /// Tech variables:
-    int working;        //1 if exists, 0 if not
     double out_current;     //stores current to send
     double* delivery;
     int number_of_possible_transfers;
@@ -31,6 +30,8 @@ public:
     void incAfterSpike(double timen);
     double moveDeliveries();
     void setDeliveries(double dt);
+    int to();
+    int from();
     /// OPTIONALLY overwritable functions
     virtual double* getInnerData();
     virtual std::string getName();
@@ -53,31 +54,12 @@ public:
 
     static double init_weight;
 
-    SynapseStatic ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
     double* exportData();
     int initSynapses();
     static int initSynapsesLocal();
-};
-
-class SynapseTsodyksMarkram: public Synapse{
-    // Tsodyks-Markram euler style
-public:
-    static std::string synapsetype;
-    double x,y,z,u;
-    double xo, yo, zo, uo, dd;  //buffer
-    double tau_one, tau_rec, tau_facil, U, A;
-    int exc;
-    static double xav, yav, zav, uav;
-    static int number_of_synapses;
-
-    SynapseTsodyksMarkram ();
-    std::string getName();
-    double evolve(double dt, double time, double Vpre, double Vpost);
-    void setData(int pre, int pos, int preex, int posex, double dt);
-    double* getInnerData();
 };
 
 class SynapseTsodyksMarkramRK: public Synapse{
@@ -103,35 +85,6 @@ public:
     static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
     static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
 
-    SynapseTsodyksMarkramRK ();
-    std::string getName();
-    double evolve(double dt, double time, double Vpre, double Vpost);
-    void setData(int pre, int pos, int preex, int posex, double dt);
-    double* exportData();
-    int initSynapses();
-    static int initSynapsesLocal();
-    int importData(double *arr);
-    int numEssentialVariables();
-};
-
-class SynapseTsodyksMarkramAn: public Synapse{
-    // Tsodyks-Markram analytical
-public:
-    static std::string synapsetype;
-    double x, y, z, u;
-    double xsp, ysp, zsp, usp;
-    double tau_one, tau_rec, tau_facil, U, A;
-    double efacil, eone, erec;
-    int exc;
-    int buf00;
-
-    static double init_tau_one, init_x, init_y, init_z, init_u;
-    static double init_tau_recee, init_tau_facilee, init_Uee, init_Aee;
-    static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
-    static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
-    static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
-
-    SynapseTsodyksMarkramAn ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
@@ -158,8 +111,8 @@ public:
     static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
     static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
     static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
+    static double init_tau_ge, init_tau_gi, init_g, init_Ee, init_Ei;
 
-    SynapseTsodyksMarkramRKNest ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
@@ -168,17 +121,6 @@ public:
     static int initSynapsesLocal();
     int importData(double *arr);
     int numEssentialVariables();
-};
-
-class SynapseSTDP: public Synapse{
-public:
-    static std::string synapsetype;
-    double lambda, alpha, tau_corr;
-
-    SynapseSTDP ();
-    std::string getName();
-    double evolve(double dt, double time, double Vpre, double Vpost);
-    void setData(int pre, int post, int preex, int posex, double dt);
 };
 
 class SynapseSTDPG: public Synapse{
@@ -191,7 +133,6 @@ public:
     static double init_lambda, init_alpha, init_tau_corr, init_g, init_tau_s;
     static double init_weight;
 
-    SynapseSTDPG ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int post, int preex, int posex, double dt);
@@ -231,7 +172,6 @@ public:
     static double init_weight, init_t_start;
     static int init_type_of_weight;
 
-    SynapseTMSTDP ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int post, int preex, int posex, double dt);
@@ -274,7 +214,6 @@ public:
     static double init_weight, init_t_start;
     static int init_type_of_weight;
 
-    SynapseTMSTDPAsymmetrical ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int post, int preex, int posex, double dt);
@@ -314,7 +253,6 @@ public:
     static double init_weight, init_t_start;
     static int init_type_of_weight;
 
-    SynapseTMexcSTDP ();
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int post, int preex, int posex, double dt);
@@ -335,7 +273,6 @@ public:
 
     static double init_g, init_gs, init_tau_se, init_tau_si, init_Ee, init_Ei;
 
-    SynapseGFirstType ();
     std::string getName();
     double evolve(double dt, double timen, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
@@ -356,7 +293,6 @@ public:
 
     static double init_g, init_gs, init_tau_se, init_tau_si, init_Ee, init_Ei;
 
-    SynapseGFirstTypeWCUT ();
     std::string getName();
     double evolve(double dt, double timen, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
@@ -380,7 +316,6 @@ public:
 
     static double init_g, init_gs, init_tau_se, init_tau_si, init_Ee, init_Ei;
 
-    SynapseGSecondType ();
     std::string getName();
     double alphaFunction(double x);
     double evolve(double dt, double timen, double Vpre, double Vpost);
@@ -405,7 +340,6 @@ public:
 
     static double init_g, init_gs, init_tau_se, init_tau_si, init_Ee, init_Ei;
 
-    SynapseGSecondTypeWCUT ();
     std::string getName();
     double alphaFunction(double x);
     double evolve(double dt, double timen, double Vpre, double Vpost);
@@ -415,17 +349,6 @@ public:
     int initSynapses();
     static int initSynapsesLocal();
     int numEssentialVariables();
-};
-
-class SynapsePrototype:  public Synapse{
-    // Use this as a prototype. Do not change, copy, then alter.
-public:
-    static std::string synapsetype;
-
-    SynapsePrototype ();
-    std::string getName();
-    double evolve(double dt, double time, double Vpre, double Vpost);
-    void setData(int pre, int pos, int preex, int posex, double dt);
 };
 
 #endif // SYNAPSE_H

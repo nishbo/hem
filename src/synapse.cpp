@@ -3,10 +3,10 @@
 double* Synapse::innerDataArr = NULL;
 
 void Synapse::incSpike(double timen){
-  last_spiked = timen;
+    last_spiked = timen;
 }
 void Synapse::incAfterSpike(double timen){
-  last_spiked_post = timen;
+    last_spiked_post = timen;
 }
 void Synapse::setDeliveries(double dt){
     number_of_possible_transfers = delay / dt;
@@ -30,12 +30,13 @@ std::string Synapse::getName(){
 }
 
 int Synapse::importData(double *arr){
-    exit(11);
     return 0;
 }
 
 double* Synapse::exportData(){
-    return NULL;
+    double* arr = new double[1];
+    arr[0] = 0;
+    return arr;
 }
 
 int Synapse::initSynapses(){
@@ -46,27 +47,28 @@ int Synapse::numEssentialVariables(){
     return 0;
 }
 
+int Synapse::to(){
+    return postsynaptic;
+}
+
+int Synapse::from(){
+    return presynaptic;
+}
+
 /// Static synapse
 
 std::string SynapseStatic::synapsetype = "Static_synapse";
 double SynapseStatic::init_weight = 0.5;
 
 int SynapseStatic::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseStatic.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "Weight = %f\n", &buf01);
-    init_weight = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseStatic.ini");
+    init_weight = getParameterIni("Weight", buf30);
 
-    fclose(fid);
     return 0;
 }
 
 double* SynapseStatic::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[4];
     arr[0] = 4;
     arr[1] = presynaptic;
@@ -74,7 +76,6 @@ double* SynapseStatic::exportData(){
     arr[3] = weight;
     return arr;
 }
-
 
 int SynapseStatic::initSynapses(){
     return initSynapsesLocal();
@@ -84,10 +85,6 @@ std::string SynapseStatic::getName(){
     return synapsetype;
 }
 
-SynapseStatic::SynapseStatic (){
-    working = 0;
-}
-
 double SynapseStatic::evolve(double dt, double time, double Vpre, double Vpost){
     out_current = weight;
 
@@ -95,133 +92,12 @@ double SynapseStatic::evolve(double dt, double time, double Vpre, double Vpost){
 }
 
 void SynapseStatic::setData (int pre, int pos, int preex, int posex, double dt){
-  // sets data like pre- and postsyn neuron, etc.
-  working = 1;
-  presynaptic = pre;
-  postsynaptic = pos;
-  weight = init_weight;
-  last_spiked = -100;
-  last_spiked_post = -100;
-}
-
-/// Tsodyks-Markram model
-
-std::string SynapseTsodyksMarkram::synapsetype = \
-        "Tsodyks-Markram synapse (euler)";
-
-std::string SynapseTsodyksMarkram::getName(){
-    return synapsetype;
-}
-
-double SynapseTsodyksMarkram::xav = 0;
-double SynapseTsodyksMarkram::yav = 0;
-double SynapseTsodyksMarkram::zav = 0;
-double SynapseTsodyksMarkram::uav = 0;
-int SynapseTsodyksMarkram::number_of_synapses = 0;
-
-double* SynapseTsodyksMarkram::getInnerData(){
-    innerDataArr[0] = 5;
-    innerDataArr[1] = xav;
-    innerDataArr[2] = yav;
-    innerDataArr[3] = zav;
-    innerDataArr[4] = uav;
-    xav = 0;
-    yav = 0;
-    zav = 0;
-    uav = 0;
-    return innerDataArr;
-}
-
-SynapseTsodyksMarkram::SynapseTsodyksMarkram (){
-    working = 0;
-}
-void SynapseTsodyksMarkram::setData(int pre, int pos, \
-                                    int preex, int posex, double dt){
-  tau_one = 3;
-
-  working = 1;
-  presynaptic = pre;
-  postsynaptic = pos;
-  weight = VFDistributions::drand();
-  last_spiked = -100;
-  last_spiked_post = -100;
-
-  if(preex && posex){
-    //exc exc
-    A = 38;
-    U = 0.5;
-    tau_rec = 800;
-    tau_facil = 0;
-    exc = 1;
-    A = VFDistributions::normal(A, A/2);
-  } else if(preex){
-    //exc inh
-    A = 54;
-    U = 0.5;
-    tau_rec = 800;
-    tau_facil = 0;
-    exc = 1;
-    A = VFDistributions::normal(A, A/2);
-  } else if(posex){
-    // inh exc
-    A = -72;
-    U = 0.04;
-    tau_rec = 100;
-    tau_facil = 1000;
-    exc = 0;
-    A = VFDistributions::normal(A, -A/2);
-  } else {
-    // inh inh
-    A = -72;
-    U = 0.04;
-    tau_rec = 100;
-    tau_facil = 1000;
-    exc = 0;
-    A = VFDistributions::normal(A, -A/2);
-  }
-  U = VFDistributions::normal(U, U/2);
-  tau_rec = dt + abs(VFDistributions::normal(tau_rec, tau_rec/2));
-  tau_facil = dt + abs(VFDistributions::normal(tau_facil, tau_facil/2));
-
-  x = 0.28;
-  y = 0.01;
-  z = 0.71;
-  u = U;
-
-  number_of_synapses++;
-  if(number_of_synapses==1)
-      innerDataArr = new double[5];
-}
-
-double SynapseTsodyksMarkram::evolve(double dt, double time, \
-                                     double Vpre, double Vpost){
-  xo = x;
-  yo = y;
-  zo = z;
-  uo = u;
-  dd = VFDiscrete::diracDelta(time-last_spiked, dt);
-
-  x += dt*(zo/tau_rec - uo * xo * dd);
-  y += dt*(-yo/tau_one + uo * xo * dd);
-  z += dt*(-zo/tau_rec + yo/tau_one);
-  if(!exc)
-    u += dt*(-uo/tau_facil + U * (1 - uo) * dd);
-
-  //mistakes:
-  if(x >= 1) x = 0.9999999; if(x<=0) x = 0.0000001;
-  if(y >= 1) y = 0.9999999; if(y<=0) y = 0.0000001;
-  if(z >= 1) z = 0.9999999; if(z<=0) z = 0.0000001;
-  if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
-
-  out_current = A * y;
-  weight = y;
-
-  xav += x/number_of_synapses;
-  yav += y/number_of_synapses;
-  zav += z/number_of_synapses;
-  uav += u/number_of_synapses;
-
-  return moveDeliveries();
+    // sets data like pre- and postsyn neuron, etc.
+    presynaptic = pre;
+    postsynaptic = pos;
+    weight = init_weight;
+    last_spiked = -100;
+    last_spiked_post = -100;
 }
 
 /// Tsodyks-Markram model rk4
@@ -254,14 +130,10 @@ double SynapseTsodyksMarkramRK::init_Uii = 0.04;
 double SynapseTsodyksMarkramRK::init_tau_recii = 100;
 double SynapseTsodyksMarkramRK::init_tau_facilii = 1000;
 
-SynapseTsodyksMarkramRK::SynapseTsodyksMarkramRK (){
-    working = 0;
-}
 void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
     tau_one = init_tau_one;
 
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
     weight = 1;
@@ -298,12 +170,12 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
         exc = 0;
     }
     if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
+        A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+        A = vf_distributions::normal(A, -A/2, 4*A, 0);
+    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
 
     x = init_x;
@@ -314,12 +186,12 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
 
 double SynapseTsodyksMarkramRK::Xr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return z1/tau_rec - VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return z1/tau_rec - vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTsodyksMarkramRK::Yr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return -y1/tau_one + VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return -y1/tau_one + vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTsodyksMarkramRK::Zr(double x1, double y1, double z1, double u1, \
@@ -332,7 +204,7 @@ double SynapseTsodyksMarkramRK::Ur(double x1, double y1, double z1, double u1, \
     if(exc)
         return U;
     else
-        return -u1/tau_facil + VFDiscrete::diracDelta(t1 - last_spiked, dt) \
+        return -u1/tau_facil + vf_discrete::diracDelta(t1 - last_spiked, dt) \
                 * U * (1 - u1);
 }
 
@@ -379,8 +251,6 @@ double SynapseTsodyksMarkramRK::evolve(double dt, double time, \
 }
 
 double* SynapseTsodyksMarkramRK::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -401,7 +271,6 @@ double* SynapseTsodyksMarkramRK::exportData(){
 }
 
 int SynapseTsodyksMarkramRK::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -429,307 +298,38 @@ int SynapseTsodyksMarkramRK::numEssentialVariables(){
 }
 
 int SynapseTsodyksMarkramRK::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTsodyksMarkram.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseTsodyksMarkram.ini");
 
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
+    init_tau_one = getParameterIni("tau_one", buf30);
+    init_x = getParameterIni("x", buf30);
+    init_y = getParameterIni("y", buf30);
+    init_z = getParameterIni("z", buf30);
 
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
+    init_Aee = getParameterIni("Aee", buf30);
+    init_Uee = getParameterIni("Uee", buf30);
+    init_tau_recee = getParameterIni("tau_recee", buf30);
+    init_tau_facilee = getParameterIni("tau_facilee", buf30);
 
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
+    init_Aei = getParameterIni("Aei", buf30);
+    init_Uei = getParameterIni("Uei", buf30);
+    init_tau_recei = getParameterIni("tau_recei", buf30);
+    init_tau_facilei = getParameterIni("tau_facilei", buf30);
 
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
+    init_Aie = getParameterIni("Aie", buf30);
+    init_Uie = getParameterIni("Uie", buf30);
+    init_tau_recie = getParameterIni("tau_recie", buf30);
+    init_tau_facilie = getParameterIni("tau_facilie", buf30);
 
-    fclose(fid);
+    init_Aii = getParameterIni("Aii", buf30);
+    init_Uii = getParameterIni("Uii", buf30);
+    init_tau_recii = getParameterIni("tau_recii", buf30);
+    init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
     return 0;
 }
 
 int SynapseTsodyksMarkramRK::initSynapses(){
-    return initSynapsesLocal();
-}
-
-/// Tsodyks-Markram analytical
-
-std::string SynapseTsodyksMarkramAn::synapsetype = \
-        "Tsodyks-Markram_synapse_(an)";
-
-std::string SynapseTsodyksMarkramAn::getName(){
-    return synapsetype;
-}
-
-double SynapseTsodyksMarkramAn::init_tau_one = 3;
-double SynapseTsodyksMarkramAn::init_x = 0.98;
-double SynapseTsodyksMarkramAn::init_y = 0.01;
-double SynapseTsodyksMarkramAn::init_z = 0.01;
-double SynapseTsodyksMarkramAn::init_Aee = 38;
-double SynapseTsodyksMarkramAn::init_Uee = 0.5;
-double SynapseTsodyksMarkramAn::init_tau_recee = 800;
-double SynapseTsodyksMarkramAn::init_tau_facilee = 0;
-double SynapseTsodyksMarkramAn::init_Aei = 54;
-double SynapseTsodyksMarkramAn::init_Uei = 0.5;
-double SynapseTsodyksMarkramAn::init_tau_recei = 800;
-double SynapseTsodyksMarkramAn::init_tau_facilei = 0;
-double SynapseTsodyksMarkramAn::init_Aie = -72;
-double SynapseTsodyksMarkramAn::init_Uie = 0.04;
-double SynapseTsodyksMarkramAn::init_tau_recie = 100;
-double SynapseTsodyksMarkramAn::init_tau_facilie = 1000;
-double SynapseTsodyksMarkramAn::init_Aii = -72;
-double SynapseTsodyksMarkramAn::init_Uii = 0.04;
-double SynapseTsodyksMarkramAn::init_tau_recii = 100;
-double SynapseTsodyksMarkramAn::init_tau_facilii = 1000;
-
-SynapseTsodyksMarkramAn::SynapseTsodyksMarkramAn (){
-    working = 0;
-}
-void SynapseTsodyksMarkramAn::setData(int pre, int pos, \
-                                    int preex, int posex, double dt){
-    tau_one = init_tau_one;
-
-    working = 1;
-    presynaptic = pre;
-    postsynaptic = pos;
-    weight = 1;
-    last_spiked = -100;
-    last_spiked_post = -100;
-
-    if(preex && posex){
-        //exc exc
-        A = init_Aee;
-        U = init_Uee;
-        tau_rec = init_tau_recee;
-        tau_facil = init_tau_facilee;
-        exc = 1;
-    } else if(preex){
-        //exc inh
-        A = init_Aei;
-        U = init_Uei;
-        tau_rec = init_tau_recei;
-        tau_facil = init_tau_facilei;
-        exc = 1;
-    } else if(posex){
-        // inh exc
-        A = init_Aie;
-        U = init_Uie;
-        tau_rec = init_tau_recie;
-        tau_facil = init_tau_facilie;
-        exc = 0;
-    } else {
-        // inh inh
-        A = init_Aii;
-        U = init_Uii;
-        tau_rec = init_tau_recii;
-        tau_facil = init_tau_facilii;
-        exc = 0;
-    }
-    if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
-    else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
-                                        dt, tau_facil*4);
-
-    x = init_x;
-    y = init_y;
-    z = init_z;
-    u = U;
-}
-
-double SynapseTsodyksMarkramAn::evolve(double dt, double time, \
-                                       double Vpre, double Vpost){
-    buf00 = VFDiscrete::diracDelta(time - last_spiked, dt);
-
-    if(y > 0.00001){
-        eone    = exp(- (time - last_spiked) / tau_one);
-        erec    = exp(- (time - last_spiked) / tau_rec);
-
-        if(!exc){
-            efacil  = exp(- (time - last_spiked) / tau_facil);
-            u = usp * efacil;
-        }
-        y = ysp * eone;
-        z = erec / (tau_rec - tau_one) * (zsp * (tau_rec - tau_one) + \
-                                          ysp * tau_rec * (1 - eone/erec));
-        x = (xsp + ysp + zsp) + 1/(tau_one - tau_rec)*(-ysp * tau_one * eone + \
-                                   (zsp*(tau_rec - tau_one)+ysp*tau_rec)*erec);
-    }
-    if(buf00){
-        eone    = exp(- (time - last_spiked - dt) / tau_one);
-        erec    = exp(- (time - last_spiked - dt) / tau_rec);
-
-        if(!exc){
-            efacil  = exp(- (time - last_spiked - dt) / tau_facil);
-            u = usp * efacil;
-        }
-        y = ysp * eone;
-        z = erec / (tau_rec - tau_one) * (zsp * (tau_rec - tau_one) + \
-                                          ysp * tau_rec * (1 - eone/erec));
-        x = (xsp + ysp + zsp) + 1/(tau_one - tau_rec)*(-ysp * tau_one * eone + \
-                                   (zsp*(tau_rec - tau_one)+ysp*tau_rec)*erec);
-
-        x -= u * x;
-        y += u * x;
-        u += U * (1 - u);
-    }
-
-
-    //mistakes:
-    if(x >= 1) x = 0.9999999; else if(x<=0) x = 0.0000001;
-    if(y >= 1) y = 0.9999999; else if(y<=0) y = 0.0000001;
-    if(z >= 1) z = 0.9999999; else if(z<=0) z = 0.0000001;
-    if(u >= 1) u = 0.9999999; else if(u<=0) u = 0.0000001;
-
-    out_current = A * y;
-
-    return moveDeliveries();
-}
-
-double* SynapseTsodyksMarkramAn::exportData(){
-    if(!working)
-        return new double;
-    double* arr = new double[numEssentialVariables()+1];
-    arr[0] = numEssentialVariables()+1;
-    arr[1] = presynaptic;
-    arr[2] = postsynaptic;
-    arr[3] = weight;
-    arr[4] = delay;
-    arr[5] = x;
-    arr[6] = y;
-    arr[7] = z;
-    arr[8] = u;
-    arr[9] = tau_one;
-    arr[10] = tau_rec;
-    arr[11] = tau_facil;
-    arr[12] = U;
-    arr[13] = A;
-    arr[14] = exc;
-    return arr;
-}
-
-int SynapseTsodyksMarkramAn::importData(double *arr){
-    working = 1;
-    presynaptic = arr[0];
-    postsynaptic = arr[1];
-    weight = arr[2];
-    delay = arr[3];
-    x = arr[4];
-    y = arr[5];
-    z = arr[6];
-    u = arr[7];
-    tau_one = arr[8];
-    tau_rec = arr[9];
-    tau_facil = arr[10];
-    U = arr[11];
-    A = arr[12];
-    exc = arr[13];
-
-    if(tau_rec < 1e-3)
-        tau_rec = 1e-3;
-    if(tau_facil < 1e-3)
-        tau_facil = 1e-3;
-    return 0;
-}
-
-int SynapseTsodyksMarkramAn::numEssentialVariables(){
-    return 14;
-}
-
-int SynapseTsodyksMarkramAn::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTsodyksMarkram.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
-
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
-
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
-
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
-
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
-
-    fclose(fid);
-    return 0;
-}
-
-int SynapseTsodyksMarkramAn::initSynapses(){
     return initSynapsesLocal();
 }
 
@@ -762,15 +362,16 @@ double SynapseTsodyksMarkramRKNest::init_Aii = -72;
 double SynapseTsodyksMarkramRKNest::init_Uii = 0.04;
 double SynapseTsodyksMarkramRKNest::init_tau_recii = 100;
 double SynapseTsodyksMarkramRKNest::init_tau_facilii = 1000;
+double SynapseTsodyksMarkramRKNest::init_tau_ge = 3;
+double SynapseTsodyksMarkramRKNest::init_tau_gi = 7;
+double SynapseTsodyksMarkramRKNest::init_g = 0;
+double SynapseTsodyksMarkramRKNest::init_Ee = 0;
+double SynapseTsodyksMarkramRKNest::init_Ei = -80;
 
-SynapseTsodyksMarkramRKNest::SynapseTsodyksMarkramRKNest (){
-    working = 0;
-}
 void SynapseTsodyksMarkramRKNest::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
     tau_one = init_tau_one;
 
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
     weight = 1;
@@ -808,32 +409,33 @@ void SynapseTsodyksMarkramRKNest::setData(int pre, int pos, \
         exc = 0;
     }
     if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
+        A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+        A = vf_distributions::normal(A, -A/2, 4*A, 0);
+    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
 
     xo = init_x;
     yo = init_y;
     zo = init_z;
     uo = U;
+
     if(exc){
-        E = 0;
-        tau_g = 3;
+        E = init_Ee;
+        tau_g = init_tau_ge;
     } else {
-        E = 80;
-        tau_g = 7;
+        E = init_Ei;
+        tau_g = init_tau_gi;
     }
-    g = 0;
+    g = init_g;
 }
 
 double SynapseTsodyksMarkramRKNest::evolve(double dt, double time, \
                                        double Vpre, double Vpost){
 
-    if(VFDiscrete::diracDelta(time - last_spiked, dt)){
+    if(vf_discrete::diracDelta(time - last_spiked, dt)){
         h = last_spiked - lsp2;
         lsp2 = last_spiked;
 
@@ -860,8 +462,6 @@ double SynapseTsodyksMarkramRKNest::evolve(double dt, double time, \
 }
 
 double* SynapseTsodyksMarkramRKNest::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -878,11 +478,13 @@ double* SynapseTsodyksMarkramRKNest::exportData(){
     arr[12] = U;
     arr[13] = A;
     arr[14] = exc;
+    arr[15] = g;
+    arr[16] = tau_g;
+    arr[17] = E;
     return arr;
 }
 
 int SynapseTsodyksMarkramRKNest::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -897,6 +499,9 @@ int SynapseTsodyksMarkramRKNest::importData(double *arr){
     U = arr[11];
     A = arr[12];
     exc = arr[13];
+    g = arr[14];
+    tau_g = arr[15];
+    E = arr[16];
 
     if(tau_rec < 1e-3)
         tau_rec = 1e-3;
@@ -906,120 +511,49 @@ int SynapseTsodyksMarkramRKNest::importData(double *arr){
 }
 
 int SynapseTsodyksMarkramRKNest::numEssentialVariables(){
-    return 14;
+    return 17;
 }
 
 int SynapseTsodyksMarkramRKNest::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTsodyksMarkram.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseTsodyksMarkramRKNest.ini");
 
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
+    init_tau_one = getParameterIni("tau_one", buf30);
+    init_x = getParameterIni("x", buf30);
+    init_y = getParameterIni("y", buf30);
+    init_z = getParameterIni("z", buf30);
 
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
+    init_Aee = getParameterIni("Aee", buf30);
+    init_Uee = getParameterIni("Uee", buf30);
+    init_tau_recee = getParameterIni("tau_recee", buf30);
+    init_tau_facilee = getParameterIni("tau_facilee", buf30);
 
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
+    init_Aei = getParameterIni("Aei", buf30);
+    init_Uei = getParameterIni("Uei", buf30);
+    init_tau_recei = getParameterIni("tau_recei", buf30);
+    init_tau_facilei = getParameterIni("tau_facilei", buf30);
 
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
+    init_Aie = getParameterIni("Aie", buf30);
+    init_Uie = getParameterIni("Uie", buf30);
+    init_tau_recie = getParameterIni("tau_recie", buf30);
+    init_tau_facilie = getParameterIni("tau_facilie", buf30);
 
-    fclose(fid);
+    init_Aii = getParameterIni("Aii", buf30);
+    init_Uii = getParameterIni("Uii", buf30);
+    init_tau_recii = getParameterIni("tau_recii", buf30);
+    init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
+    init_g = getParameterIni("g", buf30);
+    init_Ee = getParameterIni("Ee", buf30);
+    init_Ei = getParameterIni("Ei", buf30);
+    init_tau_ge = getParameterIni("tau_ge", buf30);
+    init_tau_gi = getParameterIni("tau_gi", buf30);
+
     return 0;
 }
 
 int SynapseTsodyksMarkramRKNest::initSynapses(){
     return initSynapsesLocal();
-}
-
-/// Spike-Timing Dependent Plasticity Model
-
-std::string SynapseSTDP::synapsetype = "STDP";
-
-std::string SynapseSTDP::getName(){
-    return synapsetype;
-}
-
-SynapseSTDP::SynapseSTDP (){
-    working = 0;
-}
-
-void SynapseSTDP::setData(int pre, int post, int preex, int posex, double dt){
-    working = 1;
-    presynaptic = pre;
-    postsynaptic = post;
-    last_spiked = -100;
-    last_spiked_post = -100;
-
-    // STDP rule:
-    // Dt = t_post - t_pre,
-    // Dw = lambda*(1-w)^mu*exp(-|Dt|/tau), if Dt > 0,
-    // Dw = -lambda*alpha*w^mu*exp(-|Dt|/tau), if Dt <= 0,
-    // where 0 < lambda << 1, 0 <= mu <= 1, alpha ~ 1.
-    lambda = 0.1;
-//    mu = 0.5;
-    alpha = 1;
-    tau_corr = 20; //ms
-
-    weight = VFDistributions::drand();
-}
-
-double SynapseSTDP::evolve(double dt, double time, double Vpre, double Vpost){
-
-    if(last_spiked>0 && last_spiked_post>0 && \
-            VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
-            VFDiscrete::diracDelta(last_spiked - time, dt)){
-        if(last_spiked_post > last_spiked){
-            weight += lambda * sqrt(1-weight)*\
-                    exp(-abs(last_spiked_post - last_spiked)/tau_corr);
-        } else {
-            weight -= lambda * alpha * sqrt(weight) * \
-                    exp(-abs(last_spiked_post - last_spiked)/tau_corr);
-        }
-        out_current = weight;
-    } else {
-        out_current = 0;
-    }
-    if(weight < 1e-8) weight = 1e-8; //bug? shows NaN else
-    if(weight > 1) weight = 1; //calc mistakes
-
-    return moveDeliveries();
 }
 
 /// Spike-Timing Dependent Plasticity Model with transmission function (g)
@@ -1037,12 +571,7 @@ std::string SynapseSTDPG::getName(){
     return synapsetype;
 }
 
-SynapseSTDPG::SynapseSTDPG (){
-    working = 0;
-}
-
 void SynapseSTDPG::setData(int pre, int post, int preex, int posex, double dt){
-    working = 1;
     presynaptic = pre;
     postsynaptic = post;
     last_spiked = -100;
@@ -1069,8 +598,8 @@ void SynapseSTDPG::setData(int pre, int post, int preex, int posex, double dt){
 double SynapseSTDPG::evolve(double dt, double time, double Vpre, double Vpost){
 
     if(last_spiked>0 && last_spiked_post>0 && \
-            VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
-            VFDiscrete::diracDelta(last_spiked - time, dt)){
+            vf_discrete::diracDelta(last_spiked_post - time, dt) && \
+            vf_discrete::diracDelta(last_spiked - time, dt)){
         if(last_spiked_post > last_spiked){
             weight += lambda * sqrt(1-weight)*\
                     exp(-abs(last_spiked_post - last_spiked)/tau_corr);
@@ -1081,15 +610,13 @@ double SynapseSTDPG::evolve(double dt, double time, double Vpre, double Vpost){
     }
     if(weight < 1e-8) weight = 1e-8; //bug? shows NaN else
     if(weight > 1) weight = 1; //calc mistakes
-    g += dt*(-g/tau_s) + VFDiscrete::diracDelta(last_spiked - time, dt);
+    g += dt*(-g/tau_s) + vf_discrete::diracDelta(last_spiked - time, dt);
     out_current = weight * g;
 
     return moveDeliveries();
 }
 
 double* SynapseSTDPG::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -1105,7 +632,6 @@ double* SynapseSTDPG::exportData(){
 }
 
 int SynapseSTDPG::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -1126,25 +652,16 @@ int SynapseSTDPG::numEssentialVariables(){
 }
 
 int SynapseSTDPG::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseSTDPG.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "g = %f\n", &buf01);
-    init_g = buf01;
-    fscanf(fid, "tau_s = %f\n", &buf01);
-    init_tau_s = buf01;
-    fscanf(fid, "lambda = %f\n", &buf01);
-    init_lambda = buf01;
-    fscanf(fid, "alpha = %f\n", &buf01);
-    init_alpha = buf01;
-    fscanf(fid, "tau_corr = %f\n", &buf01);
-    init_tau_corr = buf01;
-    fscanf(fid, "weight = %f\n", &buf01);
-    init_weight = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseSTDPG.ini");
 
-    fclose(fid);
+    init_g = getParameterIni("g", buf30);
+    init_tau_s = getParameterIni("tau_s", buf30);
+    init_lambda = getParameterIni("lambda", buf30);
+    init_alpha = getParameterIni("alpha", buf30);
+    init_tau_corr = getParameterIni("tau_corr", buf30);
+    init_weight = getParameterIni("weight", buf30);
+
     return 0;
 }
 
@@ -1187,15 +704,11 @@ std::string SynapseTMSTDP::getName(){
     return synapsetype;
 }
 
-SynapseTMSTDP::SynapseTMSTDP (){
-  working = 0;
-}
 void SynapseTMSTDP::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
     tau_one = init_tau_one;
     t_start = init_t_start;
 
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
     weight = 1;
@@ -1232,12 +745,12 @@ void SynapseTMSTDP::setData(int pre, int pos, \
         exc = 0;
     }
     if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
+        A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+        A = vf_distributions::normal(A, -A/2, 4*A, 0);
+    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
 
     x = init_x;
@@ -1261,10 +774,10 @@ void SynapseTMSTDP::setData(int pre, int pos, \
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -1274,12 +787,12 @@ void SynapseTMSTDP::setData(int pre, int pos, \
 
 double SynapseTMSTDP::Xr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return z1/tau_rec - VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return z1/tau_rec - vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMSTDP::Yr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return -y1/tau_one + VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return -y1/tau_one + vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMSTDP::Zr(double x1, double y1, double z1, double u1, \
@@ -1292,7 +805,7 @@ double SynapseTMSTDP::Ur(double x1, double y1, double z1, double u1, \
     if(exc)
         return U;
     else
-        return -u1/tau_facil + VFDiscrete::diracDelta(t1 - last_spiked, dt) \
+        return -u1/tau_facil + vf_discrete::diracDelta(t1 - last_spiked, dt) \
                 * U * (1 - u1);
 }
 
@@ -1339,8 +852,8 @@ double SynapseTMSTDP::evolve(double dt, double time, \
 
     if(time>t_start){
         if(last_spiked>0 && last_spiked_post>0 && \
-                VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
-                VFDiscrete::diracDelta(last_spiked - time, dt)){
+                vf_discrete::diracDelta(last_spiked_post - time, dt) && \
+                vf_discrete::diracDelta(last_spiked - time, dt)){
             if(last_spiked_post > last_spiked){
                 weight += lambda * (1-weight)*\
                         exp(-abs(last_spiked_post - last_spiked)/tau_corr);
@@ -1359,8 +872,6 @@ double SynapseTMSTDP::evolve(double dt, double time, \
 }
 
 double* SynapseTMSTDP::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -1381,7 +892,6 @@ double* SynapseTMSTDP::exportData(){
 }
 
 int SynapseTMSTDP::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -1411,10 +921,10 @@ int SynapseTMSTDP::importData(double *arr){
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -1427,68 +937,41 @@ int SynapseTMSTDP::numEssentialVariables(){
 }
 
 int SynapseTMSTDP::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTMSTDP.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "t_start = %f\n", &buf01);
-    init_t_start = buf01;
-    fscanf(fid, "type_of_weight = %d\n", &init_type_of_weight);
-    fscanf(fid, "lambda = %f\n", &buf01);
-    init_lambda = buf01;
-    fscanf(fid, "alpha = %f\n", &buf01);
-    init_alpha = buf01;
-    fscanf(fid, "tau_corr = %f\n", &buf01);
-    init_tau_corr = buf01;
-    fscanf(fid, "weight = %f\n", &buf01);
-    init_weight = buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseTMSTDP.ini");
 
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
+    init_tau_one = getParameterIni("tau_one", buf30);
+    init_x = getParameterIni("x", buf30);
+    init_y = getParameterIni("y", buf30);
+    init_z = getParameterIni("z", buf30);
 
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
+    init_Aee = getParameterIni("Aee", buf30);
+    init_Uee = getParameterIni("Uee", buf30);
+    init_tau_recee = getParameterIni("tau_recee", buf30);
+    init_tau_facilee = getParameterIni("tau_facilee", buf30);
 
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
+    init_Aei = getParameterIni("Aei", buf30);
+    init_Uei = getParameterIni("Uei", buf30);
+    init_tau_recei = getParameterIni("tau_recei", buf30);
+    init_tau_facilei = getParameterIni("tau_facilei", buf30);
 
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
+    init_Aie = getParameterIni("Aie", buf30);
+    init_Uie = getParameterIni("Uie", buf30);
+    init_tau_recie = getParameterIni("tau_recie", buf30);
+    init_tau_facilie = getParameterIni("tau_facilie", buf30);
 
-    fclose(fid);
+    init_Aii = getParameterIni("Aii", buf30);
+    init_Uii = getParameterIni("Uii", buf30);
+    init_tau_recii = getParameterIni("tau_recii", buf30);
+    init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
+    init_t_start = getParameterIni("t_start", buf30);
+    init_type_of_weight = getParameterIni("type_of_weight", buf30);
+    init_lambda = getParameterIni("lambda", buf30);
+    init_alpha = getParameterIni("alpha", buf30);
+    init_tau_corr = getParameterIni("tau_corr", buf30);
+    init_weight = getParameterIni("weight", buf30);
+
     return 0;
 }
 
@@ -1532,15 +1015,11 @@ std::string SynapseTMexcSTDP::getName(){
     return synapsetype;
 }
 
-SynapseTMexcSTDP::SynapseTMexcSTDP (){
-  working = 0;
-}
 void SynapseTMexcSTDP::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
     tau_one = init_tau_one;
     t_start = init_t_start;
 
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
     weight = 1;
@@ -1577,12 +1056,12 @@ void SynapseTMexcSTDP::setData(int pre, int pos, \
         exc = 0;
     }
     if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
+        A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+        A = vf_distributions::normal(A, -A/2, 4*A, 0);
+    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
 
     x = init_x;
@@ -1606,10 +1085,10 @@ void SynapseTMexcSTDP::setData(int pre, int pos, \
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -1619,12 +1098,12 @@ void SynapseTMexcSTDP::setData(int pre, int pos, \
 
 double SynapseTMexcSTDP::Xr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return z1/tau_rec - VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return z1/tau_rec - vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMexcSTDP::Yr(double x1, double y1, double z1, double u1, \
                                   double t1, double dt){
-    return -y1/tau_one + VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return -y1/tau_one + vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMexcSTDP::Zr(double x1, double y1, double z1, double u1, \
@@ -1637,7 +1116,7 @@ double SynapseTMexcSTDP::Ur(double x1, double y1, double z1, double u1, \
     if(exc)
         return U;
     else
-        return -u1/tau_facil + VFDiscrete::diracDelta(t1 - last_spiked, dt) \
+        return -u1/tau_facil + vf_discrete::diracDelta(t1 - last_spiked, dt) \
                 * U * (1 - u1);
 }
 
@@ -1684,8 +1163,8 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
 
     if(time>t_start && exc){
         if(last_spiked>0 && last_spiked_post>0 && \
-                VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
-                VFDiscrete::diracDelta(last_spiked - time, dt)){
+                vf_discrete::diracDelta(last_spiked_post - time, dt) && \
+                vf_discrete::diracDelta(last_spiked - time, dt)){
             if(last_spiked_post > last_spiked){
                 weight += lambda * (1-weight)*\
                         exp(-abs(last_spiked_post - last_spiked)/tau_corr);
@@ -1704,8 +1183,6 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
 }
 
 double* SynapseTMexcSTDP::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -1726,7 +1203,6 @@ double* SynapseTMexcSTDP::exportData(){
 }
 
 int SynapseTMexcSTDP::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -1756,10 +1232,10 @@ int SynapseTMexcSTDP::importData(double *arr){
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -1772,68 +1248,41 @@ int SynapseTMexcSTDP::numEssentialVariables(){
 }
 
 int SynapseTMexcSTDP::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTMSTDP.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "t_start = %f\n", &buf01);
-    init_t_start = buf01;
-    fscanf(fid, "type_of_weight = %d\n", &init_type_of_weight);
-    fscanf(fid, "lambda = %f\n", &buf01);
-    init_lambda = buf01;
-    fscanf(fid, "alpha = %f\n", &buf01);
-    init_alpha = buf01;
-    fscanf(fid, "tau_corr = %f\n", &buf01);
-    init_tau_corr = buf01;
-    fscanf(fid, "weight = %f\n", &buf01);
-    init_weight = buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseTMSTDP.ini");
 
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
+    init_tau_one = getParameterIni("tau_one", buf30);
+    init_x = getParameterIni("x", buf30);
+    init_y = getParameterIni("y", buf30);
+    init_z = getParameterIni("z", buf30);
 
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
+    init_Aee = getParameterIni("Aee", buf30);
+    init_Uee = getParameterIni("Uee", buf30);
+    init_tau_recee = getParameterIni("tau_recee", buf30);
+    init_tau_facilee = getParameterIni("tau_facilee", buf30);
 
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
+    init_Aei = getParameterIni("Aei", buf30);
+    init_Uei = getParameterIni("Uei", buf30);
+    init_tau_recei = getParameterIni("tau_recei", buf30);
+    init_tau_facilei = getParameterIni("tau_facilei", buf30);
 
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
+    init_Aie = getParameterIni("Aie", buf30);
+    init_Uie = getParameterIni("Uie", buf30);
+    init_tau_recie = getParameterIni("tau_recie", buf30);
+    init_tau_facilie = getParameterIni("tau_facilie", buf30);
 
-    fclose(fid);
+    init_Aii = getParameterIni("Aii", buf30);
+    init_Uii = getParameterIni("Uii", buf30);
+    init_tau_recii = getParameterIni("tau_recii", buf30);
+    init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
+    init_t_start = getParameterIni("t_start", buf30);
+    init_type_of_weight = getParameterIni("type_of_weight", buf30);
+    init_lambda = getParameterIni("lambda", buf30);
+    init_alpha = getParameterIni("alpha", buf30);
+    init_tau_corr = getParameterIni("tau_corr", buf30);
+    init_weight = getParameterIni("weight", buf30);
+
     return 0;
 }
 
@@ -1878,15 +1327,11 @@ std::string SynapseTMSTDPAsymmetrical::getName(){
     return synapsetype;
 }
 
-SynapseTMSTDPAsymmetrical::SynapseTMSTDPAsymmetrical (){
-  working = 0;
-}
 void SynapseTMSTDPAsymmetrical::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
     tau_one = init_tau_one;
     t_start = init_t_start;
 
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
     weight = 1;
@@ -1923,12 +1368,12 @@ void SynapseTMSTDPAsymmetrical::setData(int pre, int pos, \
         exc = 0;
     }
     if(A>0)
-        A = VFDistributions::normal(A, A/2, 0, 4*A);
+        A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
-        A = VFDistributions::normal(A, -A/2, 4*A, 0);
-    U = VFDistributions::normal(U, U/2, 0, 4*U);
-    tau_rec = VFDistributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = VFDistributions::normal(tau_facil, tau_facil/2, \
+        A = vf_distributions::normal(A, -A/2, 4*A, 0);
+    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
 
     x = init_x;
@@ -1953,10 +1398,10 @@ void SynapseTMSTDPAsymmetrical::setData(int pre, int pos, \
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -1966,12 +1411,12 @@ void SynapseTMSTDPAsymmetrical::setData(int pre, int pos, \
 
 double SynapseTMSTDPAsymmetrical::Xr(double x1, double y1, double z1, \
                                      double u1, double t1, double dt){
-    return z1/tau_rec - VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return z1/tau_rec - vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMSTDPAsymmetrical::Yr(double x1, double y1, double z1, \
                                      double u1, double t1, double dt){
-    return -y1/tau_one + VFDiscrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
+    return -y1/tau_one + vf_discrete::diracDelta(t1 - last_spiked, dt) * u1 * x1;
 }
 
 double SynapseTMSTDPAsymmetrical::Zr(double x1, double y1, double z1, \
@@ -1984,7 +1429,7 @@ double SynapseTMSTDPAsymmetrical::Ur(double x1, double y1, double z1, \
     if(exc)
         return U;
     else
-        return -u1/tau_facil + VFDiscrete::diracDelta(t1 - last_spiked, dt) \
+        return -u1/tau_facil + vf_discrete::diracDelta(t1 - last_spiked, dt) \
                 * U * (1 - u1);
 }
 
@@ -2031,8 +1476,8 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
 
     if(time>t_start){
         if(last_spiked>0 && last_spiked_post>0 && \
-                VFDiscrete::diracDelta(last_spiked_post - time, dt) && \
-                VFDiscrete::diracDelta(last_spiked - time, dt)){
+                vf_discrete::diracDelta(last_spiked_post - time, dt) && \
+                vf_discrete::diracDelta(last_spiked - time, dt)){
             if(last_spiked_post > last_spiked){
                 weight += A_plus * (1-weight)*\
                        exp(-abs(last_spiked_post - last_spiked)/tau_corr_plus);
@@ -2051,8 +1496,6 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
 }
 
 double* SynapseTMSTDPAsymmetrical::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -2073,7 +1516,6 @@ double* SynapseTMSTDPAsymmetrical::exportData(){
 }
 
 int SynapseTMSTDPAsymmetrical::importData(double *arr){
-    working = 1;
     presynaptic = arr[0];
     postsynaptic = arr[1];
     weight = arr[2];
@@ -2104,10 +1546,10 @@ int SynapseTMSTDPAsymmetrical::importData(double *arr){
         weight = init_weight;
         break;
     case 1:
-        weight = VFDistributions::uniform(0, 1);
+        weight = vf_distributions::uniform(0, 1);
         break;
     case 2:
-        weight = VFDistributions::normal(init_weight, init_weight*0.1, 0, 1);
+        weight = vf_distributions::normal(init_weight, init_weight*0.1, 0, 1);
         break;
     default:
         weight = init_weight;
@@ -2120,70 +1562,43 @@ int SynapseTMSTDPAsymmetrical::numEssentialVariables(){
 }
 
 int SynapseTMSTDPAsymmetrical::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseTMSTDPAsymmetrical.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "t_start = %f\n", &buf01);
-    init_t_start = buf01;
-    fscanf(fid, "type_of_weight = %d\n", &init_type_of_weight);
-    fscanf(fid, "A_plus = %f\n", &buf01);
-    init_A_plus = buf01;
-    fscanf(fid, "A_minus = %f\n", &buf01);
-    init_A_minus = buf01;
-    fscanf(fid, "tau_corr_plus = %f\n", &buf01);
-    init_tau_corr_plus = buf01;
-    fscanf(fid, "tau_corr_minus = %f\n", &buf01);
-    init_tau_corr_minus = buf01;
-    fscanf(fid, "weight = %f\n", &buf01);
-    init_weight = buf01;
-    fscanf(fid, "tau_one = %f\n", &buf01);
-    init_tau_one = buf01;
-    fscanf(fid, "x = %f\n", &buf01);
-    init_x = buf01;
-    fscanf(fid, "y = %f\n", &buf01);
-    init_y = buf01;
-    fscanf(fid, "z = %f\n\n", &buf01);
-    init_z = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseTMSTDPAsymmetrical.ini");
 
-    fscanf(fid, "Aee = %f\n", &buf01);
-    init_Aee = buf01;
-    fscanf(fid, "Uee = %f\n", &buf01);
-    init_Uee = buf01;
-    fscanf(fid, "tau_recee = %f\n", &buf01);
-    init_tau_recee = buf01;
-    fscanf(fid, "tau_facilee = %f\n\n", &buf01);
-    init_tau_facilee = buf01;
+    init_tau_one = getParameterIni("tau_one", buf30);
+    init_x = getParameterIni("x", buf30);
+    init_y = getParameterIni("y", buf30);
+    init_z = getParameterIni("z", buf30);
 
-    fscanf(fid, "Aei = %f\n", &buf01);
-    init_Aei = buf01;
-    fscanf(fid, "Uei = %f\n", &buf01);
-    init_Uei = buf01;
-    fscanf(fid, "tau_recei = %f\n", &buf01);
-    init_tau_recei = buf01;
-    fscanf(fid, "tau_facilei = %f\n\n", &buf01);
-    init_tau_facilei = buf01;
+    init_Aee = getParameterIni("Aee", buf30);
+    init_Uee = getParameterIni("Uee", buf30);
+    init_tau_recee = getParameterIni("tau_recee", buf30);
+    init_tau_facilee = getParameterIni("tau_facilee", buf30);
 
-    fscanf(fid, "Aie = %f\n", &buf01);
-    init_Aie = buf01;
-    fscanf(fid, "Uie = %f\n", &buf01);
-    init_Uie = buf01;
-    fscanf(fid, "tau_recie = %f\n", &buf01);
-    init_tau_recie = buf01;
-    fscanf(fid, "tau_facilie = %f\n\n", &buf01);
-    init_tau_facilie = buf01;
+    init_Aei = getParameterIni("Aei", buf30);
+    init_Uei = getParameterIni("Uei", buf30);
+    init_tau_recei = getParameterIni("tau_recei", buf30);
+    init_tau_facilei = getParameterIni("tau_facilei", buf30);
 
-    fscanf(fid, "Aii = %f\n", &buf01);
-    init_Aii = buf01;
-    fscanf(fid, "Uii = %f\n", &buf01);
-    init_Uii = buf01;
-    fscanf(fid, "tau_recii = %f\n", &buf01);
-    init_tau_recii = buf01;
-    fscanf(fid, "tau_facilii = %f\n", &buf01);
-    init_tau_facilii = buf01;
+    init_Aie = getParameterIni("Aie", buf30);
+    init_Uie = getParameterIni("Uie", buf30);
+    init_tau_recie = getParameterIni("tau_recie", buf30);
+    init_tau_facilie = getParameterIni("tau_facilie", buf30);
 
-    fclose(fid);
+    init_Aii = getParameterIni("Aii", buf30);
+    init_Uii = getParameterIni("Uii", buf30);
+    init_tau_recii = getParameterIni("tau_recii", buf30);
+    init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
+    init_t_start = getParameterIni("t_start", buf30);
+    init_type_of_weight = getParameterIni("type_of_weight", buf30);
+    init_weight = getParameterIni("weight", buf30);
+
+    init_A_plus = getParameterIni("A_plus", buf30);
+    init_A_minus = getParameterIni("A_minus", buf30);
+    init_tau_corr_plus = getParameterIni("tau_corr_plus", buf30);
+    init_tau_corr_minus = getParameterIni("tau_corr_minus", buf30);
+
     return 0;
 }
 
@@ -2204,8 +1619,6 @@ double SynapseGFirstType::init_Ee = 0;
 double SynapseGFirstType::init_Ei = -80;
 
 double* SynapseGFirstType::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[9];
     arr[0] = 9;
     arr[1] = presynaptic;
@@ -2220,7 +1633,6 @@ double* SynapseGFirstType::exportData(){
 }
 
 int SynapseGFirstType::importData(double *arr){
-    working = 1;
     presynaptic =   arr[0];
     postsynaptic =  arr[1];
     weight =        arr[2];
@@ -2239,25 +1651,16 @@ int SynapseGFirstType::numEssentialVariables(){
 }
 
 int SynapseGFirstType::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseG.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "g = %f\n", &buf01);
-    init_g = buf01;
-    fscanf(fid, "tau_se = %f\n", &buf01);
-    init_tau_se = buf01;
-    fscanf(fid, "tau_si = %f\n", &buf01);
-    init_tau_si = buf01;
-    fscanf(fid, "g_s = %f\n", &buf01);
-    init_gs = buf01;
-    fscanf(fid, "Ee = %f\n", &buf01);
-    init_Ee = buf01;
-    fscanf(fid, "Ei = %f\n", &buf01);
-    init_Ei = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    fclose(fid);
+    init_g = getParameterIni("g", buf30);
+    init_tau_se = getParameterIni("tau_se", buf30);
+    init_tau_si = getParameterIni("tau_si", buf30);
+    init_gs = getParameterIni("g_s", buf30);
+    init_Ee = getParameterIni("Ee", buf30);
+    init_Ei = getParameterIni("Ei", buf30);
+
     return 0;
 }
 
@@ -2269,15 +1672,11 @@ std::string SynapseGFirstType::getName(){
     return synapsetype;
 }
 
-SynapseGFirstType::SynapseGFirstType(){
-    working = 0;
-}
 void SynapseGFirstType::setData(int pre, int pos, int preex, int posex, \
                                 double dt){
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
-    weight = VFDistributions::drand();
+    weight = vf_distributions::uniform(0, 1);
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
@@ -2293,7 +1692,7 @@ void SynapseGFirstType::setData(int pre, int pos, int preex, int posex, \
 
 double SynapseGFirstType::evolve(double dt, double timen, \
                                  double Vpre, double Vpost){
-    g += dt * (-g / tau_s) + gs * VFDiscrete::diracDelta(timen-last_spiked, dt);
+    g += dt * (-g / tau_s) + gs * vf_discrete::diracDelta(timen-last_spiked, dt);
     out_current = g * (E - Vpost);
 
     return moveDeliveries();
@@ -2310,8 +1709,6 @@ double SynapseGFirstTypeWCUT::init_Ee = 0;
 double SynapseGFirstTypeWCUT::init_Ei = -80;
 
 double* SynapseGFirstTypeWCUT::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -2326,7 +1723,6 @@ double* SynapseGFirstTypeWCUT::exportData(){
 }
 
 int SynapseGFirstTypeWCUT::importData(double *arr){
-    working = 1;
     presynaptic =   arr[0];
     postsynaptic =  arr[1];
     weight =        arr[2];
@@ -2345,25 +1741,16 @@ int SynapseGFirstTypeWCUT::numEssentialVariables(){
 }
 
 int SynapseGFirstTypeWCUT::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseG.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "g = %f\n", &buf01);
-    init_g = buf01;
-    fscanf(fid, "tau_se = %f\n", &buf01);
-    init_tau_se = buf01;
-    fscanf(fid, "tau_si = %f\n", &buf01);
-    init_tau_si = buf01;
-    fscanf(fid, "g_s = %f\n", &buf01);
-    init_gs = buf01;
-    fscanf(fid, "Ee = %f\n", &buf01);
-    init_Ee = buf01;
-    fscanf(fid, "Ei = %f\n", &buf01);
-    init_Ei = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    fclose(fid);
+    init_g = getParameterIni("g", buf30);
+    init_tau_se = getParameterIni("tau_se", buf30);
+    init_tau_si = getParameterIni("tau_si", buf30);
+    init_gs = getParameterIni("g_s", buf30);
+    init_Ee = getParameterIni("Ee", buf30);
+    init_Ei = getParameterIni("Ei", buf30);
+
     return 0;
 }
 
@@ -2375,16 +1762,11 @@ std::string SynapseGFirstTypeWCUT::getName(){
     return synapsetype;
 }
 
-SynapseGFirstTypeWCUT::SynapseGFirstTypeWCUT(){
-    working = 0;
-}
-
 void SynapseGFirstTypeWCUT::setData(int pre, int pos, int preex, int posex, \
                                     double dt){
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
-    weight = VFDistributions::drand();
+    weight = vf_distributions::uniform(0, 1);
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
@@ -2403,7 +1785,7 @@ double SynapseGFirstTypeWCUT::evolve(double dt, double timen, double Vpre, \
     if(timen - last_spiked_post<dt/2){
         g = 0;
     }
-    g += dt * (-g / tau_s) + gs * VFDiscrete::diracDelta(timen-last_spiked, dt);
+    g += dt * (-g / tau_s) + gs * vf_discrete::diracDelta(timen-last_spiked, dt);
     out_current = g * (E - Vpost);
 
     return moveDeliveries();
@@ -2421,8 +1803,6 @@ double SynapseGSecondType::init_Ee = 0;
 double SynapseGSecondType::init_Ei = -80;
 
 double* SynapseGSecondType::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -2437,7 +1817,6 @@ double* SynapseGSecondType::exportData(){
 }
 
 int SynapseGSecondType::importData(double *arr){
-    working = 1;
     presynaptic =   arr[0];
     postsynaptic =  arr[1];
     weight =        arr[2];
@@ -2456,25 +1835,16 @@ int SynapseGSecondType::numEssentialVariables(){
 }
 
 int SynapseGSecondType::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseG.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "g = %f\n", &buf01);
-    init_g = buf01;
-    fscanf(fid, "tau_se = %f\n", &buf01);
-    init_tau_se = buf01;
-    fscanf(fid, "tau_si = %f\n", &buf01);
-    init_tau_si = buf01;
-    fscanf(fid, "g_s = %f\n", &buf01);
-    init_gs = buf01;
-    fscanf(fid, "Ee = %f\n", &buf01);
-    init_Ee = buf01;
-    fscanf(fid, "Ei = %f\n", &buf01);
-    init_Ei = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    fclose(fid);
+    init_g = getParameterIni("g", buf30);
+    init_tau_se = getParameterIni("tau_se", buf30);
+    init_tau_si = getParameterIni("tau_si", buf30);
+    init_gs = getParameterIni("g_s", buf30);
+    init_Ee = getParameterIni("Ee", buf30);
+    init_Ei = getParameterIni("Ei", buf30);
+    
     return 0;
 }
 
@@ -2487,16 +1857,11 @@ std::string SynapseGSecondType::getName(){
     return synapsetype;
 }
 
-SynapseGSecondType::SynapseGSecondType(){
-    working = 0;
-}
-
 void SynapseGSecondType::setData(int pre, int pos, int preex, int posex, \
                                  double dt){
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
-    weight = VFDistributions::drand();
+    weight = vf_distributions::uniform(0, 1);
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
@@ -2511,7 +1876,7 @@ void SynapseGSecondType::setData(int pre, int pos, int preex, int posex, \
 
     now_spikes = 0;
     max_spikes = (tau_s*6.6383 + 1)/dt; //accuracy 0.01
-    spikerow = Malloc(max_spikes, double);//new double(max_spikes);//
+    spikerow = Malloc(max_spikes, double);//
     for(int i=0; i<max_spikes; i++)
         spikerow[i] = 0;
 
@@ -2550,8 +1915,6 @@ double SynapseGSecondTypeWCUT::init_Ee = 0;
 double SynapseGSecondTypeWCUT::init_Ei = -80;
 
 double* SynapseGSecondTypeWCUT::exportData(){
-    if(!working)
-        return new double;
     double* arr = new double[numEssentialVariables()+1];
     arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
@@ -2566,7 +1929,6 @@ double* SynapseGSecondTypeWCUT::exportData(){
 }
 
 int SynapseGSecondTypeWCUT::importData(double *arr){
-    working = 1;
     presynaptic =   arr[0];
     postsynaptic =  arr[1];
     weight =        arr[2];
@@ -2585,25 +1947,16 @@ int SynapseGSecondTypeWCUT::numEssentialVariables(){
 }
 
 int SynapseGSecondTypeWCUT::initSynapsesLocal(){
-    FILE* fid = fopen("./init/SynapseG.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "g = %f\n", &buf01);
-    init_g = buf01;
-    fscanf(fid, "tau_se = %f\n", &buf01);
-    init_tau_se = buf01;
-    fscanf(fid, "tau_si = %f\n", &buf01);
-    init_tau_si = buf01;
-    fscanf(fid, "g_s = %f\n", &buf01);
-    init_gs = buf01;
-    fscanf(fid, "Ee = %f\n", &buf01);
-    init_Ee = buf01;
-    fscanf(fid, "Ei = %f\n", &buf01);
-    init_Ei = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    fclose(fid);
+    init_g = getParameterIni("g", buf30);
+    init_tau_se = getParameterIni("tau_se", buf30);
+    init_tau_si = getParameterIni("tau_si", buf30);
+    init_gs = getParameterIni("g_s", buf30);
+    init_Ee = getParameterIni("Ee", buf30);
+    init_Ei = getParameterIni("Ei", buf30);
+    
     return 0;
 }
 
@@ -2616,16 +1969,11 @@ std::string SynapseGSecondTypeWCUT::getName(){
     return synapsetype;
 }
 
-SynapseGSecondTypeWCUT::SynapseGSecondTypeWCUT(){
-    working = 0;
-}
-
 void SynapseGSecondTypeWCUT::setData(int pre, int pos, int preex, int posex, \
                                      double dt){
-    working = 1;
     presynaptic = pre;
     postsynaptic = pos;
-    weight = VFDistributions::drand();
+    weight = vf_distributions::uniform(0, 1);
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
@@ -2669,40 +2017,3 @@ double SynapseGSecondTypeWCUT::evolve(double dt, double timen, double Vpre, \
 
     return moveDeliveries();
 }
-
-/// Prototype of a synapse
-// Use this as a prototype. Do not change, copy, then alter.
-std::string SynapsePrototype::synapsetype = "Namespace";
-
-std::string SynapsePrototype::getName(){
-    return synapsetype;
-}
-
-SynapsePrototype::SynapsePrototype (){
-    // Do not save anything here.
-    working = 0;
-}
-
-double SynapsePrototype::evolve(double dt, double time, \
-                                double Vpre, double Vpost){
-    // Change the state of synapse. Set to out_current current you want
-    // to send to neuron. In the end MUST be return moveDeliveries();
-
-    // For example:
-    out_current = weight;
-
-    return moveDeliveries();
-}
-
-void SynapsePrototype::setData (int pre, int pos, int preex, int posex, \
-                                double dt){
-  working = 1;
-  presynaptic = pre;
-  postsynaptic = pos;
-  last_spiked = -100;
-  last_spiked_post = -100;
-
-  // Set all necessary parameters:
-  weight = VFDistributions::drand();
-}
-

@@ -24,13 +24,25 @@ private:
 public:
     static std::string loadFileToString(std::string filename);
     static double getParameterIni(std::string paramname, std::string inifile);
-    static double stringToDouble(std::string str);
     static int tryFile(std::string name_of_file);
     static int tryReadFile(std::string name_of_file);
     static int getYNFromCin();
     static std::string convertDoubleToString(double number);
-    static std::string getFilenameFromIni(std::string file_with_files, \
-                                          std::string filename);
+    static std::string getFilenameFromIni(std::string file_with_files, std::string filename);
+    static std::string loadFileToString(std::string filename, std::string file_with_files);
 };
+
+namespace vf_file{
+    std::string loadFileToString(std::string filename);
+    double getParameterIni(std::string paramname, std::string inifile);
+    double stringToDouble(std::string str);
+    int tryFile(std::string name_of_file);
+    int tryReadFile(std::string name_of_file);
+    int getYNFromCin();
+    std::string convertDoubleToString(double number);
+    std::string getFilenameFromIni(std::string file_with_files, std::string filename);
+    std::string loadFileToString(std::string filename, std::string file_with_files);
+
+}
 
 #endif // VFFILE_H

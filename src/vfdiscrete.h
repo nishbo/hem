@@ -5,7 +5,11 @@
 
 #include <cmath>
 #include <cstdlib>
-#include "cad.h"
+
+#define Malloc(n,t) (t*)std::malloc((n)*sizeof(t))
+
+#define MIN(a,b) (((a)>(b))?(b):(a))
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
 class VFDiscrete{
 private:
@@ -19,5 +23,12 @@ public:
     static double diracDelta(double t, double dt);
     static double heavisideTheta(double t);
 };
+
+namespace vf_discrete{
+    int inBetween(double t, double spc, double dt);
+    int discreteDistanceOnCircle(int x, int y, int N);
+    double diracDelta(double t, double dt);
+    double heavisideTheta(double t);
+}
 
 #endif // VFDISCRETE_H

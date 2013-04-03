@@ -48,3 +48,17 @@ int VFDistributions::poisson(int lambda){
     }
     return buf0;
 }
+
+
+double vf_distributions::uniform(double min, double max){
+    return VFDistributions::uniform(min, max);
+}
+double vf_distributions::normal(double mean, double sd){
+    return VFDistributions::normal(mean, sd);
+}
+double vf_distributions::normal(double mean, double sd, double from, double to){
+    return VFDistributions::normal(mean, sd, from, to);
+}
+int vf_distributions::poisson(int lambda){
+    return VFDistributions::poisson(lambda);
+}

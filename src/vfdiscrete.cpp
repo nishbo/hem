@@ -37,3 +37,20 @@ double VFDiscrete::heavisideTheta(double t){
     else
         return 0.5;
 }
+
+
+int vf_discrete::inBetween(double t, double spc, double dt){
+    return VFDiscrete::inBetween(t, spc, dt);
+}
+
+int vf_discrete::discreteDistanceOnCircle(int x, int y, int N){
+    return VFDiscrete::discreteDistanceOnCircle(x, y, N);
+}
+
+double vf_discrete::diracDelta(double t, double dt){
+    return VFDiscrete::diracDelta(t, dt);
+}
+
+double vf_discrete::heavisideTheta(double t){
+    return VFDiscrete::heavisideTheta(t);
+}

@@ -4,8 +4,9 @@
 #include <iostream>
 #include <cstdio>
 
-#include "cad.h"
+#include "vfdiscrete.h"
 #include "vfdistributions.h"
+#include "vffile.h"
 
 class Neuron{
 public:
@@ -62,51 +63,6 @@ public:
     int numEssentialVariables();
 };
 
-class NeuronLeakyIAFRK: public Neuron{
-    // RK4. DO NOT USE!!!
-public:
-    static std::string neurotype;
-    double Vreset;      //for i-a-f to work
-    double Rin;         //membrance resistence Ohm
-    double tau_m;       //membrane time constant msec
-    double tau_ref_abs; //absolute refractory period
-    double tau_ref_tot; //total refractory preiod
-    double Cm;          //membrane capacity pF
-    double Vei;         // excitatory/inhibitory reverse potential
-
-    //Runge-Kutta stuff:
-    double k_1_V, k_2_V, k_3_V, k_4_V;
-    double Vr(double V1, double t, double dt);
-
-    /// Overwriting abstract functions:
-    void setExcitatory(int f);
-    int evolve(double dt, double time);
-    std::string getName();
-};
-
-class NeuronHodgkinHuxley: public Neuron{
-    // Euler style
-public:
-    static std::string neurotype;
-    double a, b;  //buff used in m,n,h func
-    double m, n, h;
-    double g_Na, g_K, g_L;
-    double E_Na, E_K, E_L;
-    double I_Na, I_K, I_L;
-    double C_mem;
-    double tau_spike;
-
-    double mF(double V, double m, double dt);
-    double hF(double V, double h, double dt);
-    double nF(double V, double n, double dt);
-
-    /// Overwriting abstract functions:
-    void setExcitatory(int f);
-    void addCurrent(double a);
-    int evolve(double dt, double time);
-    std::string getName();
-};
-
 class NeuronHodgkinHuxleyRK: public Neuron{
     // RK4 style
 public:
@@ -145,18 +101,6 @@ public:
     double* exportData();
     int importData(double *arr);
     int numEssentialVariables();
-};
-
-class NeuronPrototype: public Neuron{
-    // Prototype of new neuron class. Do not alter. Copy, then change.
-public:
-    static std::string neurotype;
-    // Declaration of variables
-
-    /// Overwriting abstract functions:
-    void setExcitatory(int f);
-    int evolve(double dt, double time);
-    std::string getName();
 };
 
 #endif // NEURON_H

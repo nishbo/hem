@@ -49,29 +49,18 @@ std::string NeuronLeakyIAF::getName(){
 }
 
 int NeuronLeakyIAF::initNeuronsLocal(){
-    FILE* fid = fopen("./init/NeuronLeakyIAF.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "Rin = %f\n", &buf01);
-    init_Rin = buf01;
-    fscanf(fid, "tau_m = %f\n", &buf01);
-    init_tau_m = buf01;
-    fscanf(fid, "Vth = %f\n", &buf01);
-    init_Vth = buf01;
-    fscanf(fid, "Vreset = %f\n", &buf01);
-    init_Vreset = buf01;
-    fscanf(fid, "Vrest = %f\n", &buf01);
-    init_Vrest = buf01;
-    fscanf(fid, "V = %f\n", &buf01);
-    init_V = buf01;
-    fscanf(fid, "tau_ref_excitatory = %f\n", &buf01);
-    init_tau_ref_abs_exc = buf01;
-    fscanf(fid, "tau_ref_abs_inhibitory = %f\n", &buf01);
-    init_tau_ref_abs_inh = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/NeuronLeakyIAF.ini");
 
-    fclose(fid);
+    init_Rin = getParameterIni("Rin", buf30);
+    init_tau_m = getParameterIni("tau_m", buf30);
+    init_Vth = getParameterIni("Vth", buf30);
+    init_Vreset = getParameterIni("Vreset", buf30);
+    init_Vrest = getParameterIni("Vrest", buf30);
+    init_V = getParameterIni("V", buf30);
+    init_tau_ref_abs_exc = getParameterIni("tau_ref_excitatory", buf30);
+    init_tau_ref_abs_inh = getParameterIni("tau_ref_abs_inhibitory", buf30);
+
     return 0;
 }
 
@@ -142,161 +131,6 @@ int NeuronLeakyIAF::numEssentialVariables(){
     return 7;
 }
 
-/// Leaky integrate-and-fire neuron Runge-Kutta:
-std::string NeuronLeakyIAFRK::neurotype = "leaky_integrate-and-fire_(rk4)";
-
-std::string NeuronLeakyIAFRK::getName(){
-    return neurotype;
-}
-
-void NeuronLeakyIAFRK::setExcitatory(int f){
-    /** Data from "The neural code between neocortical pyramidal neurons depends
-    on neurotransmitter release probability" By Tsodyks and Markram, 1997
-    and "Synchrony Generation in Recurrent Networks with Frequency-Dependent
-    Synapses", 2000
-    CHANGE: from http://nest-initiative.org/index.php/Network_burst_\
-    generation_by_short-term_plasticity
-    */
-    Rin = 1.0;    //1 GOhm
-    Cm = 30.0;      //30 pF
-    tau_m = 30.0;     //30 ms
-    // Rin * Cm == tau_m true
-    Vth = 15.0;     //15 mV
-    Vreset = 13.5;  //13.5 mV
-    Vrest = 0.0;    //0 mV
-    V = VFDistributions::drand() * Vreset;
-    if(f){
-        exc = 1;
-        Vei = 0;
-        tau_ref_abs = 3.;
-        tau_ref_tot = 0;
-    } else {
-        exc = 0;
-        Vei = 1;
-        tau_ref_abs = 2.;
-        tau_ref_tot = 0;
-    }
-    last_spiked = -(MAX(tau_ref_abs,tau_ref_tot)+1);
-}
-
-double NeuronLeakyIAFRK::Vr(double V1, double t, double dt){
-    V1 = ( - (V1 - Vrest) + Rin * I) / tau_m;
-    if(V1 >= Vth && t > last_spiked + tau_ref_abs)
-        return Vreset;
-    else
-        return V1;
-}
-
-int NeuronLeakyIAFRK::evolve(double dt, double time){
-
-    k_1_V = dt * Vr(V, time, dt);
-    k_2_V = dt * Vr(V + k_1_V/2.0, time + dt/2.0, dt);
-    k_3_V = dt * Vr(V + k_2_V/2.0, time + dt/2.0, dt);
-    k_4_V = dt * Vr(V + k_3_V, time + dt, dt);
-
-    V += (k_1_V + 2.0 * k_2_V + 2.0 * k_3_V + k_4_V) * 6.0;
-
-    // 'I' sets to 0 to let synapses to add current on the next time-step
-    I = 0.0;
-
-    if( V >= Vth && time > last_spiked + tau_ref_abs &&\
-                    time > last_spiked + tau_ref_tot){
-        // spike
-        V = Vreset;
-        last_spiked = time;
-        return 1;
-    } else if ( time < last_spiked + tau_ref_abs )
-        V = Vreset;
-
-    return 0;
-}
-
-/// Hodgkin-Huxley neuron:
-std::string NeuronHodgkinHuxley::neurotype = "Hodgkin-Huxley_model_(euler)";
-
-std::string NeuronHodgkinHuxley::getName(){
-    return neurotype;
-}
-
-void NeuronHodgkinHuxley::setExcitatory(int f){
-    if(f){
-        exc = 1;
-    } else {
-        exc = 0;
-    }
-    last_spiked = -100;
-    Vth = 80.0;
-    tau_spike = 3;
-
-    Vrest = 0.0;
-    V = Vrest;
-
-    g_Na = 120;  //�S
-    g_K = 36;
-    g_L = 0.3;
-    E_Na = -115; // mV
-    E_K = 12;
-    E_L = -10.5989;
-    C_mem = 1;  // �F/cm^2
-
-    n = 0.3177;
-    m = 0.0529;
-    h = 0.5961;
-    I = 0.0;
-}
-
-void NeuronHodgkinHuxley::addCurrent(double a){
-    I+= a / 1000; //transforming pA to microA
-}
-
-double NeuronHodgkinHuxley::mF(double V, double m, double dt){
-    if (V == -25){
-        b = 4.*exp(V/18);
-        return m + dt*(1.0 * (1 - m) - b * m);
-    } else {
-        a = 0.1*(V + 25)/(exp(0.1*(V + 25))-1);
-        b = 4*exp(V/18);
-        return m + dt*(a * (1 - m) - b * m);
-    }
-}
-
-double NeuronHodgkinHuxley::hF(double V, double h, double dt){
-    a = 0.07 * exp(V/20);
-    b = 1/(exp(0.1*(V + 30)) + 1);
-    return h + dt*(a * (1 - h) - b * h);
-}
-
-double NeuronHodgkinHuxley::nF(double V, double n, double dt){
-    if (V == -10){
-        b = 0.125*exp(V/80);
-        return n + dt*(0.1*(1 - n) - b*n);
-    } else {
-        a = 0.01*(V+10)/(exp(0.1*(V+10))-1);
-        b = 0.125*exp(V/80);
-        return n + dt*(a*(1 - n) - b*n);
-    }
-}
-
-int NeuronHodgkinHuxley::evolve(double dt, double time){
-    m = mF(V, m, dt);
-    h = hF(V, h, dt);
-    n = nF(V, n, dt);
-
-    I_Na = g_Na * m*m*m * h * (V - E_Na);
-    I_K  = g_K * n*n*n*n * (V - E_K);
-    I_L  = g_L * (V - E_L);
-    I += I_Na + I_K + I_L;
-
-    V -= I * dt / C_mem;
-
-    I = 0;
-    if(-V>=Vth && last_spiked + tau_spike <time){
-        last_spiked = time;
-        return 1;
-    }
-    return 0;
-}
-
 /// Hodgkin-Huxley neuron RK4:
 std::string NeuronHodgkinHuxleyRK::neurotype = "Hodgkin-Huxley_model_(rk4)";
 double NeuronHodgkinHuxleyRK::init_Vth = 80.0;
@@ -320,43 +154,25 @@ std::string NeuronHodgkinHuxleyRK::getName(){
 }
 
 int NeuronHodgkinHuxleyRK::initNeuronsLocal(){
-    FILE* fid = fopen("./init/NeuronHodgkinHuxley.ini", "r");
-    if(!fid){
-        exit(29);
-    }
-    float buf01;
-    fscanf(fid, "Vth = %f\n", &buf01);
-    init_Vth = buf01;
-    fscanf(fid, "Vrest = %f\n", &buf01);
-    init_Vrest = buf01;
-    fscanf(fid, "V = %f\n", &buf01);
-    init_V = buf01;
-    fscanf(fid, "tau_spike = %f\n", &buf01);
-    init_tau_spike = buf01;
-    fscanf(fid, "g_Na = %f\n", &buf01);
-    init_g_Na = buf01;
-    fscanf(fid, "g_K = %f\n", &buf01);
-    init_g_K = buf01;
-    fscanf(fid, "g_L = %f\n", &buf01);
-    init_g_L = buf01;
-    fscanf(fid, "E_Na = %f\n", &buf01);
-    init_E_Na = buf01;
-    fscanf(fid, "E_K = %f\n", &buf01);
-    init_E_K = buf01;
-    fscanf(fid, "E_L = %f\n", &buf01);
-    init_E_L = buf01;
-    fscanf(fid, "C_mem = %f\n", &buf01);
-    init_C_mem = buf01;
-    fscanf(fid, "n = %f\n", &buf01);
-    init_n = buf01;
-    fscanf(fid, "m = %f\n", &buf01);
-    init_m = buf01;
-    fscanf(fid, "h = %f\n", &buf01);
-    init_h = buf01;
-    fscanf(fid, "divider = %f\n", &buf01);
-    init_divider = buf01;
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/NeuronHodgkinHuxley.ini");
 
-    fclose(fid);
+    init_Vth = getParameterIni("Vth", buf30);
+    init_Vrest = getParameterIni("Vrest", buf30);
+    init_V = getParameterIni("V", buf30);
+    init_tau_spike = getParameterIni("tau_spike", buf30);
+    init_g_Na = getParameterIni("g_Na", buf30);
+    init_g_K = getParameterIni("g_K", buf30);
+    init_g_L = getParameterIni("g_L", buf30);
+    init_E_Na = getParameterIni("E_Na", buf30);
+    init_E_K = getParameterIni("E_K", buf30);
+    init_E_L = getParameterIni("E_L", buf30);
+    init_C_mem = getParameterIni("C_mem", buf30);
+    init_n = getParameterIni("n", buf30);
+    init_m = getParameterIni("m", buf30);
+    init_h = getParameterIni("h", buf30);
+    init_divider = getParameterIni("divider", buf30);
+
     return 0;
 }
 
@@ -521,29 +337,4 @@ int NeuronHodgkinHuxleyRK::importData(double *arr){
 
 int NeuronHodgkinHuxleyRK::numEssentialVariables(){
     return 16;
-}
-
-/// Prototype of new neuron class. Do not alter. Copy, then change.
-std::string NeuronPrototype::neurotype = "Insert_name_here";
-
-std::string NeuronPrototype::getName(){
-    return neurotype;
-}
-
-void NeuronPrototype::setExcitatory(int f){
-    I = 0.0;
-    if(f){
-        exc = 1;
-    } else {
-        exc = 0;
-    }
-}
-
-int NeuronPrototype::evolve(double dt, double time){
-    // Evolve parameters of your neurons somehow.
-    // If the neuron spikes, return 1, else return 0;
-    // Befor returning, set I to 0
-
-    I = 0.0;
-    return 0;
 }

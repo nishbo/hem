@@ -50,7 +50,8 @@ double VFFile::getParameterIni(string paramname, string inifile){
     else
         pos1 = inifile.find("\n", pos2) - 1;
 
-    while(!(isdigit(buf30[0] = inifile[pos2]) || buf30[0]=='.') && pos2<=pos1)
+    while(!(isdigit(buf30[0] = inifile[pos2]) || buf30[0]=='.' || buf30[0]=='-') \
+          && pos2<=pos1)
         pos2++;   //Find exact start - remove symbols
 
     inifile.copy(buf30, pos1 - pos2 + 1, pos2);
@@ -104,4 +105,38 @@ string VFFile::getFilenameFromIni(string file_with_files, string filename){
     buf30[(int)(pos1 - pos2 + 1)] = '\0';
 
     return (string)buf30;
+}
+
+string VFFile::loadFileToString(string filename, string file_with_files){
+    buf31 = getFilenameFromIni(file_with_files, filename);
+    if(!(tryReadFile(buf31))){
+        cout<<"Problems reading a file named "<<buf31<<", key "<<filename<<".";
+        exit(74);
+    }
+    return loadFileToString(buf31);
+}
+
+string vf_file::loadFileToString(string filename){
+    return VFFile::loadFileToString(filename);
+}
+double vf_file::getParameterIni(string paramname, string inifile){
+    return VFFile::getParameterIni(paramname, inifile);
+}
+int vf_file::tryFile(string name_of_file){
+    return VFFile::tryFile(name_of_file);
+}
+int vf_file::tryReadFile(string name_of_file){
+    return VFFile::tryReadFile(name_of_file);
+}
+int vf_file::getYNFromCin(){
+    return VFFile::getYNFromCin();
+}
+string vf_file::convertDoubleToString(double number){
+    return VFFile::convertDoubleToString(number);
+}
+string vf_file::getFilenameFromIni(string file_with_files, string filename){
+    return VFFile::getFilenameFromIni(file_with_files, filename);
+}
+string vf_file::loadFileToString(string filename, string file_with_files){
+    return VFFile::loadFileToString(filename, file_with_files);
 }

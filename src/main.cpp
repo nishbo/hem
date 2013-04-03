@@ -10,26 +10,25 @@ using namespace std;
 
 int main(){
     srand(time(NULL));
-    cout<<"Welcome to HEM simulator.\n\n";
+    cout.precision(5);
+
+    cout<<"\tWelcome to HEM simulator.\n";
 
     SimulationSingleton *storage = SimulationSingleton::instance();
-    storage->loadParameters();
-    storage->errorReport();
-
     storage->createNetwork();
-    storage->errorReport();
 
+    cout<<"\nSaving network parameters to file...\r";
     storage->outputParametersInFile();
     storage->outputConnectivityMatrixInFile();
+    cout<<"Network parameters saved to file.   ";
+
     storage->setOutputFile();
-    storage->errorReport();
 
     storage->exportNeurons();
     storage->exportSynapses();
 
     storage->length_of_simulation += storage->dt;
-    cout.precision(5);
-    cout<<endl;
+    cout<<"\n\tStarting simulation.\n";
     for(storage->time_now = 0.0; \
         storage->time_now < storage->length_of_simulation ;\
         storage->time_now += storage->dt){
