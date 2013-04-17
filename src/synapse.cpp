@@ -129,6 +129,7 @@ double SynapseTsodyksMarkramRK::init_Aii = -72;
 double SynapseTsodyksMarkramRK::init_Uii = 0.04;
 double SynapseTsodyksMarkramRK::init_tau_recii = 100;
 double SynapseTsodyksMarkramRK::init_tau_facilii = 1000;
+int SynapseTsodyksMarkramRK::init_distribute_params = 0;
 
 void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
@@ -169,14 +170,16 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
         tau_facil = init_tau_facilii;
         exc = 0;
     }
-    if(A>0)
-        A = vf_distributions::normal(A, A/2, 0, 4*A);
-    else
-        A = vf_distributions::normal(A, -A/2, 4*A, 0);
-    U = vf_distributions::normal(U, U/2, 0, 4*U);
-    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
-                                        dt, tau_facil*4);
+    if(init_distribute_params){
+        if(A>0)
+            A = vf_distributions::normal(A, A/2, 0, 4*A);
+        else
+            A = vf_distributions::normal(A, -A/2, 4*A, 0);
+        U = vf_distributions::normal(U, U/2, 0, 4*U);
+        tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+        tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
+                                            dt, tau_facil*4);
+    }
 
     x = init_x;
     y = init_y;
@@ -325,6 +328,8 @@ int SynapseTsodyksMarkramRK::initSynapsesLocal(){
     init_Uii = getParameterIni("Uii", buf30);
     init_tau_recii = getParameterIni("tau_recii", buf30);
     init_tau_facilii = getParameterIni("tau_facilii", buf30);
+
+    init_distribute_params = getParameterIni("DISTRIBUTE_PARAMETERS", buf30);
 
     return 0;
 }
@@ -1322,6 +1327,7 @@ double SynapseTMSTDPAsymmetrical::init_tau_recii = 100;
 double SynapseTMSTDPAsymmetrical::init_tau_facilii = 1000;
 double SynapseTMSTDPAsymmetrical::init_t_start = 5000;
 int SynapseTMSTDPAsymmetrical::init_type_of_weight = 0;
+int SynapseTMSTDPAsymmetrical::init_distribute_params = 0;
 
 std::string SynapseTMSTDPAsymmetrical::getName(){
     return synapsetype;
@@ -1367,14 +1373,17 @@ void SynapseTMSTDPAsymmetrical::setData(int pre, int pos, \
         tau_facil = init_tau_facilii;
         exc = 0;
     }
-    if(A>0)
-        A = vf_distributions::normal(A, A/2, 0, 4*A);
-    else
-        A = vf_distributions::normal(A, -A/2, 4*A, 0);
-    U = vf_distributions::normal(U, U/2, 0, 4*U);
-    tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
-    tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
-                                        dt, tau_facil*4);
+
+    if(init_distribute_params){
+        if(A>0)
+            A = vf_distributions::normal(A, A/2, 0, 4*A);
+        else
+            A = vf_distributions::normal(A, -A/2, 4*A, 0);
+        U = vf_distributions::normal(U, U/2, 0, 4*U);
+        tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
+        tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
+                                            dt, tau_facil*4);
+    }
 
     x = init_x;
     y = init_y;
@@ -1490,7 +1499,7 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
         if(weight > 1) weight = 1; //calc mistakes
     }
 
-    out_current = A * y * weight * 2;
+    out_current = A * y * weight;
 
     return moveDeliveries();
 }
@@ -1598,6 +1607,8 @@ int SynapseTMSTDPAsymmetrical::initSynapsesLocal(){
     init_A_minus = getParameterIni("A_minus", buf30);
     init_tau_corr_plus = getParameterIni("tau_corr_plus", buf30);
     init_tau_corr_minus = getParameterIni("tau_corr_minus", buf30);
+
+    init_distribute_params = getParameterIni("DISTRIBUTE_PARAMETERS", buf30);
 
     return 0;
 }

@@ -84,6 +84,7 @@ public:
     static double init_tau_recei, init_tau_facilei, init_Uei, init_Aei;
     static double init_tau_recie, init_tau_facilie, init_Uie, init_Aie;
     static double init_tau_recii, init_tau_facilii, init_Uii, init_Aii;
+    static int init_distribute_params;
 
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
@@ -213,6 +214,7 @@ public:
     static double init_tau_corr_plus, init_tau_corr_minus;
     static double init_weight, init_t_start;
     static int init_type_of_weight;
+    static int init_distribute_params;
 
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
