@@ -30,6 +30,8 @@ public:
     int M;                      //total number of synapses
     int** outgoing_synapses;    //lists of outgoing synapses per neuron
     int** incoming_synapses;    //lists of incoming synapses per neuron
+    int** outgoing_synapses_to;
+    int** incoming_synapses_from;
 
     //System parameters:
     int number_of_threads;

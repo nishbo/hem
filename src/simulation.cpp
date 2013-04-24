@@ -103,7 +103,10 @@ int SimulationSingleton::createNeurons(){
 }
 
 int SimulationSingleton::createNamedSynapses(){
-    synapse_array = Malloc(M+1, Synapse*);
+    if(M<2)
+        synapse_array = Malloc(1, Synapse*);
+    else
+        synapse_array = Malloc(M, Synapse*);
 
     switch (type_of_synapse){
     case 0:
@@ -160,6 +163,8 @@ int SimulationSingleton::createNamedSynapses(){
 int SimulationSingleton::createSynapseLists(){
     outgoing_synapses = Malloc(N, int*);
     incoming_synapses = Malloc(N, int*);
+    outgoing_synapses_to = Malloc(N, int*);
+    incoming_synapses_from = Malloc(N, int*);
 
     for(int i=0; i<N; i++){
         buf0 = 0;
@@ -172,8 +177,12 @@ int SimulationSingleton::createSynapseLists(){
         }
         outgoing_synapses[i] = new int[buf0 + 1];
         outgoing_synapses[i][0] = buf0;
+        outgoing_synapses_to[i] = new int[buf0 + 1];
+        outgoing_synapses_to[i][0] = buf0;
         incoming_synapses[i] = new int[buf00 + 1];
         incoming_synapses[i][0] = buf00;
+        incoming_synapses_from[i] = new int[buf00 + 1];
+        incoming_synapses_from[i][0] = buf00;
     }
 
     for(int i=0; i<N; i++){
@@ -182,14 +191,51 @@ int SimulationSingleton::createSynapseLists(){
         for(int j=0; j<N; j++){
             if(connectivity_matrix[i*N+j]>-1){
                 outgoing_synapses[i][buf0] = connectivity_matrix[i*N+j];
+                outgoing_synapses_to[i][buf0] = j;
                 buf0++;
             }
             if(connectivity_matrix[j*N+i]>-1){
                 incoming_synapses[i][buf00] = connectivity_matrix[j*N+i];
+                incoming_synapses_from[i][buf00] = j;
                 buf00++;
             }
         }
     }
+
+    // cout<<endl;
+    // cout<<"connectivity_matrix\n";
+    // for(int i=0; i<N; i++){
+    //     for(int j=0; j<N; j++)
+    //         cout<<"\t"<<connectivity_matrix[i*N+j];
+    //     cout<<endl;
+    // }
+    // cout<<"outgoing_synapses"<<endl;
+    // for(int i=0; i < N; i++){
+    //     for(int j=0; j < outgoing_synapses[i][0]+1; j++)
+    //         cout<<" "<<outgoing_synapses[i][j];
+    //     cout<<endl;
+    // }
+    // cout<<"outgoing_synapses_to"<<endl;
+    // for(int i=0; i < N; i++){
+    //     for(int j=0; j < outgoing_synapses_to[i][0]+1; j++)
+    //         cout<<" "<<outgoing_synapses_to[i][j];
+    //     cout<<endl;
+    // }
+    // cout<<"incoming_synapses"<<endl;
+    // for(int i=0; i < N; i++){
+    //     for(int j=0; j < incoming_synapses[i][0]+1; j++)
+    //         cout<<" "<<incoming_synapses[i][j];
+    //     cout<<endl;
+    // }
+    // cout<<"incoming_synapses_from"<<endl;
+    // for(int i=0; i < N; i++){
+    //     for(int j=0; j < incoming_synapses_from[i][0]+1; j++)
+    //         cout<<" "<<incoming_synapses_from[i][j];
+    //     cout<<endl;
+    // }
+    // cout<<endl;
+
+    return 0;
 }
 
 int SimulationSingleton::createSynapses(){
@@ -342,7 +388,7 @@ void SimulationSingleton::sendNeuralNoise(){
 }
 
 void SimulationSingleton::sendSynapseNoise(){
-    // excitates some synapses
+    // excites some synapses
     for(int i=0; i<M; i++)
         if(syn_noise_period[i] > 0)
             if(vf_discrete::inBetween(time_now, syn_noise_period[i], dt))
