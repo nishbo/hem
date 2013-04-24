@@ -239,6 +239,14 @@ int SimulationSingleton::createNeuronStimulation(){
             Inoise2[i] = Inoise[i];
         }
         break;
+    case 2:
+        for(int i=0; i<N; i++){
+            Inoise[i] = normal(Imean, Isd, Imin, Imax);
+            if(Inoise[i]<15)
+                Inoise[i] = 0;
+            Inoise2[i] = Inoise[i];
+        }
+        break;
     default:
         error_number = 1;
     }
@@ -353,7 +361,7 @@ int SimulationSingleton::evolveAllNeurons(){
 
             // send signal to PREsynapses
             for(int j=0; j < incoming_synapses[i][0]; j++)
-                synapse_array[incoming_synapses[i][j+1]]->incSpike(time_now);
+                synapse_array[incoming_synapses[i][j+1]]->incAfterSpike(time_now);
         }
     }
 

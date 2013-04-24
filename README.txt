@@ -27,3 +27,4 @@ Delay types:
 Stimulation types:
 0: Uniform initial current distribution (Imin; Imax)
 1: Normal initial current distribution N(Imean, Isd) from Imin to Imax
+2: As in 1, but if I<15pA, I=0

@@ -4,6 +4,94 @@
 		"selected_items":
 		[
 			[
+				"syn",
+				"SynapseTsodyksMarkramRK"
+			],
+			[
+				"syna",
+				"SynapseTMSTDPAsymmetrical"
+			],
+			[
+				"synapse",
+				"synapse_array"
+			],
+			[
+				"vf",
+				"vf_file"
+			],
+			[
+				"vf_",
+				"vf_distributions"
+			],
+			[
+				"error",
+				"errorReport"
+			],
+			[
+				"import",
+				"import_neurons"
+			],
+			[
+				"crea",
+				"createSynapseStimulation"
+			],
+			[
+				"create",
+				"createNeuronStimulation"
+			],
+			[
+				"erro",
+				"errorReport"
+			],
+			[
+				"createSynapse",
+				"createSynapseLists"
+			],
+			[
+				"createName",
+				"createNamedSynapses"
+			],
+			[
+				"err",
+				"error_number"
+			],
+			[
+				"sim",
+				"SimulationSingleton"
+			],
+			[
+				"conn",
+				"connectivity_matrix"
+			],
+			[
+				"dela",
+				"delay_type"
+			],
+			[
+				"set",
+				"setDelaysCoord"
+			],
+			[
+				"sm",
+				"smallWorldTopology"
+			],
+			[
+				"topo",
+				"Topology"
+			],
+			[
+				"ran",
+				"randomTopology"
+			],
+			[
+				"neuron",
+				"neurons_in_simulation"
+			],
+			[
+				"neu",
+				"neurons_in_simulation"
+			],
+			[
 				"name",
 				"name_of_file"
 			],
@@ -20,42 +108,66 @@
 	"buffers":
 	[
 		{
-			"file": "/E/Programs/GitHub/hem/init/simulation.ini",
-			"settings":
-			{
-				"buffer_size": 632,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
-			"settings":
-			{
-				"buffer_size": 340,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
-			"settings":
-			{
-				"buffer_size": 260,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "simulation.cpp",
 			"settings":
 			{
-				"buffer_size": 10126,
+				"buffer_size": 10431,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "inout.cpp",
+			"file": "vfdistributions.cpp",
 			"settings":
 			{
-				"buffer_size": 14687,
+				"buffer_size": 1469,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "vfdistributions.h",
+			"settings":
+			{
+				"buffer_size": 780,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "main.cpp",
+			"settings":
+			{
+				"buffer_size": 1391,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "synapse.h",
+			"settings":
+			{
+				"buffer_size": 12471,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "synapse.cpp",
+			"settings":
+			{
+				"buffer_size": 61294,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Dayle Rees Color Schemes/Userscape.tmTheme",
+			"settings":
+			{
+				"buffer_size": 8955,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "cad.h",
+			"settings":
+			{
+				"buffer_size": 876,
 				"line_ending": "Windows"
 			}
 		},
@@ -63,15 +175,7 @@
 			"file": "/E/Programs/GitHub/hem/README.txt",
 			"settings":
 			{
-				"buffer_size": 678,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cad.h",
-			"settings":
-			{
-				"buffer_size": 1198,
+				"buffer_size": 710,
 				"line_ending": "Windows"
 			}
 		}
@@ -79,9 +183,13 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 334.0,
+		"height": 311.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
 			[
 				"inst",
 				"Package Control: Install Package"
@@ -91,7 +199,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 400.0
+		"width": 536.0
 	},
 	"console":
 	{
@@ -108,13 +216,37 @@
 	},
 	"file_history":
 	[
-		"/E/Programs/GitHub/hem/src/vffile.h",
-		"/E/Programs/GitHub/hem/src/vffile.cpp",
-		"/E/Programs/GitHub/hem/src/synapse.cpp",
-		"/E/Programs/GitHub/hem/src/synapse.h",
-		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/Programs/GitHub/hem/init/simulation.ini",
+		"/E/Programs/GitHub/hem/init/SynapseTMSTDPAsymmetrical.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Twilight.tmTheme",
+		"/E/YandexDisk/CPP/_SIMULATION_STORAGE/13.04.23_burst_disap_do_distr/sim1/data/weights.txt",
+		"/E/Programs/GitHub/hem/README.txt",
+		"/E/Programs/GitHub/hem/init/system.ini",
+		"/E/Programs/GitHub/hem/init/files.ini",
 		"/E/Programs/GitHub/hem/src/main.cpp",
+		"/E/Programs/GitHub/hem/src/simulation.cpp",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/Programs/GitHub/hem/src/topology.cpp",
+		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
+		"/E/Programs/GitHub/hem/src/vffile.cpp",
+		"/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
+		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkramRKNest.ini",
+		"/E/Programs/GitHub/hem/src/synapse.h",
+		"/E/Programs/GitHub/hem/src/synapse.cpp",
 		"/E/Programs/GitHub/hem/src/neuron.cpp",
+		"/E/Programs/GitHub/hem/src/topology.h",
+		"/E/Programs/GitHub/hem/src/neuron.h",
+		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
+		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
+		"/E/Programs/GitHub/hem/src/vfdiscrete.h",
+		"/E/Programs/GitHub/hem/src/vffile.h",
+		"/E/Programs/GitHub/hem/src/vfdistributions.h",
+		"/E/Programs/GitHub/hem/src/vfdistributions.cpp",
+		"/E/Programs/GitHub/hem/src/vfdiscrete.cpp",
+		"/E/Programs/GitHub/hem/src/simulation.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Monokai.tmTheme",
+		"/E/Programs/GitHub/hem/init/Files.ini",
 		"/E/Programs/GitHub/hem/idi.txt",
 		"/E/Programs/GitHub/hem/data/spikes.txt",
 		"/E/Programs/GitHub/hem/data/weights.txt",
@@ -122,7 +254,6 @@
 		"/E/Programs/GitHub/hem/data/current.txt",
 		"/E/Programs/GitHub/hem/data/conn_matr.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Distraction Free.sublime-settings",
-		"/E/Programs/GitHub/hem/src/topology.cpp",
 		"/E/Programs/GitHub/hem/src/hem.sublime-project",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/Base File.sublime-settings",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
@@ -148,6 +279,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"FF",
+			"varia",
+			"drand()",
+			";\n",
+			"VFD",
+			"vf",
+			"ENAB",
+			"iamalive",
+			"\n    // set random coordinates in box\n    x = VFDistributions::drand();\n    y = VFDistributions::drand();",
 			"tryFile",
 			"conio.h"
 		],
@@ -157,6 +297,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"uniform(0, 1)",
+			"vf_d",
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -167,23 +310,23 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/E/Programs/GitHub/hem/init/simulation.ini",
+					"file": "simulation.cpp",
 					"settings":
 					{
-						"buffer_size": 632,
+						"buffer_size": 10431,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								243,
-								243
+								2129,
+								2129
 							]
 						],
 						"settings":
@@ -276,28 +419,30 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1091.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
+					"file": "vfdistributions.cpp",
 					"settings":
 					{
-						"buffer_size": 340,
+						"buffer_size": 1469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								233,
-								233
+								654,
+								654
 							]
 						],
 						"settings":
@@ -390,7 +535,9 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -400,138 +547,18 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
+					"file": "vfdistributions.h",
 					"settings":
 					{
-						"buffer_size": 260,
+						"buffer_size": 780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								205,
-								205
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": false,
-							"sublimelinter_mark_style": "outline",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 3,
-					"file": "simulation.cpp",
-					"settings":
-					{
-						"buffer_size": 10126,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4359,
-								4359
+								535,
+								535
 							]
 						],
 						"settings":
@@ -629,25 +656,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1935.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "inout.cpp",
+					"buffer": 3,
+					"file": "main.cpp",
 					"settings":
 					{
-						"buffer_size": 14687,
+						"buffer_size": 1391,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2426,
-								2426
+								633,
+								633
 							]
 						],
 						"settings":
@@ -745,7 +772,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -753,23 +780,23 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
-					"buffer": 5,
-					"file": "/E/Programs/GitHub/hem/README.txt",
+					"buffer": 4,
+					"file": "synapse.h",
 					"settings":
 					{
-						"buffer_size": 678,
+						"buffer_size": 12471,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								107,
-								107
+								3045,
+								3045
 							]
 						],
 						"settings":
@@ -862,28 +889,267 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 892.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "synapse.cpp",
+					"settings":
+					{
+						"buffer_size": 61294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4530,
+								4530
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1991.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "cad.h",
+					"file": "/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Dayle Rees Color Schemes/Userscape.tmTheme",
 					"settings":
 					{
-						"buffer_size": 1198,
+						"buffer_size": 8955,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1038,
-								1038
+								4460,
+								4460
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2355.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "cad.h",
+					"settings":
+					{
+						"buffer_size": 876,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								43,
+								43
 							]
 						],
 						"settings":
@@ -983,6 +1249,120 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/E/Programs/GitHub/hem/README.txt",
+					"settings":
+					{
+						"buffer_size": 710,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								62,
+								62
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -1021,20 +1401,20 @@
 		"cols":
 		[
 			0.0,
-			0.595847750865,
+			0.554104350006,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
+			0.556084656085,
 			1.0
 		]
 	},
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":

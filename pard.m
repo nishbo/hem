@@ -2,13 +2,16 @@
 function pard
     fprintf('\n\t\tNew instance %4.0f\n', random('Uniform', 1, 99999));
 
-    LOAD_NEURON_PARAMETERS = 0;
+    LOAD_NEURON_PARAMETERS = 1;
     LOAD_POTENTIALS = 0;
     LOAD_SYNAPSE_DATA = 0;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
+    LOAD_CURRENTS = 0;
     
     CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;
+    CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;
+    CALCULATE_BG_CURRENT_HISTOGRAM = LOAD_NEURON_PARAMETERS * 1;
     
     CALCULATE_ACTIVITY_HISTOGRAM = LOAD_SPIKES * 1;
     CALCULATE_AVERAGE_ISI = LOAD_SPIKES * 0;
@@ -30,21 +33,26 @@ function pard
     p = fscanf(fid,'\nProbability of connection _=_ %f;');
     time_length = fscanf(fid,'\nLength of simulation (msec) _=_ %f;');
     tbe = fscanf(fid,'\nTime between exports (msec) _=_ %f');
+    fscanf(fid,'%s', 1);
+    tbvie = fscanf(fid,'\nTime between I/V exports (msec) _=_ %f');
     dt = fscanf(fid,';\nTime-step (msec) _=_ %f;');
     fclose(fid);
 
-    number_of_exports = floor(time_length / tbe) + 1;
+    number_of_exports = floor(time_length / tbvie) + 1;
     fprintf('Parameters loaded.\n');
 
     %% Analysing neuron_parameters.txt
     if LOAD_NEURON_PARAMETERS == 1
-        fid = fopen('data/parameters.txt');
+        fid = fopen('data/neuron_parameters.txt');
         fscanf(fid,'\n________Neurons potential threshold:\n');
         Vth = fscanf(fid,'%f ');
         Vth = Vth';
         fscanf(fid,'\n________Neurons Vrest:\n');
         Vrest = fscanf(fid,'%f ');
         Vrest = Vrest';
+        fscanf(fid,'\n________Neurons Ibg:\n');
+        Ibg = fscanf(fid,'%f ');
+        Ibg = Ibg';
         fclose(fid);
         fprintf('Neuron parameters loaded.\n');
     end
@@ -119,6 +127,24 @@ function pard
         fprintf('Connections loaded.\n');
     end
     
+    %% Analysing current.txt
+    if LOAD_CURRENTS == 1
+        fid = fopen('data/current.txt');
+        I = zeros(number_of_exports, N);
+        I_time = zeros(1, number_of_exports);
+        for i=1 : 1 : number_of_exports
+            I_time(i) = fscanf(fid, '_________Time = %f');
+            asd = fscanf(fid, '%f ', [1 N]);
+            for j=1 : 1 : N
+                I(i, j) = asd(j);
+            end
+            fscanf(fid, '\n');
+        end
+        fclose(fid);
+        fprintf('Currents loaded.\n');
+    end
+    
+    
     fprintf('\tSimulation loaded.\n\n');
 %%%%%%%%%%%%%%%%%%%%%%%%CALCULATING DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Calculate average potential
@@ -131,6 +157,37 @@ function pard
             V_average(i) = V_average(i) / N;
         end
         fprintf('Average potential calculated.\n');
+    end
+    
+    %% Calculate average current
+    if CALCULATE_AVERAGE_CURRENT == 1
+        I_average = zeros(1, number_of_exports);
+        I_sd = zeros(1, number_of_exports);
+        for i=1 : 1 : number_of_exports
+            for j=1 : 1 : N
+                I_average(i) =  I_average(i) + I(i, j);
+            end
+            I_average(i) = I_average(i) / N;
+            for j=1 : 1 : number_of_exports
+                I_sd(i) = I_sd(i) + (I_average(i) - I(i, j))^2;
+            end
+            I_sd(i) = sqrt(I_sd(i) / (N - 1));
+        end
+        fprintf('Average current calculated.\n');
+    end
+    
+    %% BG current histogram
+    if CALCULATE_BG_CURRENT_HISTOGRAM == 1
+        I_bg_min = min(min(Ibg));
+        I_bg_max = max(max(Ibg));
+        I_bg_N = 10;
+        I_bg_d = (I_bg_max - I_bg_min) / (I_bg_N - 1);
+        I_bg_hist = zeros(1, I_bg_N);
+        for i=1 : 1 : number_of_exports
+            buf00 = floor((Ibg(i) - I_bg_min) / I_bg_d) + 1;
+            I_bg_hist(buf00) = I_bg_hist(buf00) + 1;
+        end
+        I_bg_ind = I_bg_min : I_bg_d : I_bg_max;
     end
   
     %% Activity histogram
@@ -488,6 +545,31 @@ function pard
         hold on;
         plot(IBI_hist_ind, IBI_hist, 'k');
         title('InterBurst Interval Histogram')
+        xlabel('Time, ms');
+        ylabel(' ');
+        hold off;
+        plotnum = plotnum + 1;
+    end
+
+    %% Currents
+    if LOAD_CURRENTS == 1
+        figure(plotnum);
+        hold on;
+        errorbar(I_time, I_average, I_sd, 'k');
+        title('Average currents with sd')
+        xlabel('Time, ms');
+        ylabel('Synaptic current, pA');
+        axis([0 time_length min(min(I))*1.1 max(max(I))*1.1]);
+        hold off;
+        plotnum = plotnum + 1;
+    end
+    
+    %% Background currents
+    if CALCULATE_BG_CURRENT_HISTOGRAM == 1
+        figure(plotnum);
+        hold on;
+        plot(I_bg_ind, I_bg_hist, 'k');
+        title('Background current histogram')
         xlabel('Time, ms');
         ylabel(' ');
         hold off;

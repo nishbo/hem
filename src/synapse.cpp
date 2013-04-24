@@ -1601,7 +1601,7 @@ int SynapseTMSTDPAsymmetrical::initSynapsesLocal(){
 
     init_t_start = getParameterIni("t_start", buf30);
     init_type_of_weight = getParameterIni("type_of_weight", buf30);
-    init_weight = getParameterIni("weight", buf30);
+    init_weight = getParameterIni("Weight", buf30);
 
     init_A_plus = getParameterIni("A_plus", buf30);
     init_A_minus = getParameterIni("A_minus", buf30);

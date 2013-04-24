@@ -1,17 +1,20 @@
 function pard_weights
     fprintf('\t\tNew instance %5.0f\n', random('u',1,99999));
-    N = 500;
+    %Do not forget to set right amount of neurons in data
+    N = 500;    
     
+    %This part is about w
     weightmin = 0;
     weightmax = 1;
-    histparts = 101;
-    weight_histograms = [0 100000];
+    histparts = 101;    %Intervals in histogram
+    weight_histograms = [0];    %Where to plot histograms (time)
     weight_index = weightmin : (weightmax - weightmin) / (histparts - 1) : weightmax;
     
-    Aweightmin = -200;
+    %This part is about A*w
+    Aweightmin = -200;  
     Aweightmax = 200;
-    Ahistparts = 101;
-    Aweight_histograms = [0 100000];
+    Ahistparts = 101;   %Intervals in histogram
+    Aweight_histograms = [0];   %where to plot histograms (time)
     Aweight_index = Aweightmin : (Aweightmax - Aweightmin) / (Ahistparts - 1) : Aweightmax;
     
     %Finding A from export/synapse.txt

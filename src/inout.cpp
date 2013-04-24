@@ -127,6 +127,8 @@ int SimulationSingleton::outputParametersInFile(){
                         length_of_simulation);
     fprintf(param_file, "Time between exports (msec) _=_ %.2f;\n", \
                         time_between_exports);
+    fprintf(param_file, "Time between I/V exports (msec) _=_ %.2f;\n", \
+                        time_between_vi_exports);
     fprintf(param_file, "Time-step (msec) _=_ %.4f;\n", \
                         dt);
     fprintf(param_file, "\n");
@@ -150,6 +152,13 @@ int SimulationSingleton::outputParametersInFile(){
     buf31 = "";
     for(int i=0; i<N; i++)
         buf31+= convertDoubleToString(neuron_array[i]->Vrest) + " ";
+    fprintf(param_file, buf31.c_str());
+    fprintf(param_file, "\n");
+
+    fprintf(param_file, "________Neurons Ibg:\n");
+    buf31 = "";
+    for(int i=0; i<N; i++)
+        buf31+= convertDoubleToString(Inoise[i]) + " ";
     fprintf(param_file, buf31.c_str());
     fprintf(param_file, "\n");
 
