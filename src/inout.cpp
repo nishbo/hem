@@ -164,27 +164,18 @@ int SimulationSingleton::outputParametersInFile(){
 
     buf0 = 0;
     fprintf(param_file, "________Synapse delays:\n");
-    for(int i=0; i<N; i++){
-        buf31 = "";
-        for(int j=0; j<N; j++){
-            buf0 = i * N + j;
-            if(connectivity_matrix[buf0]>-1)
-                buf1 = synapse_array[connectivity_matrix[buf0]]->delay;
-            else
-                buf1 = 0;
-            buf1 = buf1 - (buf1 * 100 - (int)(buf1 * 100))/100;
-            buf31 += convertDoubleToString(buf1) + " ";
-        }
-        fprintf(param_file, buf31.c_str());
-        fprintf(param_file, "\n");
-    }
+    buf31 = "";
+    for(int i=0; i<M; i++)
+        buf31 += convertDoubleToString(i) + ": " + \
+                 convertDoubleToString(synapse_array[i]->delay) + "\n";
+    fprintf(param_file, buf31.c_str());
     fclose(param_file);
 
     return errorReport();
 }
 
 int SimulationSingleton::outputConnectivityMatrixInFile(){
-    // Saves parameters in parameters.txt
+    // Saves parameters in conn_matr.txt
     using namespace vf_file;
     if(!enable_test)
         if(!(tryFile(getFilenameFromIni(DATAFILES, FILE_EXP_CONN_MATR)))){
@@ -200,15 +191,19 @@ int SimulationSingleton::outputConnectivityMatrixInFile(){
     fprintf(param_file, "________Connectivity matrix:\n");
     for(int i=0; i<N; i++){
         buf31 = "";
-        for(int j=0; j<N; j++){
-            buf0 = i * N + j;
-            if(connectivity_matrix[buf0]>-1)
-                buf31+= "+ ";
-            else
+        buf0 = 0;
+        for(int j=0; j < outgoing_synapses_to[i][0]; j++){
+            while (buf0 < outgoing_synapses_to[i][j+1] && buf0 < N){
+                buf0++;
                 buf31 += "- ";
+            }
+            buf31 += "+ ";
+            buf0++;
         }
+        for(;buf0<N; buf0++)
+            buf31 += "- ";
+        buf31 += "\n";
         fprintf(param_file, buf31.c_str());
-        fprintf(param_file, "\n");
     }
     fclose(param_file);
     return errorReport();
@@ -262,18 +257,23 @@ void SimulationSingleton::outputSynapseDataInFile(double time){
 
 int SimulationSingleton::outputWeightsInFile(double time){
     fprintf(weight_file, "_________Time = %.2f\n", time);
-    for(int i=0; i < N; i++){
-        one_line = "";
-        for(int j=0; j < N; j++){
-            buf0 = i * N + j;
-            if(connectivity_matrix[buf0] > -1)
-                buf1 = synapse_array[connectivity_matrix[buf0]]->weight;
-            else
-                buf1 = 0;
-            one_line+= vf_file::convertDoubleToString(buf1) + " ";
+
+    for(int i=0; i<N; i++){
+        buf31 = "";
+        buf0 = 0;
+        for(int j=0; j < outgoing_synapses_to[i][0]; j++){
+            while (buf0 < outgoing_synapses_to[i][j+1] && buf0 < N){
+                buf0++;
+                buf31 += "0 ";
+            }
+            buf31 += vf_file::convertDoubleToString(\
+                synapse_array[outgoing_synapses[i][j+1]]->weight) + " ";
+            buf0++;
         }
-        fprintf(weight_file, one_line.c_str());
-        fprintf(weight_file, "\n");
+        for(;buf0<N; buf0++)
+            buf31 += "0 ";
+        buf31 += "\n";
+        fprintf(weight_file, buf31.c_str());
     }
 
     return 0;
@@ -309,21 +309,20 @@ int SimulationSingleton::exportSynapses(){
     FILE* fid = fopen(getFilenameFromIni(DATAFILES, FILE_EXP_SYNAPSES).c_str(), "w");
     double *arr;
 
-    one_line = "Number of synapses = " + \
+    buf31 = "Number of synapses = " + \
             convertDoubleToString(M) + "\n";
-    fprintf(fid, one_line.c_str());
+    fprintf(fid, buf31.c_str());
 
-    for(int i=0; i<N*N;i++)
-        if(connectivity_matrix[i]>-1){
-            one_line = convertDoubleToString(connectivity_matrix[i])+ ": ";
-            arr = synapse_array[connectivity_matrix[i]]->exportData();
-            one_line += "from " + convertDoubleToString(arr[1]) + \
-                    " to " + convertDoubleToString(arr[2]) + "; ";
-            for(int j=3; j<arr[0];j++)
-                one_line += convertDoubleToString(arr[j]) + " ";
-            one_line += "\n";
-            fprintf(fid, one_line.c_str());
-        }
+    for(int i=0; i<M; i++){
+        buf31 = convertDoubleToString(i)+ ": ";
+        arr = synapse_array[i]->exportData();
+        buf31 += "from " + convertDoubleToString(arr[1]) + \
+                " to " + convertDoubleToString(arr[2]) + "; ";
+        for(int j=3; j<arr[0];j++)
+            buf31 += convertDoubleToString(arr[j]) + " ";
+        buf31 += "\n";
+        fprintf(fid, buf31.c_str());
+    }
     fclose(fid);
     cout<<"Synapses exported.   ";
     return 0;

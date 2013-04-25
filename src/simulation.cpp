@@ -419,9 +419,8 @@ int SimulationSingleton::evolveAllSynapses(){
         buf1 = 0;
         for(int j=0; j < outgoing_synapses[i][0]; j++)
             buf1 += synapse_array[outgoing_synapses[i][j+1]]->evolve(dt, \
-                time_now, \
-                neuron_array[synapse_array[outgoing_synapses[i][j+1]]->from()]->V, \
-                neuron_array[synapse_array[outgoing_synapses[i][j+1]]->to()]->V);
+                time_now, neuron_array[i]->V, \
+                neuron_array[outgoing_synapses_to[i][j+1]]->V);
         neuron_array[i]->addCurrent(buf1);
     }
 
