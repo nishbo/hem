@@ -114,24 +114,36 @@ int SimulationSingleton::outputParametersInFile(){
     }
 
     fprintf(param_file, "________Simulation parameters:\n");
-    fprintf(param_file, "Type of neurons _=_ ");
+    fprintf(param_file, "Type of neurons = ");
     fprintf(param_file, neuron_array[0]->getName().c_str());
     fprintf(param_file, ";\n");
 
-    fprintf(param_file, "Type of synapses _=_ ");
+    fprintf(param_file, "Type of synapses = ");
     fprintf(param_file, synapse_array[0]->getName().c_str());
     fprintf(param_file, ";\n");
 
-    fprintf(param_file, "Neurons in simulation _=_ %d;\n", N);
-    fprintf(param_file, "Length of simulation (msec) _=_ %.2f;\n", \
+    fprintf(param_file, "Neurons in simulation = %d;\n", N);
+    fprintf(param_file, "Length of simulation (msec) = %.2f;\n", \
                         length_of_simulation);
-    fprintf(param_file, "Time between exports (msec) _=_ %.2f;\n", \
+    fprintf(param_file, "Time between exports (msec) = %.2f;\n", \
                         time_between_exports);
-    fprintf(param_file, "Time between I/V exports (msec) _=_ %.2f;\n", \
+    fprintf(param_file, "Time between I/V exports (msec) = %.2f;\n", \
                         time_between_vi_exports);
-    fprintf(param_file, "Time-step (msec) _=_ %.4f;\n", \
-                        dt);
+    fprintf(param_file, "Time-step (msec) = %.2f;\n", dt);
     fprintf(param_file, "\n");
+    fprintf(param_file, "Time between weight exports = %.2f;\n", time_between_weight_exports);
+    fprintf(param_file, "Amount of inhibitory neurons = %d;\n", amount_of_inh_neurons);
+
+    fprintf(param_file, "Type of stimulation = %d;\n", type_of_stimulation);
+    fprintf(param_file, "Synaptic noise frequency = %d;\n", syn_noise_freq_mean);
+    fprintf(param_file, "Tau stimulation = %.2f;\n", tau_stim);
+    fprintf(param_file, "Min noise = %.2f;\n", Imin);
+    fprintf(param_file, "Max noise = %.2f;\n", Imax);
+    fprintf(param_file, "Mean stimulation = %.2f;\n", Imean);
+    fprintf(param_file, "Sigma stimulation = %.2f;\n", Isd);
+
+    fprintf(param_file, "Import neurons = %d;\n", import_neurons);
+    fprintf(param_file, "Import synapses = %d;\n", import_synapses);
 
     fclose(param_file);
 

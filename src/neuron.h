@@ -7,6 +7,7 @@
 #include "vfdiscrete.h"
 #include "vfdistributions.h"
 #include "vffile.h"
+#include "cad.h"
 
 class Neuron{
 public:

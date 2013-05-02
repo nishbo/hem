@@ -40,6 +40,13 @@ double* Synapse::exportData(){
 }
 
 int Synapse::initSynapses(){
+    using namespace vf_file;
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "No data specified.\n");
+    fclose(fid);
     return 1;
 }
 
@@ -64,6 +71,13 @@ int SynapseStatic::initSynapsesLocal(){
     using namespace vf_file;
     std::string buf30 = loadFileToString("./init/SynapseStatic.ini");
     init_weight = getParameterIni("Weight", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "weight = %.2f;\n", init_weight);
+    fclose(fid);
 
     return 0;
 }
@@ -331,6 +345,38 @@ int SynapseTsodyksMarkramRK::initSynapsesLocal(){
 
     init_distribute_params = getParameterIni("DISTRIBUTE_PARAMETERS", buf30);
 
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
+    fprintf(fid, "x = %.2f;\n", init_x);
+    fprintf(fid, "y = %.2f;\n", init_y);
+    fprintf(fid, "z = %.2f;\n\n", init_z);
+
+    fprintf(fid, "Aee = %.2f;\n", init_Aee);
+    fprintf(fid, "Uee = %.2f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+
+    fprintf(fid, "Aei = %.2f;\n", init_Aei);
+    fprintf(fid, "Uei = %.2f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+
+    fprintf(fid, "Aie = %.2f;\n", init_Aie);
+    fprintf(fid, "Uie = %.2f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+
+    fprintf(fid, "Aii = %.2f;\n", init_Aii);
+    fprintf(fid, "Uii = %.2f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+
+    fprintf(fid, "DISTRIBUTE_PARAMETERS = %d;\n", init_distribute_params);
+    fclose(fid);
+
     return 0;
 }
 
@@ -554,6 +600,43 @@ int SynapseTsodyksMarkramRKNest::initSynapsesLocal(){
     init_tau_ge = getParameterIni("tau_ge", buf30);
     init_tau_gi = getParameterIni("tau_gi", buf30);
 
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
+    fprintf(fid, "x = %.2f;\n", init_x);
+    fprintf(fid, "y = %.2f;\n", init_y);
+    fprintf(fid, "z = %.2f;\n\n", init_z);
+
+    fprintf(fid, "Aee = %.2f;\n", init_Aee);
+    fprintf(fid, "Uee = %.2f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+
+    fprintf(fid, "Aei = %.2f;\n", init_Aei);
+    fprintf(fid, "Uei = %.2f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+
+    fprintf(fid, "Aie = %.2f;\n", init_Aie);
+    fprintf(fid, "Uie = %.2f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+
+    fprintf(fid, "Aii = %.2f;\n", init_Aii);
+    fprintf(fid, "Uii = %.2f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+
+    fprintf(fid, "g = %.2f;\n", init_g);
+    fprintf(fid, "Ee = %.2f;\n", init_Ee);
+    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fprintf(fid, "tau_ge = %.2f;\n", init_tau_ge);
+    fprintf(fid, "tau_gi = %.2f;\n", init_tau_gi);
+
+    fclose(fid);
+
     return 0;
 }
 
@@ -666,6 +749,19 @@ int SynapseSTDPG::initSynapsesLocal(){
     init_alpha = getParameterIni("alpha", buf30);
     init_tau_corr = getParameterIni("tau_corr", buf30);
     init_weight = getParameterIni("weight", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "g = %.2f\n", init_g);
+    fprintf(fid, "tau_s = %.2f\n", init_tau_s);
+    fprintf(fid, "lambda = %.2f\n", init_lambda);
+    fprintf(fid, "alpha = %.2f\n", init_alpha);
+    fprintf(fid, "tau_corr = %.2f\n", init_tau_corr);
+    fprintf(fid, "weight = %.2f\n", init_weight);
+
+    fclose(fid);
 
     return 0;
 }
@@ -977,6 +1073,43 @@ int SynapseTMSTDP::initSynapsesLocal(){
     init_tau_corr = getParameterIni("tau_corr", buf30);
     init_weight = getParameterIni("weight", buf30);
 
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
+    fprintf(fid, "x = %.2f;\n", init_x);
+    fprintf(fid, "y = %.2f;\n", init_y);
+    fprintf(fid, "z = %.2f;\n\n", init_z);
+
+    fprintf(fid, "Aee = %.2f;\n", init_Aee);
+    fprintf(fid, "Uee = %.2f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+
+    fprintf(fid, "Aei = %.2f;\n", init_Aei);
+    fprintf(fid, "Uei = %.2f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+
+    fprintf(fid, "Aie = %.2f;\n", init_Aie);
+    fprintf(fid, "Uie = %.2f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+
+    fprintf(fid, "Aii = %.2f;\n", init_Aii);
+    fprintf(fid, "Uii = %.2f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+
+    fprintf(fid, "t_start = %.2f;\n", init_t_start);
+    fprintf(fid, "type_of_weight = %d;\n", init_type_of_weight);
+    fprintf(fid, "lambda = %.2f;\n", init_lambda);
+    fprintf(fid, "alpha = %.2f;\n", init_alpha);
+    fprintf(fid, "tau_corr = %.2f;\n", init_tau_corr);
+    fprintf(fid, "weight = %.2f;\n", init_weight);
+    fclose(fid);
+
     return 0;
 }
 
@@ -1287,6 +1420,43 @@ int SynapseTMexcSTDP::initSynapsesLocal(){
     init_alpha = getParameterIni("alpha", buf30);
     init_tau_corr = getParameterIni("tau_corr", buf30);
     init_weight = getParameterIni("weight", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
+    fprintf(fid, "x = %.2f;\n", init_x);
+    fprintf(fid, "y = %.2f;\n", init_y);
+    fprintf(fid, "z = %.2f;\n\n", init_z);
+
+    fprintf(fid, "Aee = %.2f;\n", init_Aee);
+    fprintf(fid, "Uee = %.2f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+
+    fprintf(fid, "Aei = %.2f;\n", init_Aei);
+    fprintf(fid, "Uei = %.2f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+
+    fprintf(fid, "Aie = %.2f;\n", init_Aie);
+    fprintf(fid, "Uie = %.2f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+
+    fprintf(fid, "Aii = %.2f;\n", init_Aii);
+    fprintf(fid, "Uii = %.2f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+
+    fprintf(fid, "t_start = %.2f;\n", init_t_start);
+    fprintf(fid, "type_of_weight = %d;\n", init_type_of_weight);
+    fprintf(fid, "lambda = %.2f;\n", init_lambda);
+    fprintf(fid, "alpha = %.2f;\n", init_alpha);
+    fprintf(fid, "tau_corr = %.2f;\n", init_tau_corr);
+    fprintf(fid, "weight = %.2f;\n", init_weight);
+    fclose(fid);
 
     return 0;
 }
@@ -1610,6 +1780,47 @@ int SynapseTMSTDPAsymmetrical::initSynapsesLocal(){
 
     init_distribute_params = getParameterIni("DISTRIBUTE_PARAMETERS", buf30);
 
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
+    fprintf(fid, "x = %.2f;\n", init_x);
+    fprintf(fid, "y = %.2f;\n", init_y);
+    fprintf(fid, "z = %.2f;\n\n", init_z);
+
+    fprintf(fid, "Aee = %.2f;\n", init_Aee);
+    fprintf(fid, "Uee = %.2f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+
+    fprintf(fid, "Aei = %.2f;\n", init_Aei);
+    fprintf(fid, "Uei = %.2f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+
+    fprintf(fid, "Aie = %.2f;\n", init_Aie);
+    fprintf(fid, "Uie = %.2f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+
+    fprintf(fid, "Aii = %.2f;\n", init_Aii);
+    fprintf(fid, "Uii = %.2f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+
+    fprintf(fid, "t_start = %.2f;\n", init_t_start);
+    fprintf(fid, "type_of_weight = %d;\n", init_type_of_weight);
+    fprintf(fid, "Weight = %.2f;\n\n", init_weight);
+
+    fprintf(fid, "A_plus = %.2f;\n", init_A_plus);
+    fprintf(fid, "A_minus = %.2f;\n", init_A_minus);
+    fprintf(fid, "tau_corr_plus = %.2f;\n", init_tau_corr_plus);
+    fprintf(fid, "tau_corr_minus = %.2f;\n", init_tau_corr_minus);
+
+    fprintf(fid, "DISTRIBUTE_PARAMETERS = %d;\n", init_distribute_params);
+    fclose(fid);
+
     return 0;
 }
 
@@ -1671,6 +1882,18 @@ int SynapseGFirstType::initSynapsesLocal(){
     init_gs = getParameterIni("g_s", buf30);
     init_Ee = getParameterIni("Ee", buf30);
     init_Ei = getParameterIni("Ei", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "g = %.2f;\n", init_g);
+    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.2f;\n", init_gs);
+    fprintf(fid, "Ee = %.2f;\n", init_Ee);
+    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fclose(fid);
 
     return 0;
 }
@@ -1761,6 +1984,18 @@ int SynapseGFirstTypeWCUT::initSynapsesLocal(){
     init_gs = getParameterIni("g_s", buf30);
     init_Ee = getParameterIni("Ee", buf30);
     init_Ei = getParameterIni("Ei", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "g = %.2f;\n", init_g);
+    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.2f;\n", init_gs);
+    fprintf(fid, "Ee = %.2f;\n", init_Ee);
+    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fclose(fid);
 
     return 0;
 }
@@ -1855,6 +2090,18 @@ int SynapseGSecondType::initSynapsesLocal(){
     init_gs = getParameterIni("g_s", buf30);
     init_Ee = getParameterIni("Ee", buf30);
     init_Ei = getParameterIni("Ei", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "g = %.2f;\n", init_g);
+    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.2f;\n", init_gs);
+    fprintf(fid, "Ee = %.2f;\n", init_Ee);
+    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fclose(fid);
     
     return 0;
 }
@@ -1967,6 +2214,18 @@ int SynapseGSecondTypeWCUT::initSynapsesLocal(){
     init_gs = getParameterIni("g_s", buf30);
     init_Ee = getParameterIni("Ee", buf30);
     init_Ei = getParameterIni("Ei", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "g = %.2f;\n", init_g);
+    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.2f;\n", init_gs);
+    fprintf(fid, "Ee = %.2f;\n", init_Ee);
+    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fclose(fid);
     
     return 0;
 }

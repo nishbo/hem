@@ -7,6 +7,7 @@
 #include "vfdistributions.h"
 #include "vfdiscrete.h"
 #include "vffile.h"
+#include "cad.h"
 
 class Synapse{
 public:

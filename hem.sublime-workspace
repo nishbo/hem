@@ -1,0 +1,562 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"allsyn",
+				"allsynin	all_synapses_inc"
+			],
+			[
+				"for",
+				"for	my_for"
+			],
+			[
+				"out",
+				"outgoing_synapses"
+			],
+			[
+				"incomi",
+				"incoming_synapses_from"
+			],
+			[
+				"syn",
+				"SynapseTsodyksMarkramRK"
+			],
+			[
+				"syna",
+				"SynapseTMSTDPAsymmetrical"
+			],
+			[
+				"synapse",
+				"synapse_array"
+			],
+			[
+				"vf",
+				"vf_file"
+			],
+			[
+				"vf_",
+				"vf_distributions"
+			],
+			[
+				"error",
+				"errorReport"
+			],
+			[
+				"import",
+				"import_neurons"
+			],
+			[
+				"crea",
+				"createSynapseStimulation"
+			],
+			[
+				"create",
+				"createNeuronStimulation"
+			],
+			[
+				"erro",
+				"errorReport"
+			],
+			[
+				"createSynapse",
+				"createSynapseLists"
+			],
+			[
+				"createName",
+				"createNamedSynapses"
+			],
+			[
+				"err",
+				"error_number"
+			],
+			[
+				"sim",
+				"SimulationSingleton"
+			],
+			[
+				"conn",
+				"connectivity_matrix"
+			],
+			[
+				"dela",
+				"delay_type"
+			],
+			[
+				"set",
+				"setDelaysCoord"
+			],
+			[
+				"sm",
+				"smallWorldTopology"
+			],
+			[
+				"topo",
+				"Topology"
+			],
+			[
+				"ran",
+				"randomTopology"
+			],
+			[
+				"neuron",
+				"neurons_in_simulation"
+			],
+			[
+				"neu",
+				"neurons_in_simulation"
+			],
+			[
+				"name",
+				"name_of_file"
+			],
+			[
+				"try",
+				"tryReadFile"
+			],
+			[
+				"vfi",
+				"VFFile"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 81.0,
+		"selected_items":
+		[
+			[
+				"close",
+				"Project: Close"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Disable Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"upda",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"upgar",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"up",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"sql",
+				"Set Syntax: SQL"
+			],
+			[
+				"sq",
+				"Set Syntax: SQL"
+			],
+			[
+				"snippetfor",
+				"Snippet: For Loop"
+			],
+			[
+				"case",
+				"Package Control: Discover Packages"
+			],
+			[
+				"sideba",
+				"View: Toggle Side Bar"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 348.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/E/Programs/GitHub/hem/src/hem.sublime-project",
+		"/E/Programs/GitHub/hem/src/neuron.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/README.rst",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/SublimeLinter.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/sublimelinter/modules/c_cpplint.py",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.py",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/.codeintel/config",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/Default.sublime-commands",
+		"/E/Programs/GitHub/hem/src/neuron.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab2.3.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab3.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab4.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab2.2.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab2.1.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab1.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.3.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab3.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab4.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.2.txt",
+		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.1.txt",
+		"/E/Programs/GitHub/hem/src/cad.h",
+		"/E/Programs/GitHub/hem/README.txt",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Userscape.tmTheme",
+		"/E/Programs/GitHub/hem/init/Simulation.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/Programs/GitHub/hem/src/simulation.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/E/Programs/GitHub/hem/src/simulation.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses_inc.sublime-snippet",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses.sublime-snippet",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_doublefor.sublime-snippet",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_for.sublime-snippet",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/C++/for.sublime-snippet",
+		"/E/Programs/GitHub/hem/src/hem.sublime-workspace",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/E/Programs/GitHub/hem/src/synapse.h",
+		"/E/Programs/GitHub/hem/src/synapse.cpp",
+		"/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
+		"/E/Programs/GitHub/hem/init/SynapseSTDPG.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Dayle Rees Color Schemes/Userscape.tmTheme",
+		"/E/Programs/GitHub/hem/src/main.cpp",
+		"/E/Programs/GitHub/hem/src/vfdistributions.h",
+		"/E/Programs/GitHub/hem/src/vfdistributions.cpp",
+		"/E/Programs/GitHub/hem/init/simulation.ini",
+		"/E/Programs/GitHub/hem/init/SynapseTMSTDPAsymmetrical.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Twilight.tmTheme",
+		"/E/YandexDisk/CPP/_SIMULATION_STORAGE/13.04.23_burst_disap_do_distr/sim1/data/weights.txt",
+		"/E/Programs/GitHub/hem/init/system.ini",
+		"/E/Programs/GitHub/hem/init/files.ini",
+		"/E/Programs/GitHub/hem/src/topology.cpp",
+		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
+		"/E/Programs/GitHub/hem/src/vffile.cpp",
+		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkramRKNest.ini",
+		"/E/Programs/GitHub/hem/src/topology.h",
+		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
+		"/E/Programs/GitHub/hem/src/vfdiscrete.h",
+		"/E/Programs/GitHub/hem/src/vffile.h",
+		"/E/Programs/GitHub/hem/src/vfdiscrete.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Monokai.tmTheme",
+		"/E/Programs/GitHub/hem/init/Files.ini",
+		"/E/Programs/GitHub/hem/idi.txt",
+		"/E/Programs/GitHub/hem/data/spikes.txt",
+		"/E/Programs/GitHub/hem/data/weights.txt",
+		"/E/Programs/GitHub/hem/data/output.txt",
+		"/E/Programs/GitHub/hem/data/current.txt",
+		"/E/Programs/GitHub/hem/data/conn_matr.txt",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Distraction Free.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/Base File.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Side Bar.sublime-settings",
+		"/E/YandexDisk/C/avp/rand_distrs.c",
+		"/E/YandexDisk/C/avp/net2.c",
+		"/E/YandexDisk/C/avp/net.c"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"\\",
+			"node",
+			"exe",
+			"sublimelinter_executable_map",
+			"node",
+			"Configuring",
+			"exec",
+			"C",
+			"loop",
+			"when",
+			"exception",
+			"end",
+			"as",
+			"drop",
+			"table",
+			"execute",
+			"else",
+			"then",
+			"if",
+			"loop",
+			"in",
+			"for",
+			"exception",
+			"From",
+			"Select",
+			"cursor",
+			"is",
+			"procedure",
+			"replace",
+			"or",
+			"create",
+			"rubr",
+			"publikation",
+			"v_string",
+			"values",
+			"update",
+			"after",
+			"position",
+			"release_magasin",
+			"magasin",
+			"insert",
+			"end",
+			"then",
+			"if",
+			"where",
+			"from",
+			"into",
+			"select",
+			"begin",
+			"declare",
+			"for each row",
+			"for",
+			"on",
+			"delete",
+			"or",
+			"OR",
+			"or",
+			"OR",
+			"or",
+			"update",
+			"before",
+			"magazin",
+			"trigger",
+			"create or replace",
+			"create",
+			"PROGRAM_ERROR",
+			"when",
+			"values",
+			"insert",
+			"close",
+			"into",
+			"fetch",
+			"open",
+			"and",
+			"new_publikation",
+			"NEW_Publikation",
+			"end",
+			"else",
+			"then",
+			"if",
+			"f",
+			"rubr",
+			"publikation",
+			"release_magazin",
+			"magazin",
+			"loop",
+			"in",
+			"for",
+			"exception",
+			"begin",
+			"from",
+			"select",
+			"cursor",
+			"is",
+			"create",
+			"             ",
+			"            ",
+			"           ",
+			"          ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"   ",
+			"  ",
+			"procedure",
+			"	",
+			"then",
+			"=",
+			":=",
+			"+",
+			"+ ",
+			"and",
+			"close",
+			"loop",
+			"if",
+			"end",
+			"into",
+			"loop",
+			"while",
+			"fetch",
+			"open",
+			"begin",
+			"release_magazin",
+			"magazin",
+			"Publikation"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"uniform(0, 1)",
+			"vf_d",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				1,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				0,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.488419881006,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.721948137855,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"neuroh",
+				"src/neuron.h"
+			],
+			[
+				"neurcpp",
+				"src/neuron.cpp"
+			],
+			[
+				"neurocpp",
+				"src/neuron.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 291.0,
+	"status_bar_visible": true
+}

@@ -21,5 +21,7 @@
 #define FILE_EXP_NEURONS            "EXP_NEURONS"
 #define FILE_EXP_SYNAPSES           "EXP_SYNAPSES"
 #define FILE_EXP_CURRENT            "EXP_CURRENT"
+#define FILE_EXP_INIT_NEURONS       "EXP_INIT_NEURONS"
+#define FILE_EXP_INIT_SYNAPSES      "EXP_INIT_SYNAPSES"
 
 #endif // CAD_H

@@ -27,15 +27,15 @@ function pard
     %% Analyzing parameters.txt
     fid = fopen('data/parameters.txt');
     fscanf(fid,'________Simulation parameters:\n');
-    ton = fscanf(fid,'Type of neurons _=_ %s');
-    tos = fscanf(fid,'\nType of synapses _=_ %s');
-    N = fscanf(fid,'Neurons in simulation _=_ %f;');
-    p = fscanf(fid,'\nProbability of connection _=_ %f;');
-    time_length = fscanf(fid,'\nLength of simulation (msec) _=_ %f;');
-    tbe = fscanf(fid,'\nTime between exports (msec) _=_ %f');
+    ton = fscanf(fid,'Type of neurons = %s');
+    tos = fscanf(fid,'\nType of synapses = %s');
+    N = fscanf(fid,'Neurons in simulation = %f;');
+    p = fscanf(fid,'\nProbability of connection = %f;');
+    time_length = fscanf(fid,'\nLength of simulation (msec) = %f;');
+    tbe = fscanf(fid,'\nTime between exports (msec) = %f');
     fscanf(fid,'%s', 1);
-    tbvie = fscanf(fid,'\nTime between I/V exports (msec) _=_ %f');
-    dt = fscanf(fid,';\nTime-step (msec) _=_ %f;');
+    tbvie = fscanf(fid,'\nTime between I/V exports (msec) = %f');
+    dt = fscanf(fid,';\nTime-step (msec) = %f;');
     fclose(fid);
 
     number_of_exports = floor(time_length / tbvie) + 1;

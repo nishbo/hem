@@ -57,9 +57,23 @@ int NeuronLeakyIAF::initNeuronsLocal(){
     init_Vth = getParameterIni("Vth", buf30);
     init_Vreset = getParameterIni("Vreset", buf30);
     init_Vrest = getParameterIni("Vrest", buf30);
-    init_V = getParameterIni("V", buf30);
+    init_V = getParameterIni("INITIAL_POTENTIAL", buf30);
     init_tau_ref_abs_exc = getParameterIni("tau_ref_excitatory", buf30);
-    init_tau_ref_abs_inh = getParameterIni("tau_ref_abs_inhibitory", buf30);
+    init_tau_ref_abs_inh = getParameterIni("tau_ref_inhibitory", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_NEURONS).c_str(), "w");
+    if(!fid){
+        exit(13);
+    }
+    fprintf(fid, "Rin = %.2f;\n", init_Rin);
+    fprintf(fid, "tau_m = %.2f;\n", init_tau_m);
+    fprintf(fid, "Vth = %.2f;\n", init_Vth);
+    fprintf(fid, "Vreset = %.2f;\n", init_Vreset);
+    fprintf(fid, "Vrest = %.2f;\n", init_Vrest);
+    fprintf(fid, "INITIAL_POTENTIAL = %.2f;\n", init_V);
+    fprintf(fid, "tau_ref_excitatory = %.2f;\n", init_tau_ref_abs_exc);
+    fprintf(fid, "tau_ref_inhibitory = %.2f;\n", init_tau_ref_abs_inh);
+    fclose(fid);
 
     return 0;
 }
@@ -159,7 +173,7 @@ int NeuronHodgkinHuxleyRK::initNeuronsLocal(){
 
     init_Vth = getParameterIni("Vth", buf30);
     init_Vrest = getParameterIni("Vrest", buf30);
-    init_V = getParameterIni("V", buf30);
+    init_V = getParameterIni("INITIAL_POTENTIAL", buf30);
     init_tau_spike = getParameterIni("tau_spike", buf30);
     init_g_Na = getParameterIni("g_Na", buf30);
     init_g_K = getParameterIni("g_K", buf30);
@@ -168,10 +182,31 @@ int NeuronHodgkinHuxleyRK::initNeuronsLocal(){
     init_E_K = getParameterIni("E_K", buf30);
     init_E_L = getParameterIni("E_L", buf30);
     init_C_mem = getParameterIni("C_mem", buf30);
-    init_n = getParameterIni("n", buf30);
-    init_m = getParameterIni("m", buf30);
-    init_h = getParameterIni("h", buf30);
+    init_n = getParameterIni("INITIAL_n", buf30);
+    init_m = getParameterIni("INITIAL_m", buf30);
+    init_h = getParameterIni("INITIAL_h", buf30);
     init_divider = getParameterIni("divider", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_NEURONS).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "Vth = %.2f;\n", init_Vth);
+    fprintf(fid, "tau_spike = %.2f;\n", init_tau_spike);
+    fprintf(fid, "Vrest = %.2f;\n", init_Vrest);
+    fprintf(fid, "INITIAL_POTENTIAL = %.2f;\n", init_V);
+    fprintf(fid, "g_Na = %.2f;\n", init_g_Na);
+    fprintf(fid, "g_K = %.2f;\n", init_g_K);
+    fprintf(fid, "g_L = %.2f;\n", init_g_L);
+    fprintf(fid, "E_Na = %.2f;\n", init_E_Na);
+    fprintf(fid, "E_K = %.2f;\n", init_E_K);
+    fprintf(fid, "E_L = %.2f;\n", init_E_L);
+    fprintf(fid, "C_mem = %.2f;\n", init_C_mem);
+    fprintf(fid, "n = %.2f;\n", init_n);
+    fprintf(fid, "m = %.2f;\n", init_m);
+    fprintf(fid, "h = %.2f;\n", init_h);
+    fprintf(fid, "divider = %.2f;\n", init_divider);
+    fclose(fid);
 
     return 0;
 }
