@@ -260,7 +260,8 @@ void SimulationSingleton::outputSynapseDataInFile(double time){
         fprintf(synapse_file, "_________Time = %.2f\n", time);
         one_line = "";
         for(int i=1; i<buffer[0]; i++){
-            one_line += vf_file::convertDoubleToString(buffer[i]) + " ";
+            one_line += vf_file::convertDoubleToString(buffer[i] * \
+                dt / time_between_vi_exports) + " ";
         }
         fprintf(synapse_file, one_line.c_str());
         fprintf(synapse_file, "\n");

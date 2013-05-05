@@ -4,7 +4,7 @@ function pard
 
     LOAD_NEURON_PARAMETERS = 0;
     LOAD_POTENTIALS = 0;
-    LOAD_SYNAPSE_DATA = 0;
+    LOAD_SYNAPSE_DATA = 1;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
     LOAD_CURRENTS = 0;
@@ -38,7 +38,7 @@ function pard
     dt = fscanf(fid,';\nTime-step (msec) = %f;');
     fclose(fid);
 
-    number_of_exports = floor(time_length / tbvie) + 1;
+    number_of_exports = floor(time_length / tbvie*0.6) + 1;
     fprintf('Parameters loaded.\n');
 
     %% Analysing neuron_parameters.txt

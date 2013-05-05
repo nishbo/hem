@@ -70,6 +70,10 @@ public:
     double x, y, z, u;
     double tau_one, tau_rec, tau_facil, U, A;
     int exc;
+
+    static int synamount;
+    static double xav, yav, zav, uav;
+    static double* innerDataArr;
     // Runge-Kutta stuff:
     double k_1_x, k_1_y, k_1_z, k_1_u;
     double k_2_x, k_2_y, k_2_z, k_2_u;
@@ -95,6 +99,7 @@ public:
     static int initSynapsesLocal();
     int importData(double *arr);
     int numEssentialVariables();
+    double* getInnerData();
 };
 
 class SynapseTsodyksMarkramRKNest: public Synapse{

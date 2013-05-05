@@ -144,6 +144,12 @@ double SynapseTsodyksMarkramRK::init_Uii = 0.04;
 double SynapseTsodyksMarkramRK::init_tau_recii = 100;
 double SynapseTsodyksMarkramRK::init_tau_facilii = 1000;
 int SynapseTsodyksMarkramRK::init_distribute_params = 0;
+int SynapseTsodyksMarkramRK::synamount = 0;
+double SynapseTsodyksMarkramRK::xav = 0;
+double SynapseTsodyksMarkramRK::yav = 0;
+double SynapseTsodyksMarkramRK::zav = 0;
+double SynapseTsodyksMarkramRK::uav = 0;
+double* SynapseTsodyksMarkramRK::innerDataArr = NULL;
 
 void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
                                     int preex, int posex, double dt){
@@ -199,6 +205,8 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
     y = init_y;
     z = init_z;
     u = U;
+
+    synamount++;
 }
 
 double SynapseTsodyksMarkramRK::Xr(double x1, double y1, double z1, double u1, \
@@ -263,6 +271,11 @@ double SynapseTsodyksMarkramRK::evolve(double dt, double time, \
     if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
 
     out_current = A * y;
+
+    xav += x;
+    yav += y;
+    zav += z;
+    uav += u;
 
     return moveDeliveries();
 }
@@ -381,7 +394,26 @@ int SynapseTsodyksMarkramRK::initSynapsesLocal(){
 }
 
 int SynapseTsodyksMarkramRK::initSynapses(){
+    synamount = 0;
+    xav = 0;
+    yav = 0;
+    zav = 0;
+    uav = 0;
     return initSynapsesLocal();
+}
+
+double* SynapseTsodyksMarkramRK::getInnerData(){
+    innerDataArr = new double [5];
+    innerDataArr[0] = 5;
+    innerDataArr[1] = xav / synamount;
+    innerDataArr[2] = yav / synamount;
+    innerDataArr[3] = zav / synamount;
+    innerDataArr[4] = uav / synamount;
+    xav = 0;
+    yav = 0;
+    zav = 0;
+    uav = 0;
+    return innerDataArr;
 }
 
 /// Tsodyks-Markram rk nest style
