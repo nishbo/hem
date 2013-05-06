@@ -958,7 +958,10 @@ double SynapseTMSTDP::evolve(double dt, double time, \
     k_1_x = dt * Xr(x, y, z, u, time, dt);
     k_1_y = dt * Yr(x, y, z, u, time, dt);
     k_1_z = dt * Zr(x, y, z, u, time, dt);
-    k_1_u = dt * Ur(x, y, z, u, time, dt);
+    if(exc)
+        k_1_u = dt * U;
+    else
+        k_1_u = dt * Ur(x, y, z, u, time, dt);
 
     k_2_x = dt * Xr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
@@ -966,7 +969,10 @@ double SynapseTMSTDP::evolve(double dt, double time, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
     k_2_z = dt * Zr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
-    k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+    if(exc)
+        k_2_u = dt * k_1_u;
+    else
+        k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
 
     k_3_x = dt * Xr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
@@ -975,18 +981,17 @@ double SynapseTMSTDP::evolve(double dt, double time, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
     k_3_z = dt * Zr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
-    k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+    if(exc)
+        k_3_u = dt * k_2_u;
+    else
+        k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
-
-    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
 
     x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
     y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
     z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
-    u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
+    if(!exc)
+        u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
 
     if(x >= 1) x = 0.9999999; if(x<=0) x = 0.0000001;
     if(y >= 1) y = 0.9999999; if(y<=0) y = 0.0000001;
@@ -1306,7 +1311,10 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
     k_1_x = dt * Xr(x, y, z, u, time, dt);
     k_1_y = dt * Yr(x, y, z, u, time, dt);
     k_1_z = dt * Zr(x, y, z, u, time, dt);
-    k_1_u = dt * Ur(x, y, z, u, time, dt);
+    if(exc)
+        k_1_u = dt * U;
+    else
+        k_1_u = dt * Ur(x, y, z, u, time, dt);
 
     k_2_x = dt * Xr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
@@ -1314,7 +1322,10 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
     k_2_z = dt * Zr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
-    k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+    if(exc)
+        k_2_u = dt * k_1_u;
+    else
+        k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
 
     k_3_x = dt * Xr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
@@ -1323,18 +1334,17 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
     k_3_z = dt * Zr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
-    k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+    if(exc)
+        k_3_u = dt * k_2_u;
+    else
+        k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
-
-    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
 
     x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
     y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
     z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
-    u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
+    if(!exc)
+        u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
 
     if(x >= 1) x = 0.9999999; if(x<=0) x = 0.0000001;
     if(y >= 1) y = 0.9999999; if(y<=0) y = 0.0000001;
@@ -1660,7 +1670,10 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
     k_1_x = dt * Xr(x, y, z, u, time, dt);
     k_1_y = dt * Yr(x, y, z, u, time, dt);
     k_1_z = dt * Zr(x, y, z, u, time, dt);
-    k_1_u = dt * Ur(x, y, z, u, time, dt);
+    if(exc)
+        k_1_u = dt * U;
+    else
+        k_1_u = dt * Ur(x, y, z, u, time, dt);
 
     k_2_x = dt * Xr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
@@ -1668,7 +1681,10 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
     k_2_z = dt * Zr(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
-    k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
+    if(exc)
+        k_2_u = dt * k_1_u;
+    else
+        k_2_u = dt * Ur(x + k_1_x/2.0, y + k_1_y/2.0, z + k_1_z/2.0, \
                     u + k_1_u/2.0, time + dt/2.0, dt);
 
     k_3_x = dt * Xr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
@@ -1677,13 +1693,17 @@ double SynapseTMSTDPAsymmetrical::evolve(double dt, double time, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
     k_3_z = dt * Zr(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
-    k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
+    if(exc)
+        k_3_u = dt * k_2_u;
+    else
+        k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
 
-    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
-    k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
+    y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
+    z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
+    if(!exc)
+        u += (k_1_u + 2.0*k_2_u + 2.0*k_3_u + k_4_u)/6.0;
 
     x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
     y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
