@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"time",
+				"time_between_vi_exports"
+			],
+			[
+				"iamal",
+				"iamalive	test-working-part"
+			],
+			[
+				"file",
+				"FILE_EXP_INIT_SYNAPSES"
+			],
+			[
+				"fp",
+				"fprintf	fprintf …"
+			],
+			[
+				"ini",
+				"init_tau_ref_abs_inh"
+			],
+			[
+				"tau",
+				"tau_ref_inhibitory"
+			],
+			[
+				"initau",
+				"init_tau_ref_abs_exc"
+			],
+			[
+				"tau_ref",
+				"tau_ref_excitatory"
+			],
+			[
+				"vre",
+				"Vrest"
+			],
+			[
+				"fprintf",
+				"fprintf	print-param-to-file"
+			],
+			[
+				"fprint",
+				"fprintf	print-param-to-file"
+			],
+			[
+				"impor",
+				"import_synapses"
+			],
+			[
+				"fprin",
+				"fprintf	print-param-to-file"
+			],
+			[
+				"fpri",
+				"fprintf	print-param-to-file"
+			],
+			[
+				"fpr",
+				"fprintf	print-param-to-file"
+			],
+			[
+				"synan",
+				"syn_noise_freq_mean"
+			],
+			[
+				"amoun",
+				"amount_of_inh_neurons"
+			],
+			[
+				"param",
+				"param_file"
+			],
+			[
 				"allsyn",
 				"allsynin	all_synapses_inc"
 			],
@@ -123,16 +195,68 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "init/Simulation.ini",
+			"settings":
+			{
+				"buffer_size": 735,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "README.txt",
+			"settings":
+			{
+				"buffer_size": 710,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "data/parameters.txt",
+			"settings":
+			{
+				"buffer_size": 590,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "init/files.ini",
+			"settings":
+			{
+				"buffer_size": 685,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "data/init_synapse_params.txt",
+			"settings":
+			{
+				"buffer_size": 346,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "init/SynapseTsodyksMarkram.ini",
+			"settings":
+			{
+				"buffer_size": 286,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 81.0,
+		"height": 104.0,
 		"selected_items":
 		[
 			[
 				"close",
 				"Project: Close"
+			],
+			[
+				"Snippet: pr",
+				"Snippet: print-param-to-file"
 			],
 			[
 				"insta",
@@ -212,8 +336,22 @@
 	},
 	"file_history":
 	[
-		"/E/Programs/GitHub/hem/src/hem.sublime-project",
+		"/E/Programs/GitHub/hem/src/synapse.cpp",
+		"/E/Programs/GitHub/hem/src/synapse.h",
+		"/E/Programs/GitHub/hem/src/main.cpp",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/test-working-part.sublime-snippet",
+		"/E/Programs/GitHub/hem/src/simulation.cpp",
+		"/E/Programs/GitHub/hem/src/cad.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/open-file.sublime-snippet",
+		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
+		"/E/Programs/GitHub/hem/data/init_neuron_params.txt",
 		"/E/Programs/GitHub/hem/src/neuron.cpp",
+		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/print-param-to-file.sublime-snippet",
+		"/E/Programs/GitHub/hem/src/neuron.h",
+		"/E/Programs/GitHub/hem/src/simulation.h",
+		"/E/Programs/GitHub/hem/src/hem.sublime-project",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/README.rst",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
@@ -222,9 +360,7 @@
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.py",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/.codeintel/config",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/Default.sublime-commands",
-		"/E/Programs/GitHub/hem/src/neuron.h",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
-		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab2.3.txt",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab3.txt",
@@ -237,15 +373,11 @@
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab4.txt",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.2.txt",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.1.txt",
-		"/E/Programs/GitHub/hem/src/cad.h",
 		"/E/Programs/GitHub/hem/README.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Userscape.tmTheme",
 		"/E/Programs/GitHub/hem/init/Simulation.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
-		"/E/Programs/GitHub/hem/src/inout.cpp",
-		"/E/Programs/GitHub/hem/src/simulation.h",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
-		"/E/Programs/GitHub/hem/src/simulation.cpp",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses_inc.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_doublefor.sublime-snippet",
@@ -253,12 +385,9 @@
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/C++/for.sublime-snippet",
 		"/E/Programs/GitHub/hem/src/hem.sublime-workspace",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/E/Programs/GitHub/hem/src/synapse.h",
-		"/E/Programs/GitHub/hem/src/synapse.cpp",
 		"/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
 		"/E/Programs/GitHub/hem/init/SynapseSTDPG.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Dayle Rees Color Schemes/Userscape.tmTheme",
-		"/E/Programs/GitHub/hem/src/main.cpp",
 		"/E/Programs/GitHub/hem/src/vfdistributions.h",
 		"/E/Programs/GitHub/hem/src/vfdistributions.cpp",
 		"/E/Programs/GitHub/hem/init/simulation.ini",
@@ -272,7 +401,6 @@
 		"/E/Programs/GitHub/hem/src/vffile.cpp",
 		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkramRKNest.ini",
 		"/E/Programs/GitHub/hem/src/topology.h",
-		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
 		"/E/Programs/GitHub/hem/src/vfdiscrete.h",
 		"/E/Programs/GitHub/hem/src/vffile.h",
 		"/E/Programs/GitHub/hem/src/vfdiscrete.cpp",
@@ -308,6 +436,57 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"SynapseTsodyksMarkramRK",
+			"double",
+			"outputSynapseDataInFile",
+			"init_tau_facilii",
+			"init_type_of_weight",
+			"type_",
+			"init_Ei",
+			"getParameterIni",
+			"inits",
+			"initsy",
+			"init_weight",
+			"init_distribute_params",
+			"getParameterIni",
+			"inits",
+			"init_tau_facilii",
+			"init_weight",
+			"getParameterIni",
+			"inits",
+			"init_tau_facilii",
+			"init_weight",
+			"getParameterIni",
+			"inits",
+			"init_weight",
+			"getParameterIni",
+			"inits",
+			"init_tau_gi",
+			"getParameterIni",
+			"inits",
+			"4",
+			"initsy",
+			"DISTRIBUTE_PARAMETERS",
+			"init_distribute_params",
+			"\"\n",
+			"S\"",
+			"DISTRIBUTE_PARAMETERS",
+			"getParameterIni",
+			"initsy",
+			"divider",
+			" \"",
+			"divider",
+			"FILE_EXP_INIT_SYNAPSES",
+			"initneur",
+			"initneu",
+			"initneuronslo",
+			");\n",
+			"param_file",
+			".4f",
+			"_=_",
+			"_",
+			"topo",
+			"#",
 			"\\",
 			"node",
 			"exe",
@@ -384,58 +563,7 @@
 			"and",
 			"new_publikation",
 			"NEW_Publikation",
-			"end",
-			"else",
-			"then",
-			"if",
-			"f",
-			"rubr",
-			"publikation",
-			"release_magazin",
-			"magazin",
-			"loop",
-			"in",
-			"for",
-			"exception",
-			"begin",
-			"from",
-			"select",
-			"cursor",
-			"is",
-			"create",
-			"             ",
-			"            ",
-			"           ",
-			"          ",
-			"         ",
-			"        ",
-			"       ",
-			"      ",
-			"     ",
-			"    ",
-			"   ",
-			"  ",
-			"procedure",
-			"	",
-			"then",
-			"=",
-			":=",
-			"+",
-			"+ ",
-			"and",
-			"close",
-			"loop",
-			"if",
-			"end",
-			"into",
-			"loop",
-			"while",
-			"fetch",
-			"open",
-			"begin",
-			"release_magazin",
-			"magazin",
-			"Publikation"
+			"end"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -456,8 +584,61 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "init/Simulation.ini",
+					"settings":
+					{
+						"buffer_size": 735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								128,
+								128
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "README.txt",
+					"settings":
+					{
+						"buffer_size": 710,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		},
 		{
@@ -466,8 +647,113 @@
 			]
 		},
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 2,
+					"file": "data/parameters.txt",
+					"settings":
+					{
+						"buffer_size": 590,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "init/files.ini",
+					"settings":
+					{
+						"buffer_size": 685,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								240,
+								240
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "data/init_synapse_params.txt",
+					"settings":
+					{
+						"buffer_size": 346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								224,
+								224
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "init/SynapseTsodyksMarkram.ini",
+					"settings":
+					{
+						"buffer_size": 286,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -505,13 +791,13 @@
 		"cols":
 		[
 			0.0,
-			0.488419881006,
+			0.543054626248,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.721948137855,
+			0.517658045924,
 			1.0
 		]
 	},
@@ -530,6 +816,98 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"syna",
+				"src/synapse.h"
+			],
+			[
+				"syn",
+				"src/synapse.cpp"
+			],
+			[
+				"cad",
+				"src/cad.h"
+			],
+			[
+				"sim",
+				"src/simulation.cpp"
+			],
+			[
+				"mai",
+				"src/main.cpp"
+			],
+			[
+				"read",
+				"README.txt"
+			],
+			[
+				"synapts",
+				"init/SynapseTsodyksMarkram.ini"
+			],
+			[
+				"syncpp",
+				"src/synapse.cpp"
+			],
+			[
+				"synacpp",
+				"src/synapse.cpp"
+			],
+			[
+				"synah",
+				"src/synapse.h"
+			],
+			[
+				"inits",
+				"data/init_synapse_params.txt"
+			],
+			[
+				"init",
+				"data/init_neuron_params.txt"
+			],
+			[
+				"hod",
+				"init/NeuronHodgkinHuxley.ini"
+			],
+			[
+				"neuc",
+				"src/neuron.cpp"
+			],
+			[
+				"neuin",
+				"init/NeuronLeakyIAF.ini"
+			],
+			[
+				"neucpp",
+				"src/neuron.cpp"
+			],
+			[
+				"neuh",
+				"src/neuron.h"
+			],
+			[
+				"file",
+				"init/files.ini"
+			],
+			[
+				"para",
+				"data/parameters.txt"
+			],
+			[
+				"simu",
+				"src/simulation.cpp"
+			],
+			[
+				"simuh",
+				"src/simulation.h"
+			],
+			[
+				"ini",
+				"init/Simulation.ini"
+			],
+			[
+				"ino",
+				"src/inout.cpp"
+			],
 			[
 				"neuroh",
 				"src/neuron.h"

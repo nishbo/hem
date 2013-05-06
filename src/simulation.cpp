@@ -416,13 +416,11 @@ int SimulationSingleton::evolveAllNeurons(){
 }
 
 int SimulationSingleton::evolveAllSynapses(){
-    for(int i=0; i<N; i++){
-        buf1 = 0;
-        for(int j=0; j < outgoing_synapses[i][0]; j++)
-            buf1 += synapse_array[outgoing_synapses[i][j+1]]->evolve(dt, \
-                time_now, neuron_array[i]->V, \
-                neuron_array[outgoing_synapses_to[i][j+1]]->V);
-        neuron_array[i]->addCurrent(buf1);
+    for(int i=0; i < M; i++){
+        neuron_array[synapse_array[i]->to()]->addCurrent(\
+            synapse_array[i]->evolve(dt, time_now, \
+                neuron_array[synapse_array[i]->from()]->V, \
+                neuron_array[synapse_array[i]->to()]->V));
     }
 
     return 0;

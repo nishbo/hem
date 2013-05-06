@@ -38,7 +38,7 @@ function pard
     dt = fscanf(fid,';\nTime-step (msec) = %f;');
     fclose(fid);
 
-    number_of_exports = floor(time_length / tbvie*0.6) + 1;
+    number_of_exports = floor(time_length / tbvie) + 1;
     fprintf('Parameters loaded.\n');
 
     %% Analysing neuron_parameters.txt
