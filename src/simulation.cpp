@@ -120,39 +120,35 @@ int SimulationSingleton::createNamedSynapses(){
         break;
     case 2:
         for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseGFirstType;
+            synapse_array[i] = new SynapseSTDPG;
         break;
     case 3:
         for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseGSecondType;
+            synapse_array[i] = new SynapseTMSTDP;
         break;
     case 4:
         for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseGFirstTypeWCUT;
+            synapse_array[i] = new SynapseTsodyksMarkramRKNest;
         break;
     case 5:
         for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseGSecondTypeWCUT;
-        break;
-    case 6:
-        for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseSTDPG;
-        break;
-    case 7:
-        for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseTMSTDP;
-        break;
-    case 8:
-        for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseTMSTDPAsymmetrical;
-        break;
-    case 9:
-        for(int i=0; i<M; i++)
-            synapse_array[i] = new SynapseTsodyksMarkramRKNest;
-        break;
-    case 10:
-        for(int i=0; i<M; i++)
             synapse_array[i] = new SynapseTMexcSTDP;
+        break;
+    case 51:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseGFirstType;
+        break;
+    case 52:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseGSecondType;
+        break;
+    case 53:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseGFirstTypeWCUT;
+        break;
+    case 54:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseGSecondTypeWCUT;
         break;
     default:
         error_number = 4;

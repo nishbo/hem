@@ -5,15 +5,14 @@ Neuron types:
 Synapse types:
 0: Static
 1: Tsodyks-Markram
-2: G First type
-3: G Second type
-4: G First type with cut
-5: G Second type with cut
-6: STDP with g-transmission function
-7: STDP with Tsodyks-Markram
-8: Asymmetrical STDP with Tsodyks-Markram
-9: Tsodyks-Markram with g-transmission function as seen in NEST
-10: Canonical TM with exc synapse STDP and no 2 multiplier
+2: STDP with g-transmission function
+3: STDP with Tsodyks-Markram
+4: Tsodyks-Markram with g-transmission function as seen in NEST
+5: Canonical TM with exc synapse STDP and no 2 multiplier
+51: G First type
+52: G Second type
+53: G First type with cut
+54: G Second type with cut
 
 Topology types:
 0: random network
