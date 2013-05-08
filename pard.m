@@ -1,27 +1,29 @@
 %% Print Analysed Raw Data
 function pard
+global pi
+pi = 3.14159265359;
     fprintf('\n\t\tNew instance %4.0f\n', random('Uniform', 1, 99999));
 
-    LOAD_NEURON_PARAMETERS = 0;
+    LOAD_NEURON_PARAMETERS = 1;
     LOAD_POTENTIALS = 0;
     LOAD_SYNAPSE_DATA = 0;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
     LOAD_CURRENTS = 0;
     
-    CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;
-    CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;
-    CALCULATE_BG_CURRENT_HISTOGRAM = LOAD_NEURON_PARAMETERS * 1;
+    CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;              %Plots an average potential vs time
+    CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;                  %Plots average synaptic current (with SD) vs time
+    CALCULATE_BG_CURRENT_HISTOGRAM = LOAD_NEURON_PARAMETERS * 1;    %Plots a histogram of background currents of neurons
     
-    CALCULATE_ACTIVITY_HISTOGRAM = LOAD_SPIKES * 1;
-    CALCULATE_AVERAGE_ISI = LOAD_SPIKES * 0;
-    CALCULATE_ISI_HISTOGRAM = LOAD_SPIKES * 0;
+    CALCULATE_ACTIVITY_HISTOGRAM = LOAD_SPIKES * 1;                 %Plots an activity histogram (activity of network vs time)
+    CALCULATE_AVERAGE_ISI = LOAD_SPIKES * 0;                        %Plots average InterSpike Interval vs time
+    CALCULATE_ISI_HISTOGRAM = LOAD_SPIKES * 0;                      %Plots a histogram of ISI
     
-    FIND_BURSTS = CALCULATE_ACTIVITY_HISTOGRAM * 1;
-    BURSTS_STATISTICS = FIND_BURSTS * 1;
-    CALCULATE_IBI = FIND_BURSTS * 0;    PLOT_IBI = CALCULATE_IBI * 0;
-    CALCULATE_IBI_HISTOGRAM = CALCULATE_IBI * 1;
-    FULL_BURST_AMPLITUDE = FIND_BURSTS * LOAD_SYNAPSES * 1;
+    FIND_BURSTS = CALCULATE_ACTIVITY_HISTOGRAM * 1;                 %Finds bursts and marks them on other plots
+    BURSTS_STATISTICS = FIND_BURSTS * 1;                            %Calculates and outputs some statistics about bursts, like length, amount os spikes, etc.
+    CALCULATE_IBI = FIND_BURSTS * 0;    PLOT_IBI = CALCULATE_IBI * 0;%Calculates (and Plots resp.) time since last burst vs time.
+    CALCULATE_IBI_HISTOGRAM = CALCULATE_IBI * 1;                    %Plots InterBurst Interval histogram vs time.
+    FULL_BURST_AMPLITUDE = FIND_BURSTS * LOAD_SYNAPSES * 1;         %Calculates amplitude of bursts in terms of active synapses. Very slow.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%LOADING FROM FILES%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Analyzing parameters.txt
@@ -36,6 +38,18 @@ function pard
     fscanf(fid,'%s', 1);
     tbvie = fscanf(fid,'\nTime between I/V exports (msec) = %f');
     dt = fscanf(fid,';\nTime-step (msec) = %f;');
+    fscanf(fid,'\n');
+    tbwe = fscanf(fid,'\nTime between weight exports = %f;');
+    aoin = fscanf(fid,'\nAmount of inhibitory neurons = %f;');
+    tostim = fscanf(fid,'\nType of stimulation = %f;');
+    syn_noise_freq = fscanf(fid,'\nSynaptic noise frequency = %f;');
+    tau_stim = fscanf(fid,'\nTau stimulation = %f;');
+    min_noise = fscanf(fid,'\nMin noise = %f;');
+    max_noise = fscanf(fid,'ax noise = %f;');
+    mean_stim = fscanf(fid,'\nMean stimulation = %f;');
+    sd_stim = fscanf(fid,'\nSigma stimulation = %f;');
+    import_neurons = fscanf(fid,'\nImport neurons = %d;');
+    import_synapses = fscanf(fid,'synapses = %d;');
     fclose(fid);
 
     number_of_exports = floor(time_length / tbvie) + 1;
@@ -180,10 +194,10 @@ function pard
     if CALCULATE_BG_CURRENT_HISTOGRAM == 1
         I_bg_min = min(min(Ibg));
         I_bg_max = max(max(Ibg));
-        I_bg_N = 10;
+        I_bg_N = 50;    %SET AMOUNT OF HISTOGRAM PARTS HERE
         I_bg_d = (I_bg_max - I_bg_min) / (I_bg_N - 1);
         I_bg_hist = zeros(1, I_bg_N);
-        for i=1 : 1 : number_of_exports
+        for i=1 : 1 : N
             buf00 = floor((Ibg(i) - I_bg_min) / I_bg_d) + 1;
             I_bg_hist(buf00) = I_bg_hist(buf00) + 1;
         end
@@ -218,7 +232,7 @@ function pard
         overall_ISI = max_rastr_time ./ spikes_in_neuron;
         min_ISI_hist = 0;
         max_ISI_hist = max(max(overall_ISI));
-        N_ISI_hist = N / 5;
+        N_ISI_hist = N / 5; %SET AMOUNT OF HISTOGRAM PARTS HERE
         dISI_hist = (max_ISI_hist - min_ISI_hist) / (N_ISI_hist - 1);
         average_hist_ISI = zeros(1, N_ISI_hist);
         for i=1 : 1 : N
@@ -257,7 +271,7 @@ function pard
                 end
             end
         end
-        N_true_ISI = max_true_ISI / 10;
+        N_true_ISI = max_true_ISI / 10; %SET AMOUNT OF HISTOGRAM PARTS HERE
         true_ISI = zeros(1, N_true_ISI+1);
         d_true_ISI = (max_true_ISI - min_true_ISI) / N_true_ISI;
         for i=1 : 1 : N
@@ -386,7 +400,7 @@ function pard
     if CALCULATE_IBI_HISTOGRAM == 1
         IBI_min = 0;
         IBI_max = max(max(IBI));
-        IBI_N = 1000;
+        IBI_N = 1000;   %SET AMOUNT OF HISTOGRAM PARTS HERE
         IBI_d = (IBI_max - IBI_min) / (IBI_N -1);
         IBI_hist = zeros(1, IBI_N);
         for i=1 : 1 : amount_of_bursts
@@ -531,7 +545,7 @@ function pard
     if CALCULATE_ISI_HISTOGRAM == 1
         figure(plotnum);
         hold on;
-        plot(true_ISI_ind, true_ISI, 'k');
+        plot(true_ISI_ind, true_ISI, 'k*');
         title('InterSpikes Interval Histogram')
         xlabel('Time, ms');
         ylabel(' ');
@@ -543,7 +557,7 @@ function pard
     if CALCULATE_IBI_HISTOGRAM == 1
         figure(plotnum);
         hold on;
-        plot(IBI_hist_ind, IBI_hist, 'k');
+        plot(IBI_hist_ind, IBI_hist, 'k*');
         title('InterBurst Interval Histogram')
         xlabel('Time, ms');
         ylabel(' ');
@@ -568,10 +582,13 @@ function pard
     if CALCULATE_BG_CURRENT_HISTOGRAM == 1
         figure(plotnum);
         hold on;
-        plot(I_bg_ind, I_bg_hist, 'k');
+        plot(I_bg_ind, I_bg_hist, 'k*');
+        arr = min_noise : (max_noise - min_noise) / 1000 : max_noise;
+        plot(arr, normalDistrTheor(mean_stim, sd_stim, arr).*max(max(I_bg_hist))*10, 'r');
         title('Background current histogram')
         xlabel('Time, ms');
         ylabel(' ');
+        legend('Experimental distribution', 'Theoretical');
         hold off;
         plotnum = plotnum + 1;
     end
@@ -597,3 +614,7 @@ function pard
     fprintf('\n');
 end
 
+function answ = normalDistrTheor(average, sd, index)
+global pi
+    answ = 1 ./ (sqrt(2.*pi).*sd) .* exp(- (index - average).^2 ./ (2 .* sd.^2));
+end

@@ -1,6 +1,8 @@
 function pard_weights
+global pi
+pi = 3.14159265359;
     fprintf('\t\tNew instance %5.0f\n', random('u',1,99999));
-    %Do not forget to set right amount of neurons in data
+    %DO NOT FORGET to set right amount of neurons in data
     N = 500;    
     
     %This part is about w
@@ -8,6 +10,8 @@ function pard_weights
     weightmax = 1;
     histparts = 101;    %Intervals in histogram
     weight_histograms = [0];    %Where to plot histograms (time)
+    %You can set something like this: [0 500 1500 3000] and script will plot
+    %them in increasing order
     weight_index = weightmin : (weightmax - weightmin) / (histparts - 1) : weightmax;
     
     %This part is about A*w
@@ -92,11 +96,13 @@ function pard_weights
     
     for i=1 : 1 : length(weight_times)
         figure(i+1);
+        hold on
         plot(weight_index, weight_hist_data(i, :), 'k*');
         title('Histogram of weights'); 
         xlabel('Weight');
         ylabel('Part of synapses with this weight');
         axis([weightmin weightmax min_hist max_hist]);
+        hold off;
     end
     
     Aweight_hist_data = Aweight_hist_data / length(arr);
@@ -104,11 +110,18 @@ function pard_weights
     Amin_hist = 0;
     for i=1 : 1 : length(Aweight_times)
         figure(i+1+length(weight_times));
+        hold on;
         plot(Aweight_index, Aweight_hist_data(i, :), 'k*');
         title('Histogram of weights'); 
         xlabel('Weight');
         ylabel('Part of synapses with this weight');
+        arr = Aweightmin : (Aweightmax - Aweightmin) / 1000 : Aweightmax;
+        plot(arr,(0.64 .* normalDistrTheor(38, 38/2, arr) + ...
+                  0.16 .* normalDistrTheor(54, 54/2, arr) + ...
+                  0.20 .* normalDistrTheor(-72, 72/2, arr) ) * Amax_hist * 50, 'r');
+        legend('Experimental distribution', 'Theoretical');
         axis([Aweightmin Aweightmax Amin_hist Amax_hist]);
+        hold off;
     end
     
 %     figure(length(weight_times)+length(Aweight_times) + 1);
@@ -178,4 +191,8 @@ function answ = isItHere(elem, line)
             answ = 1;
         end
     end
+end
+function answ = normalDistrTheor(average, sd, index)
+global pi
+    answ = 1 ./ (sqrt(2*pi)*sd) .* exp(- (index - average).^2 ./ (2 * sd^2));
 end
