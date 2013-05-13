@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"en",
+				"enable_test"
+			],
+			[
+				"out",
+				"outgoing_synapses"
+			],
+			[
+				"buf",
+				"buf0"
+			],
+			[
+				"inc",
+				"incoming_synapses_from"
+			],
+			[
+				"inco",
+				"incoming_synapses"
+			],
+			[
+				"M",
+				"Mfull"
+			],
+			[
+				"vf",
+				"vf_distributions"
+			],
+			[
+				"all",
+				"allsyn	all-synapses"
+			],
+			[
+				"ou",
+				"outgoing_synapses_to"
+			],
+			[
+				"if",
+				"if	my_if"
+			],
+			[
 				"time",
 				"time_between_vi_exports"
 			],
@@ -84,10 +124,6 @@
 				"for	my_for"
 			],
 			[
-				"out",
-				"outgoing_synapses"
-			],
-			[
 				"incomi",
 				"incoming_synapses_from"
 			],
@@ -102,10 +138,6 @@
 			[
 				"synapse",
 				"synapse_array"
-			],
-			[
-				"vf",
-				"vf_file"
 			],
 			[
 				"vf_",
@@ -199,7 +231,7 @@
 			"file": "init/Simulation.ini",
 			"settings":
 			{
-				"buffer_size": 735,
+				"buffer_size": 737,
 				"line_ending": "Windows"
 			}
 		},
@@ -207,7 +239,55 @@
 			"file": "README.txt",
 			"settings":
 			{
-				"buffer_size": 710,
+				"buffer_size": 671,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/simulation.cpp",
+			"settings":
+			{
+				"buffer_size": 11388,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/inout.cpp",
+			"settings":
+			{
+				"buffer_size": 13809,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/main.cpp",
+			"settings":
+			{
+				"buffer_size": 1391,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/topology.cpp",
+			"settings":
+			{
+				"buffer_size": 8156,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/topology.h",
+			"settings":
+			{
+				"buffer_size": 1500,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "init/SynapseTsodyksMarkram.ini",
+			"settings":
+			{
+				"buffer_size": 286,
 				"line_ending": "Windows"
 			}
 		},
@@ -226,30 +306,30 @@
 				"buffer_size": 685,
 				"line_ending": "Windows"
 			}
-		},
-		{
-			"file": "data/init_synapse_params.txt",
-			"settings":
-			{
-				"buffer_size": 346,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "init/SynapseTsodyksMarkram.ini",
-			"settings":
-			{
-				"buffer_size": 286,
-				"line_ending": "Windows"
-			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 104.0,
+		"height": 219.0,
 		"selected_items":
 		[
+			[
+				"clos",
+				"Project: Close"
+			],
+			[
+				"unf",
+				"Code Folding: Unfold All"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"mat",
+				"Set Syntax: MATLAB"
+			],
 			[
 				"close",
 				"Project: Close"
@@ -257,10 +337,6 @@
 			[
 				"Snippet: pr",
 				"Snippet: print-param-to-file"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			],
 			[
 				"inst",
@@ -336,17 +412,31 @@
 	},
 	"file_history":
 	[
-		"/E/Programs/GitHub/hem/src/synapse.cpp",
-		"/E/Programs/GitHub/hem/src/synapse.h",
-		"/E/Programs/GitHub/hem/src/main.cpp",
-		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/Programs/GitHub/hem/src/vffile.cpp",
+		"/E/Programs/GitHub/hem/src/topology.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
+		"/E/Programs/GitHub/hem/src/topology.cpp",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/test-working-part.sublime-snippet",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_if.sublime-snippet",
+		"/E/Programs/GitHub/hem/init/Simulation.ini",
+		"/E/Programs/GitHub/hem/src/synapse.h",
+		"/E/Programs/GitHub/hem/src/synapse.cpp",
+		"/E/Programs/GitHub/hem/data/neuron_parameters.txt",
+		"/E/Programs/GitHub/hem/src/main.cpp",
+		"/E/Programs/GitHub/hem/src/neuron.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/E/Programs/GitHub/hem/data/synapse.txt",
+		"/E/Programs/GitHub/hem/data/init_synapse_params.txt",
+		"/E/Programs/GitHub/hem/data/parameters.txt",
+		"/E/Programs/GitHub/hem/init/files.ini",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/E/Programs/GitHub/hem/pard.m",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
 		"/E/Programs/GitHub/hem/src/simulation.cpp",
 		"/E/Programs/GitHub/hem/src/cad.h",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/open-file.sublime-snippet",
 		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
 		"/E/Programs/GitHub/hem/data/init_neuron_params.txt",
-		"/E/Programs/GitHub/hem/src/neuron.cpp",
 		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/print-param-to-file.sublime-snippet",
 		"/E/Programs/GitHub/hem/src/neuron.h",
@@ -354,14 +444,12 @@
 		"/E/Programs/GitHub/hem/src/hem.sublime-project",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/README.rst",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/SublimeLinter.sublime-settings",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/sublimelinter/modules/c_cpplint.py",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.py",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/.codeintel/config",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/Default.sublime-commands",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab2.3.txt",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab3.txt",
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10saved/lab4.txt",
@@ -375,9 +463,7 @@
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.1.txt",
 		"/E/Programs/GitHub/hem/README.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Userscape.tmTheme",
-		"/E/Programs/GitHub/hem/init/Simulation.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses_inc.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_doublefor.sublime-snippet",
@@ -395,12 +481,8 @@
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Twilight.tmTheme",
 		"/E/YandexDisk/CPP/_SIMULATION_STORAGE/13.04.23_burst_disap_do_distr/sim1/data/weights.txt",
 		"/E/Programs/GitHub/hem/init/system.ini",
-		"/E/Programs/GitHub/hem/init/files.ini",
-		"/E/Programs/GitHub/hem/src/topology.cpp",
 		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
-		"/E/Programs/GitHub/hem/src/vffile.cpp",
 		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkramRKNest.ini",
-		"/E/Programs/GitHub/hem/src/topology.h",
 		"/E/Programs/GitHub/hem/src/vfdiscrete.h",
 		"/E/Programs/GitHub/hem/src/vffile.h",
 		"/E/Programs/GitHub/hem/src/vfdiscrete.cpp",
@@ -436,6 +518,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\n    std::cout<<\"\\nIAMALIVE\\n\"<<delays[0]<<\" | \"<<delays[M-1]<<std::endl;",
+			"cout<<buf31<<\"|\\n\";",
+			"free",
+			"std::cout<<\"\\nIAMALIVE\\n\"<<N<<std::endl;",
+			"FILE_EXP_NEURON_PARAMS",
+			"FILE_EXP_PARAMETERS",
+			"FILE_EXP_NEURON_PARAMS",
+			"import",
+			"createSynapses",
+			"Mfull",
+			"outgoing_synapses_to",
+			"j",
+			"]\n",
+			", const int *con",
+			"topol",
+			"SynapseTMSTDPAsymmetrical",
+			"down",
 			"SynapseTsodyksMarkramRK",
 			"double",
 			"outputSynapseDataInFile",
@@ -546,24 +645,7 @@
 			"or",
 			"OR",
 			"or",
-			"update",
-			"before",
-			"magazin",
-			"trigger",
-			"create or replace",
-			"create",
-			"PROGRAM_ERROR",
-			"when",
-			"values",
-			"insert",
-			"close",
-			"into",
-			"fetch",
-			"open",
-			"and",
-			"new_publikation",
-			"NEW_Publikation",
-			"end"
+			"update"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -592,15 +674,15 @@
 					"file": "init/Simulation.ini",
 					"settings":
 					{
-						"buffer_size": 735,
+						"buffer_size": 737,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								128,
-								128
+								350,
+								350
 							]
 						],
 						"settings":
@@ -618,15 +700,15 @@
 					"file": "README.txt",
 					"settings":
 					{
-						"buffer_size": 710,
+						"buffer_size": 671,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								458,
+								458
 							]
 						],
 						"settings":
@@ -642,16 +724,182 @@
 			]
 		},
 		{
-			"sheets":
-			[
-			]
-		},
-		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 2,
+					"file": "src/simulation.cpp",
+					"settings":
+					{
+						"buffer_size": 11388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5905,
+								5905
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2835.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/inout.cpp",
+					"settings":
+					{
+						"buffer_size": 13809,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7135,
+								7135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2131.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/main.cpp",
+					"settings":
+					{
+						"buffer_size": 1391,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								458,
+								458
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/topology.cpp",
+					"settings":
+					{
+						"buffer_size": 8156,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5403,
+								5403
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/topology.h",
+					"settings":
+					{
+						"buffer_size": 1500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1370,
+								1356
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "init/SynapseTsodyksMarkram.ini",
+					"settings":
+					{
+						"buffer_size": 286,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								58,
+								58
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
 					"file": "data/parameters.txt",
 					"settings":
 					{
@@ -677,7 +925,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 9,
 					"file": "init/files.ini",
 					"settings":
 					{
@@ -688,60 +936,8 @@
 						"selection":
 						[
 							[
-								240,
-								240
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "data/init_synapse_params.txt",
-					"settings":
-					{
-						"buffer_size": 346,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								224,
-								224
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "init/SynapseTsodyksMarkram.ini",
-					"settings":
-					{
-						"buffer_size": 286,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								345,
+								326
 							]
 						],
 						"settings":
@@ -791,7 +987,7 @@
 		"cols":
 		[
 			0.0,
-			0.543054626248,
+			0.563926326678,
 			1.0
 		],
 		"rows":
@@ -817,8 +1013,80 @@
 		"selected_items":
 		[
 			[
-				"syna",
+				"topoh",
+				"src/topology.h"
+			],
+			[
+				"topo",
+				"src/topology.cpp"
+			],
+			[
+				"file",
+				"init/files.ini"
+			],
+			[
+				"vffi",
+				"src/vffile.cpp"
+			],
+			[
+				"mai",
+				"src/main.cpp"
+			],
+			[
+				"in",
+				"src/inout.cpp"
+			],
+			[
+				"simini",
+				"init/simulation.ini"
+			],
+			[
+				"simcpp",
+				"src/simulation.cpp"
+			],
+			[
+				"toplo",
+				"src/topology.cpp"
+			],
+			[
+				"top",
+				"src/topology.cpp"
+			],
+			[
+				"",
+				"src/topology.cpp"
+			],
+			[
+				"neu",
+				"data/neuron_parameters.txt"
+			],
+			[
+				".txt",
+				"data/parameters.txt"
+			],
+			[
+				"synh",
 				"src/synapse.h"
+			],
+			[
+				"simula",
+				"src/simulation.cpp"
+			],
+			[
+				"syna",
+				"data/synapse.txt"
+			],
+			[
+				"synacpp",
+				"src/synapse.cpp"
+			],
+			[
+				"pard",
+				"pard.m"
+			],
+			[
+				"main",
+				"src/main.cpp"
 			],
 			[
 				"syn",
@@ -833,10 +1101,6 @@
 				"src/simulation.cpp"
 			],
 			[
-				"mai",
-				"src/main.cpp"
-			],
-			[
 				"read",
 				"README.txt"
 			],
@@ -846,10 +1110,6 @@
 			],
 			[
 				"syncpp",
-				"src/synapse.cpp"
-			],
-			[
-				"synacpp",
 				"src/synapse.cpp"
 			],
 			[
@@ -883,10 +1143,6 @@
 			[
 				"neuh",
 				"src/neuron.h"
-			],
-			[
-				"file",
-				"init/files.ini"
 			],
 			[
 				"para",
@@ -925,11 +1181,15 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"/E/Dropbox/studies/db/zad/me2/db.sublime-project"
+			]
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": true,
 	"show_open_files": true,

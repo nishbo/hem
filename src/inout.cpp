@@ -101,22 +101,25 @@ void SimulationSingleton::closeOutputFile(){
 
 int SimulationSingleton::outputParametersInFile(){
     using namespace vf_file;
+
     if(!enable_test)
         if(!(tryFile(getFilenameFromIni(DATAFILES, FILE_EXP_PARAMETERS))) || \
            !(tryFile(getFilenameFromIni(DATAFILES, FILE_EXP_NEURON_PARAMS))) ){
             error_number = 2;
-            return error_number;
+            return errorReport();
         }
+
     FILE* param_file = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_PARAMETERS).c_str(), "w");
     if(!param_file){
         error_number = 2;
-        return 2;
+        return errorReport();
     }
 
     fprintf(param_file, "________Simulation parameters:\n");
     fprintf(param_file, "Type of neurons = ");
     fprintf(param_file, neuron_array[0]->getName().c_str());
     fprintf(param_file, ";\n");
+
 
     fprintf(param_file, "Type of synapses = ");
     fprintf(param_file, synapse_array[0]->getName().c_str());
@@ -148,9 +151,10 @@ int SimulationSingleton::outputParametersInFile(){
     fclose(param_file);
 
     param_file = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_NEURON_PARAMS).c_str(), "w");
+
     if(!param_file){
         error_number = 2;
-        return 2;
+        return errorReport();
     }
 
     fprintf(param_file, "________Neurons potential threshold:\n");
@@ -378,6 +382,7 @@ int SimulationSingleton::importSynapses(){
         fclose(fid);
         return error_number;
     }
+    connectivity_matrix = Malloc(N*N, int);
     double* arr;
 
     for(int i=0; i<N*N;i++){
