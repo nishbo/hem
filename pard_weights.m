@@ -3,7 +3,7 @@ global pi
 pi = 3.14159265359;
     fprintf('\t\tNew instance %5.0f\n', random('u',1,99999));
     %DO NOT FORGET to set right amount of neurons in data
-    N = 500;    
+    N = 1000;    
     
     %This part is about w
     weightmin = 0;
@@ -118,7 +118,7 @@ pi = 3.14159265359;
         arr = Aweightmin : (Aweightmax - Aweightmin) / 1000 : Aweightmax;
         plot(arr,(0.64 .* normalDistrTheor(38, 38/2, arr) + ...
                   0.16 .* normalDistrTheor(54, 54/2, arr) + ...
-                  0.20 .* normalDistrTheor(-72, 72/2, arr) ) * Amax_hist * 50, 'r');
+                  0.20 .* normalDistrTheor(-72, 72/2, arr) ) * Amax_hist * 50 / 1000, 'r');
         legend('Experimental distribution', 'Theoretical');
         axis([Aweightmin Aweightmax Amin_hist Amax_hist]);
         hold off;

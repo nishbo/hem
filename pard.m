@@ -7,7 +7,7 @@ pi = 3.14159265359;
     LOAD_NEURON_PARAMETERS = 1;
     LOAD_POTENTIALS = 0;
     LOAD_SYNAPSE_DATA = 0;
-    LOAD_SPIKES = 1;
+    LOAD_SPIKES = 0;
     LOAD_SYNAPSES = 0;
     LOAD_CURRENTS = 0;
     
@@ -194,7 +194,7 @@ pi = 3.14159265359;
     if CALCULATE_BG_CURRENT_HISTOGRAM == 1
         I_bg_min = min(min(Ibg));
         I_bg_max = max(max(Ibg));
-        I_bg_N = 50;    %SET AMOUNT OF HISTOGRAM PARTS HERE
+        I_bg_N = 20;    %SET AMOUNT OF HISTOGRAM PARTS HERE
         I_bg_d = (I_bg_max - I_bg_min) / (I_bg_N - 1);
         I_bg_hist = zeros(1, I_bg_N);
         for i=1 : 1 : N
@@ -202,6 +202,16 @@ pi = 3.14159265359;
             I_bg_hist(buf00) = I_bg_hist(buf00) + 1;
         end
         I_bg_ind = I_bg_min : I_bg_d : I_bg_max;
+        I_bg_thrs = 15;%pA
+        I_bg_N1 = 0;
+        I_bg_N2 = 0;
+        for i=1 : 1 : N
+            if(Ibg(i)>I_bg_thrs)
+                I_bg_N1 = I_bg_N1 + 1;
+            else
+                I_bg_N2 = I_bg_N2 + 1;
+            end
+        end
     end
   
     %% Activity histogram
@@ -582,13 +592,14 @@ pi = 3.14159265359;
     if CALCULATE_BG_CURRENT_HISTOGRAM == 1
         figure(plotnum);
         hold on;
-        plot(I_bg_ind, I_bg_hist, 'k*');
+        plot(I_bg_ind, I_bg_hist / N, 'k*');
         arr = min_noise : (max_noise - min_noise) / 1000 : max_noise;
-        plot(arr, normalDistrTheor(mean_stim, sd_stim, arr).*max(max(I_bg_hist))*10, 'r');
+        plot(arr, normalDistrTheor(mean_stim, sd_stim, arr), 'r');%.*max(max(I_bg_hist))*10
+        plot([I_bg_thrs I_bg_thrs], [0 normalDistrTheor(mean_stim, sd_stim, I_bg_thrs)],'g');
         title('Background current histogram')
         xlabel('Time, ms');
         ylabel(' ');
-        legend('Experimental distribution', 'Theoretical');
+        legend('Experimental distribution', 'Theoretical', 'I_crit');
         hold off;
         plotnum = plotnum + 1;
     end
@@ -610,8 +621,20 @@ pi = 3.14159265359;
     if FULL_BURST_AMPLITUDE == 1
         fprintf('\nBurst unnormal info. Mean: %f, sd: %f.', average_full_burst_amp, sd_full_burst_amp);
     end
+    
+    %% BG current data:
+    if CALCULATE_BG_CURRENT_HISTOGRAM == 1
+        fprintf('\n\nBackground current info. N1 (active): %d (%.1f%%), N2(not-active): %d (%.1f%%).', I_bg_N1, I_bg_N1 / N*100, I_bg_N2, I_bg_N2/N*100);
+    end
+%     fid = fopen('current_hist_data.txt', 'w');
+%     fprintf(fid, 'I_bg | Amount of neurons with this Ibg.\n\n');
+%     for i=1 : 1 : I_bg_N
+%         fprintf(fid, '%.2f %d\n', I_bg_ind(i), I_bg_hist(i));
+%     end
+%     fclose(fid);
 
     fprintf('\n');
+    
 end
 
 function answ = normalDistrTheor(average, sd, index)

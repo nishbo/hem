@@ -244,27 +244,19 @@
 			}
 		},
 		{
-			"file": "src/simulation.cpp",
+			"file": "src/simulation.h",
 			"settings":
 			{
-				"buffer_size": 11388,
+				"buffer_size": 4051,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/inout.cpp",
+			"file": "/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/C++/C++.sublime-build",
 			"settings":
 			{
-				"buffer_size": 13809,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/main.cpp",
-			"settings":
-			{
-				"buffer_size": 1391,
-				"line_ending": "Windows"
+				"buffer_size": 358,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -272,14 +264,6 @@
 			"settings":
 			{
 				"buffer_size": 8156,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/topology.h",
-			"settings":
-			{
-				"buffer_size": 1500,
 				"line_ending": "Windows"
 			}
 		},
@@ -308,12 +292,28 @@
 			}
 		}
 	],
-	"build_system": "",
+	"build_system": "Packages/User/c++/my-make-build.sublime-build",
 	"command_palette":
 	{
-		"height": 219.0,
+		"height": 127.0,
 		"selected_items":
 		[
+			[
+				"close",
+				"Project: Close"
+			],
+			[
+				"setting",
+				"Preferences: Settings - User"
+			],
+			[
+				"kye",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"keybu",
+				"Preferences: Key Bindings - User"
+			],
 			[
 				"clos",
 				"Project: Close"
@@ -329,10 +329,6 @@
 			[
 				"mat",
 				"Set Syntax: MATLAB"
-			],
-			[
-				"close",
-				"Project: Close"
 			],
 			[
 				"Snippet: pr",
@@ -412,27 +408,32 @@
 	},
 	"file_history":
 	[
-		"/E/Programs/GitHub/hem/src/vffile.cpp",
-		"/E/Programs/GitHub/hem/src/topology.h",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my-make-build.sublime-build",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my-make-clean-build.sublime-build",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/E/Programs/GitHub/hem/src/topology.cpp",
+		"/E/Programs/GitHub/hem/src/main.cpp",
+		"/E/Programs/GitHub/hem/src/simulation.cpp",
+		"/E/Programs/GitHub/hem/src/topology.h",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/Programs/GitHub/hem/src/simulation.h",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/E/Programs/GitHub/hem/src/vffile.cpp",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/test-working-part.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_if.sublime-snippet",
 		"/E/Programs/GitHub/hem/init/Simulation.ini",
 		"/E/Programs/GitHub/hem/src/synapse.h",
 		"/E/Programs/GitHub/hem/src/synapse.cpp",
 		"/E/Programs/GitHub/hem/data/neuron_parameters.txt",
-		"/E/Programs/GitHub/hem/src/main.cpp",
 		"/E/Programs/GitHub/hem/src/neuron.cpp",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/E/Programs/GitHub/hem/data/synapse.txt",
 		"/E/Programs/GitHub/hem/data/init_synapse_params.txt",
 		"/E/Programs/GitHub/hem/data/parameters.txt",
 		"/E/Programs/GitHub/hem/init/files.ini",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 		"/E/Programs/GitHub/hem/pard.m",
-		"/E/Programs/GitHub/hem/src/inout.cpp",
-		"/E/Programs/GitHub/hem/src/simulation.cpp",
 		"/E/Programs/GitHub/hem/src/cad.h",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/open-file.sublime-snippet",
 		"/E/Programs/GitHub/hem/init/NeuronHodgkinHuxley.ini",
@@ -440,7 +441,6 @@
 		"/E/Programs/GitHub/hem/init/NeuronLeakyIAF.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/print-param-to-file.sublime-snippet",
 		"/E/Programs/GitHub/hem/src/neuron.h",
-		"/E/Programs/GitHub/hem/src/simulation.h",
 		"/E/Programs/GitHub/hem/src/hem.sublime-project",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/README.rst",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
@@ -463,14 +463,12 @@
 		"/I/VirtualBox_VMs/Shared/sem2/fedosic - v10/lab2.1.txt",
 		"/E/Programs/GitHub/hem/README.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Color Scheme - Default/Userscape.tmTheme",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses_inc.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/hem/all_synapses.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_doublefor.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my_for.sublime-snippet",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/C++/for.sublime-snippet",
 		"/E/Programs/GitHub/hem/src/hem.sublime-workspace",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
 		"/E/Programs/GitHub/hem/init/SynapseSTDPG.ini",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Dayle Rees Color Schemes/Userscape.tmTheme",
@@ -518,6 +516,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ctrl",
+			"t",
+			"ctrl+pagedown",
+			"file",
 			"\n    std::cout<<\"\\nIAMALIVE\\n\"<<delays[0]<<\" | \"<<delays[M-1]<<std::endl;",
 			"cout<<buf31<<\"|\\n\";",
 			"free",
@@ -641,11 +643,7 @@
 			"on",
 			"delete",
 			"or",
-			"OR",
-			"or",
-			"OR",
-			"or",
-			"update"
+			"OR"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -666,7 +664,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -681,8 +679,8 @@
 						"selection":
 						[
 							[
-								350,
-								350
+								624,
+								624
 							]
 						],
 						"settings":
@@ -690,7 +688,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 45.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -729,74 +727,18 @@
 			[
 				{
 					"buffer": 2,
-					"file": "src/simulation.cpp",
+					"file": "src/simulation.h",
 					"settings":
 					{
-						"buffer_size": 11388,
+						"buffer_size": 4051,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5905,
-								5905
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2835.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/inout.cpp",
-					"settings":
-					{
-						"buffer_size": 13809,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7135,
-								7135
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2131.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/main.cpp",
-					"settings":
-					{
-						"buffer_size": 1391,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								458,
-								458
+								143,
+								143
 							]
 						],
 						"settings":
@@ -812,7 +754,34 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 3,
+					"file": "/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/C++/C++.sublime-build",
+					"settings":
+					{
+						"buffer_size": 358,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								125,
+								68
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "src/topology.cpp",
 					"settings":
 					{
@@ -823,8 +792,8 @@
 						"selection":
 						[
 							[
-								5403,
-								5403
+								4075,
+								4075
 							]
 						],
 						"settings":
@@ -834,34 +803,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 720.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/topology.h",
-					"settings":
-					{
-						"buffer_size": 1500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1370,
-								1356
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1636.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -873,7 +815,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 5,
 					"file": "init/SynapseTsodyksMarkram.ini",
 					"settings":
 					{
@@ -899,7 +841,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 6,
 					"file": "data/parameters.txt",
 					"settings":
 					{
@@ -925,7 +867,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 7,
 					"file": "init/files.ini",
 					"settings":
 					{
@@ -1000,7 +942,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 100.0
+		"height": 135.0
 	},
 	"replace":
 	{
@@ -1012,6 +954,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"topocp",
+				"src/topology.cpp"
+			],
 			[
 				"topoh",
 				"src/topology.h"
