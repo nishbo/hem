@@ -106,7 +106,7 @@ int NeuronLeakyIAF::evolve(double dt, double time){
     // 'I' sets to 0 to let synapses to add current on the next time-step
     I = 0.0;
 
-    if( V > Vth-1e-8 && time > last_spiked + tau_ref_abs){
+    if( V >= Vth && time > last_spiked + tau_ref_abs){
         // spike
         V = Vreset;
         last_spiked = time;
@@ -138,6 +138,9 @@ int NeuronLeakyIAF::importData(double *arr){
     Vreset = arr[4];
     tau_ref_abs = arr[5];
     exc = arr[6];
+    I = 0;
+    Vrest = 0;
+    last_spiked = -(tau_ref_abs + 1);
     return 0;
 }
 
@@ -367,6 +370,9 @@ int NeuronHodgkinHuxleyRK::importData(double *arr){
     h = arr[13];
     divider = arr[14];
     exc = arr[15];
+    I = 0;
+    Vrest = 0;
+    last_spiked = -(tau_spike + 1);
     return 0;
 }
 

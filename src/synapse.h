@@ -46,6 +46,8 @@ public:
     virtual double evolve(double dt, double time, double Vpre, double Vpost) = 0;
     // Set some data-parameters to synapse
     virtual void setData (int pre, int pos, int preex, int posex, double dt) = 0;
+
+    virtual double test();
 };
 
 class SynapseStatic:  public Synapse{
@@ -58,7 +60,9 @@ public:
     std::string getName();
     double evolve(double dt, double time, double Vpre, double Vpost);
     void setData(int pre, int pos, int preex, int posex, double dt);
+    int numEssentialVariables();
     double* exportData();
+    int importData(double *arr);
     int initSynapses();
     static int initSynapsesLocal();
 };
@@ -100,6 +104,8 @@ public:
     int importData(double *arr);
     int numEssentialVariables();
     double* getInnerData();
+
+    double test();
 };
 
 class SynapseTsodyksMarkramRKNest: public Synapse{

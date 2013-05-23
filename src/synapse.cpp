@@ -62,6 +62,10 @@ int Synapse::from(){
     return presynaptic;
 }
 
+double Synapse::test(){
+    return -1;
+}
+
 /// Static synapse
 
 std::string SynapseStatic::synapsetype = "Static_synapse";
@@ -76,19 +80,29 @@ int SynapseStatic::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "weight = %.2f;\n", init_weight);
+    fprintf(fid, "weight = %f;\n", init_weight);
     fclose(fid);
 
     return 0;
 }
 
 double* SynapseStatic::exportData(){
-    double* arr = new double[4];
-    arr[0] = 4;
+    double* arr = new double[numEssentialVariables()+1];
+    arr[0] = numEssentialVariables()+1;
     arr[1] = presynaptic;
     arr[2] = postsynaptic;
     arr[3] = weight;
     return arr;
+}
+
+int SynapseStatic::importData(double *arr){
+    presynaptic = arr[0];
+    postsynaptic = arr[1];
+    weight = arr[3];
+
+    last_spiked = -100;
+    last_spiked_post = -100;
+    return 0;
 }
 
 int SynapseStatic::initSynapses(){
@@ -112,6 +126,10 @@ void SynapseStatic::setData (int pre, int pos, int preex, int posex, double dt){
     weight = init_weight;
     last_spiked = -100;
     last_spiked_post = -100;
+}
+
+int SynapseStatic::numEssentialVariables(){
+    return 3;
 }
 
 /// Tsodyks-Markram model rk4
@@ -195,7 +213,7 @@ void SynapseTsodyksMarkramRK::setData(int pre, int pos, \
             A = vf_distributions::normal(A, A/2, 0, 4*A);
         else
             A = vf_distributions::normal(A, -A/2, 4*A, 0);
-        U = vf_distributions::normal(U, U/2, 0, 4*U);
+        U = vf_distributions::normal(U, U/2, 0, MIN(1, 4*U));
         tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
         tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                             dt, tau_facil*4);
@@ -268,6 +286,14 @@ double SynapseTsodyksMarkramRK::evolve(double dt, double time, \
         k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
 
+    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    if(exc)
+        k_4_u = dt * U;
+    else
+        k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+
     x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
     y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
     z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
@@ -307,6 +333,7 @@ double* SynapseTsodyksMarkramRK::exportData(){
     arr[12] = U;
     arr[13] = A;
     arr[14] = exc;
+
     return arr;
 }
 
@@ -326,10 +353,13 @@ int SynapseTsodyksMarkramRK::importData(double *arr){
     A = arr[12];
     exc = arr[13];
 
-    if(tau_rec < 1e-3)
-        tau_rec = 1e-3;
-    if(tau_facil < 1e-3)
-        tau_facil = 1e-3;
+    synamount++;
+    xav += x;
+    yav += y;
+    zav += z;
+    uav += u;
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -426,6 +456,10 @@ double* SynapseTsodyksMarkramRK::getInnerData(){
     return innerDataArr;
 }
 
+double SynapseTsodyksMarkramRK::test(){
+    return y;
+}
+
 /// Tsodyks-Markram rk nest style
 
 std::string SynapseTsodyksMarkramRKNest::synapsetype = \
@@ -505,7 +539,7 @@ void SynapseTsodyksMarkramRKNest::setData(int pre, int pos, \
         A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
         A = vf_distributions::normal(A, -A/2, 4*A, 0);
-    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    U = vf_distributions::normal(U, U/2, 0, MIN(1, 4*U));
     tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
     tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
@@ -549,6 +583,7 @@ double SynapseTsodyksMarkramRKNest::evolve(double dt, double time, \
     }
 
     g -= dt * (g / tau_g);
+
     out_current = g;
 
     return moveDeliveries();
@@ -596,10 +631,15 @@ int SynapseTsodyksMarkramRKNest::importData(double *arr){
     tau_g = arr[15];
     E = arr[16];
 
-    if(tau_rec < 1e-3)
-        tau_rec = 1e-3;
-    if(tau_facil < 1e-3)
-        tau_facil = 1e-3;
+    if(tau_rec < 1e-5)
+        tau_rec = 1e-5;
+    if(tau_facil < 1e-5)
+        tau_facil = 1e-5;
+
+    last_spiked = -100;
+    lsp2 = -100;
+    last_spiked_post = -100;
+
     return 0;
 }
 
@@ -772,8 +812,11 @@ int SynapseSTDPG::importData(double *arr){
     alpha = arr[7];
     tau_corr = arr[8];
 
-    if(tau_corr < 1e-3)
-        tau_corr = 1e-3;
+    if(tau_corr < 1e-5)
+        tau_corr = 1e-5;
+
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -891,7 +934,7 @@ void SynapseTMexcSTDP::setData(int pre, int pos, \
         A = vf_distributions::normal(A, A/2, 0, 4*A);
     else
         A = vf_distributions::normal(A, -A/2, 4*A, 0);
-    U = vf_distributions::normal(U, U/2, 0, 4*U);
+    U = vf_distributions::normal(U, U/2, 0, MIN(1, 4*U));
     tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
     tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                         dt, tau_facil*4);
@@ -1055,10 +1098,10 @@ int SynapseTMexcSTDP::importData(double *arr){
     A = arr[12];
     exc = arr[13];
 
-    if(tau_rec < 1e-3)
-        tau_rec = 1e-3;
-    if(tau_facil < 1e-3)
-        tau_facil = 1e-3;
+    if(tau_rec < 1e-5)
+        tau_rec = 1e-5;
+    if(tau_facil < 1e-5)
+        tau_facil = 1e-5;
 
     lambda = init_lambda;
     alpha = init_alpha;
@@ -1077,6 +1120,9 @@ int SynapseTMexcSTDP::importData(double *arr){
     default:
         weight = init_weight;
     }
+
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -1248,7 +1294,7 @@ void SynapseTMSTDP::setData(int pre, int pos, \
             A = vf_distributions::normal(A, A/2, 0, 4*A);
         else
             A = vf_distributions::normal(A, -A/2, 4*A, 0);
-        U = vf_distributions::normal(U, U/2, 0, 4*U);
+        U = vf_distributions::normal(U, U/2, 0, MIN(1, 4*U));
         tau_rec = vf_distributions::normal(tau_rec, tau_rec/2, dt, tau_rec*4);
         tau_facil = vf_distributions::normal(tau_facil, tau_facil/2, \
                                             dt, tau_facil*4);
@@ -1345,6 +1391,15 @@ double SynapseTMSTDP::evolve(double dt, double time, \
         k_3_u = dt * Ur(x + k_2_x/2.0, y + k_2_y/2.0, z + k_2_z/2.0, \
                     u + k_2_u/2.0, time + dt/2.0, dt);
 
+    k_4_x = dt * Xr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_y = dt * Yr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    k_4_z = dt * Zr(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+    if(exc)
+        k_4_u = dt * U;
+    else
+        k_4_u = dt * Ur(x + k_3_x, y + k_3_y, z + k_3_z, u + k_3_u, time + dt, dt);
+
+
     x += (k_1_x + 2.0*k_2_x + 2.0*k_3_x + k_4_x)/6.0;
     y += (k_1_y + 2.0*k_2_y + 2.0*k_3_y + k_4_y)/6.0;
     z += (k_1_z + 2.0*k_2_z + 2.0*k_3_z + k_4_z)/6.0;
@@ -1418,10 +1473,10 @@ int SynapseTMSTDP::importData(double *arr){
     A = arr[12];
     exc = arr[13];
 
-    if(tau_rec < 1e-3)
-        tau_rec = 1e-3;
-    if(tau_facil < 1e-3)
-        tau_facil = 1e-3;
+    if(tau_rec < 1e-5)
+        tau_rec = 1e-5;
+    if(tau_facil < 1e-5)
+        tau_facil = 1e-5;
 
     A_plus = init_A_plus;
     A_minus = init_A_minus;
@@ -1441,6 +1496,9 @@ int SynapseTMSTDP::importData(double *arr){
     default:
         weight = init_weight;
     }
+
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -1571,8 +1629,12 @@ int SynapseGFirstType::importData(double *arr){
     tau_s =         arr[5];
     gs =            arr[6];
     E =             arr[7];
-    if(tau_s < 1e-3)
-        tau_s = 1e-3;
+
+    if(tau_s < 1e-5)
+        tau_s = 1e-5;
+
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -1673,8 +1735,10 @@ int SynapseGFirstTypeWCUT::importData(double *arr){
     tau_s =         arr[5];
     gs =            arr[6];
     E =             arr[7];
-    if(tau_s < 1e-3)
-        tau_s = 1e-3;
+    if(tau_s < 1e-5)
+        tau_s = 1e-5;
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -1779,8 +1843,10 @@ int SynapseGSecondType::importData(double *arr){
     tau_s =         arr[5];
     gs =            arr[6];
     E =             arr[7];
-    if(tau_s < 1e-3)
-        tau_s = 1e-3;
+    if(tau_s < 1e-5)
+        tau_s = 1e-5;
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 
@@ -1903,8 +1969,11 @@ int SynapseGSecondTypeWCUT::importData(double *arr){
     tau_s =         arr[5];
     gs =            arr[6];
     E =             arr[7];
-    if(tau_s < 1e-3)
-        tau_s = 1e-3;
+    if(tau_s < 1e-5)
+        tau_s = 1e-5;
+
+    last_spiked = -100;
+    last_spiked_post = -100;
     return 0;
 }
 

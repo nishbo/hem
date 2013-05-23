@@ -314,14 +314,18 @@ int SimulationSingleton::createStimulation(){
 int SimulationSingleton::createTopology(){
     x = new double[N];
     y = new double[N];
-    outgoing_synapses_to = Malloc(N, int*);
-    outgoing_synapses = Malloc(N, int*);
-    incoming_synapses = Malloc(N, int*);
-    incoming_synapses_from = Malloc(N, int*);
+
+    Topology::setCoordinates(N, x, y);
 
     int *Ms = Malloc(1, int);
-    Topology::setTopology(N, Ms, x, y, outgoing_synapses_to, &delays);
-    M = *Ms;
+    if(!import_synapses){
+        outgoing_synapses_to = Malloc(N, int*);
+        outgoing_synapses = Malloc(N, int*);
+        incoming_synapses = Malloc(N, int*);
+        incoming_synapses_from = Malloc(N, int*);
+        Topology::setTopology(N, Ms, outgoing_synapses_to, &delays, x, y);
+        M = *Ms;
+    }
     free(Ms);
 
     return 0;
@@ -345,6 +349,7 @@ int SimulationSingleton::createNetwork(){
         createSynapses();
         cout<<M<<" Synapses created.     ";
     }
+
     syn_noise_period = new double[M];
     createStimulation();
 
@@ -415,4 +420,20 @@ void SimulationSingleton::saveSpike(int n){
     spikes_time[spikes_resent] = time_now;
     spikes_numbers[spikes_resent] = n;
     spikes_resent++;
+}
+
+
+void SimulationSingleton::test(){
+    FILE* fid = fopen("idioto.txt", "w");
+
+    for(int i=0; i < N; i++){
+        fprintf(fid, "%d : \n", i);
+        for(int j=0; j < outgoing_synapses[i][0]; j++){
+            fprintf(fid, " %f ", synapse_array[outgoing_synapses[i][j+1]]->test());
+        }
+        fprintf(fid, "\n");
+    }
+    fclose(fid);
+    cin.ignore();
+    exit(14);
 }

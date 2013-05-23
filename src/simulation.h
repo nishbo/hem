@@ -128,6 +128,8 @@ public:
     int outputCurrentsInFile(double time);
     int exportNeurons();
     int exportSynapses();
+
+    void test();
 private:
     static SimulationSingleton* self;
     SimulationSingleton();

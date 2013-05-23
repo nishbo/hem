@@ -29,6 +29,7 @@ int main(){
 
     storage->length_of_simulation += storage->dt;
     cout<<"\n\tStarting simulation.\n";
+
     for(storage->time_now = 0.0; \
         storage->time_now < storage->length_of_simulation ;\
         storage->time_now += storage->dt){

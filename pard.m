@@ -597,7 +597,7 @@ pi = 3.14159265359;
         plot(arr, normalDistrTheor(mean_stim, sd_stim, arr), 'r');%.*max(max(I_bg_hist))*10
         plot([I_bg_thrs I_bg_thrs], [0 normalDistrTheor(mean_stim, sd_stim, I_bg_thrs)],'g');
         title('Background current histogram')
-        xlabel('Time, ms');
+        xlabel('I_{bg}, pA');
         ylabel(' ');
         legend('Experimental distribution', 'Theoretical', 'I_crit');
         hold off;
@@ -629,7 +629,7 @@ pi = 3.14159265359;
 %     fid = fopen('current_hist_data.txt', 'w');
 %     fprintf(fid, 'I_bg | Amount of neurons with this Ibg.\n\n');
 %     for i=1 : 1 : I_bg_N
-%         fprintf(fid, '%.2f %d\n', I_bg_ind(i), I_bg_hist(i));
+%         fprintf(fid, '%.5f %d\n', I_bg_ind(i), I_bg_hist(i));
 %     end
 %     fclose(fid);
 
