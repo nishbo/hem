@@ -12,6 +12,7 @@ double Topology::border;
 double Topology::velocity;
 double Topology::max_delay;
 double Topology::min_delay;
+int Topology::m;
 
 int Topology::setCoordinates(const int N, double *x, double *y){
     fle = vf_file::loadFileToString(FILE_TOPOLOGY, DATAFILES);
@@ -35,6 +36,9 @@ int Topology::setTopology(const int N, int *Mfull, int **sout, double **delays, 
         break;
     case 1:
         smallWorldTopology(N, Mfull, sout);
+        break;
+    case 2:
+        fromOneTopology(N, Mfull, sout);
         break;
     default:
         randomTopology(N, Mfull, sout);
@@ -129,6 +133,24 @@ int Topology::smallWorldTopology(const int N, int *Mfull, int **sout){
     }
 
     free(arr);
+    return 0;
+}
+
+int Topology::fromOneTopology(const int N, int *Mfull, int **sout){
+    m = vf_file::getParameterIni("FROM_ONE_AMOUNT", fle);
+
+    sout[0] = new int [(N-1)*m+1];
+    sout[0][0] = (N-1)*m;
+    for(int i=1; i < N; i++){
+        for(int j=1; j < m+1; j++){
+            sout[0][(i-1)*m+j] = i;
+        }
+    }
+    for(int i=1; i < N; i++){
+        sout[i] = new int[1];
+        sout[i][0] = 0;
+    }
+    *Mfull = (N-1)*m;
     return 0;
 }
 

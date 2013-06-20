@@ -4,10 +4,10 @@ global pi
 pi = 3.14159265359;
     fprintf('\n\t\tNew instance %4.0f\n', random('Uniform', 1, 99999));
 
-    LOAD_NEURON_PARAMETERS = 1;
+    LOAD_NEURON_PARAMETERS = 0;
     LOAD_POTENTIALS = 0;
     LOAD_SYNAPSE_DATA = 0;
-    LOAD_SPIKES = 0;
+    LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
     LOAD_CURRENTS = 0;
     

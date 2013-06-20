@@ -17,6 +17,7 @@ Synapse types:
 Topology types:
 0: random network
 1: sm-w network
+2: m synapses go from neuron number 0
 
 Delay types:
 0: random (0, delay_max] msec

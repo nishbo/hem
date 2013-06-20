@@ -372,9 +372,9 @@ int SynapseTsodyksMarkramRK::initSynapsesLocal(){
     std::string buf30 = loadFileToString("./init/SynapseTsodyksMarkram.ini");
 
     init_tau_one = getParameterIni("tau_one", buf30);
-    init_x = getParameterIni("x", buf30);
-    init_y = getParameterIni("y", buf30);
-    init_z = getParameterIni("z", buf30);
+    init_x = getParameterIni("INIT_x", buf30);
+    init_y = getParameterIni("INIT_y", buf30);
+    init_z = getParameterIni("INIT_z", buf30);
 
     init_Aee = getParameterIni("Aee", buf30);
     init_Uee = getParameterIni("Uee", buf30);
@@ -767,9 +767,10 @@ void SynapseSTDPG::setData(int pre, int post, int preex, int posex, double dt){
 
 double SynapseSTDPG::evolve(double dt, double time, double Vpre, double Vpost){
 
-    if(last_spiked>0 && last_spiked_post>0 && \
-            vf_discrete::diracDelta(last_spiked_post - time, dt) && \
-            vf_discrete::diracDelta(last_spiked - time, dt)){
+    if(last_spiked>0 && last_spiked_post>0 && (\
+            vf_discrete::diracDelta(last_spiked_post - time, dt) || \
+            vf_discrete::diracDelta(last_spiked - time, dt)\
+            ) ) {
         if(last_spiked_post > last_spiked){
             weight += lambda * sqrt(1-weight)*\
                     exp(-abs(last_spiked_post - last_spiked)/tau_corr);
@@ -1042,9 +1043,10 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
     if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
 
     if(time>t_start && exc){
-        if(last_spiked>0 && last_spiked_post>0 && \
-                vf_discrete::diracDelta(last_spiked_post - time, dt) && \
-                vf_discrete::diracDelta(last_spiked - time, dt)){
+        if(last_spiked>0 && last_spiked_post>0 && (\
+                vf_discrete::diracDelta(last_spiked_post - time, dt) || \
+                vf_discrete::diracDelta(last_spiked - time, dt)
+                ) ) {
             if(last_spiked_post > last_spiked){
                 weight += lambda * (1-weight)*\
                         exp(-abs(last_spiked_post - last_spiked)/tau_corr);
@@ -1417,9 +1419,10 @@ double SynapseTMSTDP::evolve(double dt, double time, \
     if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
 
     if(time>t_start){
-        if(last_spiked>0 && last_spiked_post>0 && \
-                vf_discrete::diracDelta(last_spiked_post - time, dt) && \
-                vf_discrete::diracDelta(last_spiked - time, dt)){
+        if(last_spiked>0 && last_spiked_post>0 && (\
+                vf_discrete::diracDelta(last_spiked_post - time, dt) || \
+                vf_discrete::diracDelta(last_spiked - time, dt)
+                ) ) {
             if(last_spiked_post > last_spiked){
                 weight += A_plus * (1-weight)*\
                        exp(-abs(last_spiked_post - last_spiked)/tau_corr_plus);
@@ -1592,6 +1595,10 @@ int SynapseTMSTDP::initSynapsesLocal(){
 
 int SynapseTMSTDP::initSynapses(){
     return initSynapsesLocal();
+}
+
+double SynapseTMSTDP::test(){
+    return init_type_of_weight;
 }
 
 /// Models with g

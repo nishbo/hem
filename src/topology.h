@@ -21,9 +21,11 @@ private:
     static double r_p, smw_beta;
     static int smw_local;
     static double border, velocity, max_delay, min_delay;
+    static int m;
 
     static int randomTopology(const int N, int *Mfull, int **sout);
     static int smallWorldTopology(const int N, int *Mfull, int **sout);
+    static int fromOneTopology(const int N, int *Mfull, int **sout);
 
     static int setDelaysdt(const int N, const int Mfull, double *delays);
     static int setDelaysRandom(const int N, const int Mfull, double *delays);

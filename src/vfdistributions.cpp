@@ -31,7 +31,7 @@ double VFDistributions::normal(double mean, double sd, double from, double to){
 
     while(1){
         buf2 = normal(mean, sd);
-        if(buf2 < to && buf2 > from)
+        if(buf2 <= to && buf2 >= from)
             break;
     }
     return buf2;

@@ -46,6 +46,10 @@ dir:
 clean:
 	-$(DEL_FILE) $(OBJECTS)
 
+reallyclean:
+	-$(DEL_FILE) $(OBJECTS)
+	-$(DEL_FILE) data/* export/* import/*
+
 $(OBJECT_DIR)/main.o: $(SOURCE_DIR)/main.cpp $(SOURCE_DIR)/cad.h \
     $(SOURCE_DIR)/neuron.h \
     $(SOURCE_DIR)/vfdistributions.h \

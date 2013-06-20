@@ -25,9 +25,8 @@ int SimulationSingleton::loadParametersFromFile(){
     type_of_neuron = getParameterIni("Type_of_neuron", buf31);
     type_of_synapse = getParameterIni("Type_of_synapse", buf31);
     type_of_stimulation = getParameterIni("Type_of_stimulation", buf31);
-    syn_noise_freq_mean = getParameterIni(\
-        "Synaptic_noise_mean_frequency", buf31);
     tau_stim = getParameterIni("Tau_stimulation", buf31);
+    current_stimulation_noise_sd = getParameterIni("CURRENT_STIMULATION_NOISE_REL_SD", buf31);
     stim_start = getParameterIni("Start_of_stimulation", buf31);
     time_between_weight_exports = getParameterIni(\
         "Time_between_weight_exports", buf31);
@@ -38,6 +37,10 @@ int SimulationSingleton::loadParametersFromFile(){
     import_neurons = getParameterIni("Import_network_neurons", buf31);
     import_synapses = getParameterIni("Import_network_synapses", buf31);
 
+    synaptic_excitation_mean = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_MEAN", buf31);
+    synaptic_excitation_sd = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_SD", buf31);
+    synaptic_excitation_min = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_MIN", buf31);
+    synaptic_excitation_max = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_MAX", buf31);
 
     buf31 = loadFileToString(FILE_SYS_DATA, DATAFILES);
 
@@ -138,12 +141,16 @@ int SimulationSingleton::outputParametersInFile(){
     fprintf(param_file, "Amount of inhibitory neurons = %d;\n", amount_of_inh_neurons);
 
     fprintf(param_file, "Type of stimulation = %d;\n", type_of_stimulation);
-    fprintf(param_file, "Synaptic noise frequency = %d;\n", syn_noise_freq_mean);
     fprintf(param_file, "Tau stimulation = %.2f;\n", tau_stim);
     fprintf(param_file, "Min noise = %.2f;\n", Imin);
     fprintf(param_file, "Max noise = %.2f;\n", Imax);
     fprintf(param_file, "Mean stimulation = %.2f;\n", Imean);
     fprintf(param_file, "Sigma stimulation = %.2f;\n", Isd);
+
+    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MEAN = %.4f;\n", synaptic_excitation_mean);  
+    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_SD = %.4f;\n", synaptic_excitation_sd);  
+    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MIN = %.4f;\n", synaptic_excitation_min);  
+    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MAX = %.4f;\n", synaptic_excitation_max);  
 
     fprintf(param_file, "Import neurons = %d;\n", import_neurons);
     fprintf(param_file, "Import synapses = %d;\n", import_synapses);
@@ -205,22 +212,42 @@ int SimulationSingleton::outputConnectivityMatrixInFile(){
     }
 
     fprintf(param_file, "________Connectivity matrix:\n");
+    fprintf(param_file, "Shows the amount of synapses going from row-defined");
+    fprintf(param_file, " neuron to column-defined\n neuron.\n\n");
+
+    buf0p = new int[N];
+    for(int j=0; j < N; j++)
+        buf0p[j] = 0;
+
     for(int i=0; i<N; i++){
+        for(int j=0; j < outgoing_synapses_to[i][0]; j++)
+            buf0p[outgoing_synapses_to[i][j+1]]++;
+
         buf31 = "";
-        buf0 = 0;
-        for(int j=0; j < outgoing_synapses_to[i][0]; j++){
-            while (buf0 < outgoing_synapses_to[i][j+1] && buf0 < N){
-                buf0++;
-                buf31 += "- ";
-            }
-            buf31 += "+ ";
-            buf0++;
+        for(int j=0; j < N; j++){
+            buf31 += convertDoubleToString(buf0p[j]) + " ";
+            buf0p[j] = 0;
         }
-        for(;buf0<N; buf0++)
-            buf31 += "- ";
         buf31 += "\n";
         fprintf(param_file, buf31.c_str());
     }
+    free(buf0p);
+
+    fprintf(param_file, "\n_________Connectivity lists:\n");
+    fprintf(param_file, "<neuron number> | <amount of synapses>: ");
+    fprintf(param_file, "<connected neuron 1> .. <connected neuron i> \n");
+    fprintf(param_file, "<connected neuron i> - number of neuron, having an");
+    fprintf(param_file, " incoming connection \nwith this neuron\n\n");
+
+    for(int i=0; i < N; i++){
+        fprintf(param_file, "%d | ", i);
+        fprintf(param_file, "%d: ", outgoing_synapses_to[i][0]);
+        for(int j=0; j < outgoing_synapses_to[i][0]; j++){
+            fprintf(param_file, "%d ", outgoing_synapses_to[i][j+1]);
+        }
+        fprintf(param_file, "\n");
+    }
+
     fclose(param_file);
     return errorReport();
 }

@@ -43,14 +43,18 @@ public:
     int type_of_stimulation;//0 for uniform, 1 for normal
 
     // Stimulation parameters:
+    // Current:
     double* Inoise;         //Stimuli current
     double* Inoise2;        //Stimuli current buffer
     double Imax, Imin, Imean, Isd;
     double tau_stim;        //every tau_stim stimulation current changes
-    double* syn_noise_period; //period of noise excitating of synapses (in msec)
-    int syn_noise_freq_mean;  //mean in poisson distr
+    double current_stimulation_noise_sd;
     double stim_start;      //time of start of stimulation
     double* stim_start_pers;//personal times of start of stimulation
+    // Synapse:
+    double* synaptic_excitation_period; //period of noise excitating of synapses (in msec)
+    double synaptic_excitation_mean, synaptic_excitation_sd;
+    double synaptic_excitation_min, synaptic_excitation_max;
 
     // Output parameters:
     double time_between_weight_exports;
@@ -73,6 +77,7 @@ public:
 
     // Buffer and other parameters:
     int buf0, buf00, buf000;
+    int* buf0p;
     float buf01;
     double buf1, buf2;
     string buf31;
@@ -108,8 +113,8 @@ public:
 
     int errorReport();
     // Simulating:
-    void sendNeuralNoise();
-    void sendSynapseNoise();
+    int sendNeuralNoise();
+    int sendSynapseNoise();
     void saveSpike(int n);
     int evolveAllNeurons();
     int evolveAllSynapses();

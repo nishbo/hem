@@ -197,6 +197,8 @@ public:
     int initSynapses();
     static int initSynapsesLocal();
     int numEssentialVariables();
+
+    double test();
 };
 
 class SynapseTMexcSTDP: public Synapse{
