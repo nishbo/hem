@@ -1059,7 +1059,7 @@ double SynapseTMexcSTDP::evolve(double dt, double time, \
         if(weight > 1) weight = 1; //calc mistakes
     }
 
-    out_current = A * y * weight;
+    out_current = 2 * A * y * weight;
 
     return moveDeliveries();
 }
@@ -1418,7 +1418,7 @@ double SynapseTMSTDP::evolve(double dt, double time, \
     if(z >= 1) z = 0.9999999; if(z<=0) z = 0.0000001;
     if(u >= 1) u = 0.9999999; if(u<=0) u = 0.0000001;
 
-    if(time>t_start){
+    if(time>t_start && exc){
         if(last_spiked>0 && last_spiked_post>0 && (\
                 vf_discrete::diracDelta(last_spiked_post - time, dt) || \
                 vf_discrete::diracDelta(last_spiked - time, dt)
@@ -1435,7 +1435,7 @@ double SynapseTMSTDP::evolve(double dt, double time, \
         if(weight > 1) weight = 1; //calc mistakes
     }
 
-    out_current = A * y * weight;
+    out_current = 2 * A * y * weight;
 
     return moveDeliveries();
 }
@@ -1514,9 +1514,9 @@ int SynapseTMSTDP::initSynapsesLocal(){
     std::string buf30 = loadFileToString("./init/SynapseTMSTDP.ini");
 
     init_tau_one = getParameterIni("tau_one", buf30);
-    init_x = getParameterIni("x", buf30);
-    init_y = getParameterIni("y", buf30);
-    init_z = getParameterIni("z", buf30);
+    init_x = getParameterIni("INIT_x", buf30);
+    init_y = getParameterIni("INIT_y", buf30);
+    init_z = getParameterIni("INIT_z", buf30);
 
     init_Aee = getParameterIni("Aee", buf30);
     init_Uee = getParameterIni("Uee", buf30);
@@ -1554,9 +1554,9 @@ int SynapseTMSTDP::initSynapsesLocal(){
         exit(15);
     }
     fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
-    fprintf(fid, "x = %.2f;\n", init_x);
-    fprintf(fid, "y = %.2f;\n", init_y);
-    fprintf(fid, "z = %.2f;\n\n", init_z);
+    fprintf(fid, "INIT_x = %.2f;\n", init_x);
+    fprintf(fid, "INIT_y = %.2f;\n", init_y);
+    fprintf(fid, "INIT_z = %.2f;\n\n", init_z);
 
     fprintf(fid, "Aee = %.2f;\n", init_Aee);
     fprintf(fid, "Uee = %.2f;\n", init_Uee);

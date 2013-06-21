@@ -9,7 +9,7 @@ pi = 3.14159265359;
     LOAD_SYNAPSE_DATA = 0;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
-    LOAD_CURRENTS = 0;
+    LOAD_CURRENTS = 1;
     
     CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;              %Plots an average potential vs time
     CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;                  %Plots average synaptic current (with SD) vs time
@@ -335,6 +335,9 @@ pi = 3.14159265359;
                 burst_time(amount_of_bursts) = integrated_spikes_time(i);
 
                 j = i-1;
+                if j<1
+                    j = 1;
+                end
                 burst_spikes(amount_of_bursts) = integrated_spikes(i);
                 while integrated_spikes(j) > burst_width_threshold
                     burst_spikes(amount_of_bursts) = ...
