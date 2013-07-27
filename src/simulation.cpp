@@ -134,6 +134,10 @@ int SimulationSingleton::createNamedSynapses(){
         for(int i=0; i<M; i++)
             synapse_array[i] = new SynapseTMexcSTDP;
         break;
+    case 6:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseSimpleG;
+        break;
     case 51:
         for(int i=0; i<M; i++)
             synapse_array[i] = new SynapseGFirstType;
@@ -282,24 +286,49 @@ int SimulationSingleton::createNeuronStimulation(){
         stim_start_pers[i] = uniform(0, stim_start);
     }
 
+    if(neuron_excitation_max>0)
+        for(int i=0; i < N; i++)
+            neuron_excitation_period[i] = normal(neuron_excitation_mean, \
+                neuron_excitation_sd, neuron_excitation_min, \
+                neuron_excitation_max);
+
+    if(fake_neuron_excitation_max>0)
+        for(int i=0; i < N; i++)
+            fake_neuron_excitation_period[i] = normal(fake_neuron_excitation_mean, \
+                fake_neuron_excitation_sd, fake_neuron_excitation_min, \
+                fake_neuron_excitation_max);
+
     return 0;
 }
 
 int SimulationSingleton::createSynapseStimulation(){
+    using namespace vf_distributions;
     if(synaptic_excitation_max <= 0){
         for(int i=0; i < M; i++)
             synaptic_excitation_period[i] = 0;
-        return 1;
-    }
-    if(synaptic_excitation_min < 0)
-        synaptic_excitation_min = 0;
+    } else {
+        if(synaptic_excitation_min < 0)
+            synaptic_excitation_min = 0;
 
-    for(int i=0; i < M; i++){
-        synaptic_excitation_period[i] = vf_distributions::normal(
-            synaptic_excitation_mean, \
-            synaptic_excitation_sd, \
-            synaptic_excitation_min, \
-            synaptic_excitation_max);
+        for(int i=0; i < M; i++){
+            synaptic_excitation_period[i] = normal( \
+                synaptic_excitation_mean, \
+                synaptic_excitation_sd, \
+                synaptic_excitation_min, \
+                synaptic_excitation_max);
+        }
+    }
+
+    if(poisson_synaptic_excitation_freq_max > 0){
+        if(poisson_synaptic_excitation_freq_min < 0)
+            poisson_synaptic_excitation_freq_min = 0;
+        for(int i=0; i < M; i++){
+            poisson_synaptic_excitation_next[i] = 1000 / normal( \
+                poisson_synaptic_excitation_freq_mean, \
+                poisson_synaptic_excitation_freq_sd, \
+                poisson_synaptic_excitation_freq_min, \
+                poisson_synaptic_excitation_freq_max);
+        }
     }
 
     return 0;
@@ -343,6 +372,8 @@ int SimulationSingleton::createNetwork(){
     Inoise = new double[N];
     Inoise2 = new double[N];
     stim_start_pers = new double[N];
+    neuron_excitation_period = new double[N];
+    fake_neuron_excitation_period = new double[N];
     createNeurons();
     if(import_synapses){
         cout<<"\nImporting synapses...\r";
@@ -356,6 +387,7 @@ int SimulationSingleton::createNetwork(){
     }
 
     synaptic_excitation_period = new double[M];
+    poisson_synaptic_excitation_next = new double[M];
     createStimulation();
 
     /// Set BUFFER for SPIKES:
@@ -368,48 +400,87 @@ int SimulationSingleton::createNetwork(){
 }
 
 int SimulationSingleton::sendNeuralNoise(){
-    // Adds noise current to all neurons according to ini
-    if (tau_stim > 0)
-        if (vf_discrete::inBetween(time_now, tau_stim, dt)){
-            for(int i=0; i<N; i++)
-                Inoise2[i] = vf_distributions::normal(Inoise[i], \
-                    Inoise[i] * current_stimulation_noise_sd, Imin, Imax);
-        }
+    if(Imax > 0){   // Adds noise current to all neurons according to ini
+        if (tau_stim > 0)   //makes it noisy
+            if (vf_discrete::inBetween(time_now, tau_stim, dt)){
+                for(int i=0; i<N; i++)
+                    Inoise2[i] = vf_distributions::normal(Inoise[i], \
+                        Inoise[i] * current_stimulation_noise_sd, Imin, Imax);
+            }
 
-    for(int i=0; i<N; i++){
-        if(time_now>stim_start_pers[i])
-            neuron_array[i]->addCurrent(Inoise2[i]);
+        for(int i=0; i<N; i++){
+            if(time_now>stim_start_pers[i])
+                neuron_array[i]->addCurrent(Inoise2[i]);
+        }
     }
+
+    if(neuron_excitation_max>0){    // excites neurons
+        for(int i=0; i < N; i++)
+            if(neuron_excitation_period[i] > 0 && time_now > 0)
+                if(vf_discrete::inBetween(time_now, neuron_excitation_period[i], dt)){
+                    neuron_array[i]->excite(time_now);
+                    saveSpike(i);
+                    neuronSpiked(i);
+                }
+    }
+
+    if(fake_neuron_excitation_max>0){   //excites synapses based on which neuron they are from
+        for(int i=0; i < N; i++)
+            if(fake_neuron_excitation_period[i] > 0 && time_now > 0)
+                if(vf_discrete::inBetween(time_now, fake_neuron_excitation_period[i], dt)){
+                    neuronSpiked(i);
+                }
+    }
+
     return 0;
 }
 
 int SimulationSingleton::sendSynapseNoise(){
+    using namespace vf_discrete;
+    using namespace vf_distributions;
     // excites some synapses
-    if(synaptic_excitation_max <= 0){
-        return 1;   //no excitement!
+    if(synaptic_excitation_max > 0){
+        for(int i=0; i<M; i++)
+            if(synaptic_excitation_period[i] > 0)
+                if(inBetween(time_now, synaptic_excitation_period[i], dt))
+                    synapse_array[i]->incSpike(time_now);
     }
-    for(int i=0; i<M; i++)
-        if(synaptic_excitation_period[i] > 0)
-            if(vf_discrete::inBetween(time_now, synaptic_excitation_period[i], dt))
+
+    if(poisson_synaptic_excitation_freq_max > 0){
+        for(int i=0; i < M; i++){
+            if(diracDelta(time_now - poisson_synaptic_excitation_next[i], dt)){
                 synapse_array[i]->incSpike(time_now);
+                poisson_synaptic_excitation_next[i] += 1000 / normal( \
+                    poisson_synaptic_excitation_freq_mean, \
+                    poisson_synaptic_excitation_freq_sd, \
+                    poisson_synaptic_excitation_freq_min, \
+                    poisson_synaptic_excitation_freq_max);
+            }
+        }
+    }
+
     return 0;
 }
 
 int SimulationSingleton::evolveAllNeurons(){
     for(int i=0; i < N; i++){
-        if((neuron_array[i])->evolve(dt, time_now)){
-            // if neuron sent a spike
+        if(neuron_array[i]->evolve(dt, time_now)){
             saveSpike(i);
-
-            // send signal to POSTsynapses
-            for(int j=0; j < outgoing_synapses[i][0]; j++)
-                synapse_array[outgoing_synapses[i][j+1]]->incSpike(time_now);
-
-            // send signal to PREsynapses
-            for(int j=0; j < incoming_synapses[i][0]; j++)
-                synapse_array[incoming_synapses[i][j+1]]->incAfterSpike(time_now);
+            neuronSpiked(i);
         }
     }
+
+    return 0;
+}
+
+int SimulationSingleton::neuronSpiked(int b){
+    // send signal to POSTsynapses
+    for(int i=0; i < outgoing_synapses[b][0]; i++)
+        synapse_array[outgoing_synapses[b][i+1]]->incSpike(time_now);
+
+    // send signal to PREsynapses
+    for(int i=0; i < incoming_synapses[b][0]; i++)
+        synapse_array[incoming_synapses[b][i+1]]->incAfterSpike(time_now);
 
     return 0;
 }

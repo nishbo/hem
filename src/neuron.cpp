@@ -1,3 +1,4 @@
+
 #include "neuron.h"
 
 /// NEURON
@@ -30,6 +31,11 @@ int Neuron::numEssentialVariables(){
 int Neuron::setCoordinates(double xo, double yo){
     x = xo;
     y = yo;
+    return 0;
+}
+
+int Neuron::excite(double time){
+    last_spiked = time;
     return 0;
 }
 
@@ -100,20 +106,21 @@ void NeuronLeakyIAF::setExcitatory(int f){
     I = 0.0;
 }
 
-int NeuronLeakyIAF::evolve(double dt, double time){
-    V += dt * ( - (V - Vrest) + Rin * I) / tau_m;
+int NeuronLeakyIAF::evolve(double _dt, double _time){
+    if(_time < last_spiked + tau_ref_abs){
+        V = Vreset;
+    } else {
+        V += _dt * ( - (V - Vrest) + Rin * I) / tau_m;
+        if(V >= Vth){ // spike
+            V = Vreset;
+            last_spiked = _time;
+            return 1;
+        }
+    }
 
     // 'I' sets to 0 to let synapses to add current on the next time-step
     I = 0.0;
-
-    if( V >= Vth && time > last_spiked + tau_ref_abs){
-        // spike
-        V = Vreset;
-        last_spiked = time;
-        return 1;
-    } else if ( time < last_spiked + tau_ref_abs )
-        V = Vreset;
-
+    
     return 0;
 }
 

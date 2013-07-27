@@ -9,6 +9,7 @@ Synapse types:
 3: STDP with Tsodyks-Markram
 4: Tsodyks-Markram with g-transmission function as seen in NEST
 5: Canonical TM with exc synapse STDP and no 2 multiplier
+6: Simple G-synapse for testing stuff, no plasticity
 51: G First type
 52: G Second type
 53: G First type with cut

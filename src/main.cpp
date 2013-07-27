@@ -26,6 +26,7 @@ int main(){
 
     storage->exportNeurons();
     storage->exportSynapses();
+    storage->exportStimulation();
 
     storage->length_of_simulation += storage->dt;
     cout<<"\n\tStarting simulation.\n";

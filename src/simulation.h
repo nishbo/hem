@@ -55,6 +55,18 @@ public:
     double* synaptic_excitation_period; //period of noise excitating of synapses (in msec)
     double synaptic_excitation_mean, synaptic_excitation_sd;
     double synaptic_excitation_min, synaptic_excitation_max;
+    // Synapse poisson:
+    double* poisson_synaptic_excitation_next; //next time of excitating of synapse (in msec)
+    double poisson_synaptic_excitation_freq_mean, poisson_synaptic_excitation_freq_sd;
+    double poisson_synaptic_excitation_freq_min, poisson_synaptic_excitation_freq_max;
+    // Excite neurons directly
+    double* neuron_excitation_period;
+    double neuron_excitation_mean, neuron_excitation_sd;
+    double neuron_excitation_min, neuron_excitation_max;
+    // Excite neuron's synapses directly
+    double* fake_neuron_excitation_period;
+    double fake_neuron_excitation_mean, fake_neuron_excitation_sd;
+    double fake_neuron_excitation_min, fake_neuron_excitation_max;
 
     // Output parameters:
     double time_between_weight_exports;
@@ -118,6 +130,7 @@ public:
     void saveSpike(int n);
     int evolveAllNeurons();
     int evolveAllSynapses();
+    int neuronSpiked(int b);
 
     // Output, etc. In "inout.cpp" are bodies.
     int setOutputFile();
@@ -133,6 +146,9 @@ public:
     int outputCurrentsInFile(double time);
     int exportNeurons();
     int exportSynapses();
+    int exportStimulation();
+    int exportStimulationNeuron();
+    int exportStimulationSynapse();
 
     void test();
 private:

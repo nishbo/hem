@@ -42,6 +42,21 @@ int SimulationSingleton::loadParametersFromFile(){
     synaptic_excitation_min = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_MIN", buf31);
     synaptic_excitation_max = getParameterIni("SYNAPTIC_EXCITATION_PERIOD_MAX", buf31);
 
+    poisson_synaptic_excitation_freq_mean = getParameterIni("POISSON_SYNAPTIC_EXCITATION_FREQ_MEAN", buf31);
+    poisson_synaptic_excitation_freq_sd = getParameterIni("POISSON_SYNAPTIC_EXCITATION_FREQ_SD", buf31);
+    poisson_synaptic_excitation_freq_min = getParameterIni("POISSON_SYNAPTIC_EXCITATION_FREQ_MIN", buf31);
+    poisson_synaptic_excitation_freq_max = getParameterIni("POISSON_SYNAPTIC_EXCITATION_FREQ_MAX", buf31);
+
+    neuron_excitation_mean = getParameterIni("NEURON_EXCITATION_PERIOD_MEAN", buf31);
+    neuron_excitation_sd = getParameterIni("NEURON_EXCITATION_PERIOD_SD", buf31);
+    neuron_excitation_min = getParameterIni("NEURON_EXCITATION_PERIOD_MIN", buf31);
+    neuron_excitation_max = getParameterIni("NEURON_EXCITATION_PERIOD_MAX", buf31);
+
+    fake_neuron_excitation_mean = getParameterIni("FAKE_NEURON_EXCITATION_PERIOD_MEAN", buf31);
+    fake_neuron_excitation_sd = getParameterIni("FAKE_NEURON_EXCITATION_PERIOD_SD", buf31);
+    fake_neuron_excitation_min = getParameterIni("FAKE_NEURON_EXCITATION_PERIOD_MIN", buf31);
+    fake_neuron_excitation_max = getParameterIni("FAKE_NEURON_EXCITATION_PERIOD_MAX", buf31);
+
     buf31 = loadFileToString(FILE_SYS_DATA, DATAFILES);
 
     number_of_threads = getParameterIni("Number_of_threads", buf31);
@@ -129,28 +144,43 @@ int SimulationSingleton::outputParametersInFile(){
     fprintf(param_file, ";\n");
 
     fprintf(param_file, "Neurons in simulation = %d;\n", N);
-    fprintf(param_file, "Length of simulation (msec) = %.2f;\n", \
+    fprintf(param_file, "Length of simulation (msec) = %.4f;\n", \
                         length_of_simulation);
-    fprintf(param_file, "Time between exports (msec) = %.2f;\n", \
+    fprintf(param_file, "Time between exports (msec) = %.4f;\n", \
                         time_between_exports);
-    fprintf(param_file, "Time between I/V exports (msec) = %.2f;\n", \
+    fprintf(param_file, "Time between I/V exports (msec) = %.4f;\n", \
                         time_between_vi_exports);
-    fprintf(param_file, "Time-step (msec) = %.2f;\n", dt);
+    fprintf(param_file, "Time-step (msec) = %.4f;\n", dt);
     fprintf(param_file, "\n");
-    fprintf(param_file, "Time between weight exports = %.2f;\n", time_between_weight_exports);
+    fprintf(param_file, "Time between weight exports = %.4f;\n", time_between_weight_exports);
     fprintf(param_file, "Amount of inhibitory neurons = %d;\n", amount_of_inh_neurons);
 
     fprintf(param_file, "Type of stimulation = %d;\n", type_of_stimulation);
-    fprintf(param_file, "Tau stimulation = %.2f;\n", tau_stim);
-    fprintf(param_file, "Min noise = %.2f;\n", Imin);
-    fprintf(param_file, "Max noise = %.2f;\n", Imax);
-    fprintf(param_file, "Mean stimulation = %.2f;\n", Imean);
-    fprintf(param_file, "Sigma stimulation = %.2f;\n", Isd);
+    fprintf(param_file, "Tau stimulation = %.4f;\n", tau_stim);
+    fprintf(param_file, "Min noise = %.4f;\n", Imin);
+    fprintf(param_file, "Max noise = %.4f;\n", Imax);
+    fprintf(param_file, "Mean stimulation = %.4f;\n", Imean);
+    fprintf(param_file, "Sigma stimulation = %.4f;\n\n", Isd);
 
     fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MEAN = %.4f;\n", synaptic_excitation_mean);  
     fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_SD = %.4f;\n", synaptic_excitation_sd);  
     fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MIN = %.4f;\n", synaptic_excitation_min);  
-    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MAX = %.4f;\n", synaptic_excitation_max);  
+    fprintf(param_file, "SYNAPTIC_EXCITATION_PERIOD_MAX = %.4f;\n\n", synaptic_excitation_max); 
+
+    fprintf(param_file, "POISSON_SYNAPTIC_EXCITATION_FREQ_MEAN = %.4f;\n", poisson_synaptic_excitation_freq_mean);
+    fprintf(param_file, "POISSON_SYNAPTIC_EXCITATION_FREQ_SD = %.4f;\n", poisson_synaptic_excitation_freq_sd);
+    fprintf(param_file, "POISSON_SYNAPTIC_EXCITATION_FREQ_MIN = %.4f;\n", poisson_synaptic_excitation_freq_min);
+    fprintf(param_file, "POISSON_SYNAPTIC_EXCITATION_FREQ_MAX = %.4f;\n\n", poisson_synaptic_excitation_freq_max);
+
+    fprintf(param_file, "NEURON_EXCITATION_PERIOD_MEAN = %.4f;\n", neuron_excitation_mean);  
+    fprintf(param_file, "NEURON_EXCITATION_PERIOD_SD = %.4f;\n", neuron_excitation_sd);  
+    fprintf(param_file, "NEURON_EXCITATION_PERIOD_MIN = %.4f;\n", neuron_excitation_min);  
+    fprintf(param_file, "NEURON_EXCITATION_PERIOD_MAX = %.4f;\n\n", neuron_excitation_max); 
+
+    fprintf(param_file, "FAKE_NEURON_EXCITATION_PERIOD_MEAN = %.4f;\n", fake_neuron_excitation_mean);  
+    fprintf(param_file, "FAKE_NEURON_EXCITATION_PERIOD_SD = %.4f;\n", fake_neuron_excitation_sd);  
+    fprintf(param_file, "FAKE_NEURON_EXCITATION_PERIOD_MIN = %.4f;\n", fake_neuron_excitation_min);  
+    fprintf(param_file, "FAKE_NEURON_EXCITATION_PERIOD_MAX = %.4f;\n\n", fake_neuron_excitation_max); 
 
     fprintf(param_file, "Import neurons = %d;\n", import_neurons);
     fprintf(param_file, "Import synapses = %d;\n", import_synapses);
@@ -253,7 +283,7 @@ int SimulationSingleton::outputConnectivityMatrixInFile(){
 }
 
 void SimulationSingleton::outputChangingDataInFile(double time){
-    fprintf(storage_file, "_________Time = %.2f\n", time);
+    fprintf(storage_file, "_________Time = %.4f\n", time);
 
     fprintf(storage_file, "____Potentials:\n");
     one_line = "";
@@ -264,7 +294,7 @@ void SimulationSingleton::outputChangingDataInFile(double time){
 }
 
 int SimulationSingleton::outputCurrentsInFile(double time){
-    fprintf(current_file, "_________Time = %.2f\n", time);
+    fprintf(current_file, "_________Time = %.4f\n", time);
 
     one_line = "";
     for(int i=0; i<neurons_in_simulation; i++)
@@ -288,7 +318,7 @@ void SimulationSingleton::outputSpikesInFile(){
 void SimulationSingleton::outputSynapseDataInFile(double time){
     buffer = synapse_array[0]->getInnerData();
     if(buffer){
-        fprintf(synapse_file, "_________Time = %.2f\n", time);
+        fprintf(synapse_file, "_________Time = %.4f\n", time);
         one_line = "";
         for(int i=1; i<buffer[0]; i++){
             one_line += vf_file::convertDoubleToString(buffer[i] * \
@@ -300,7 +330,7 @@ void SimulationSingleton::outputSynapseDataInFile(double time){
 }
 
 int SimulationSingleton::outputWeightsInFile(double time){
-    fprintf(weight_file, "_________Time = %.2f\n", time);
+    fprintf(weight_file, "_________Time = %.4f\n", time);
 
     for(int i=0; i<N; i++){
         buf31 = "";
@@ -324,7 +354,7 @@ int SimulationSingleton::outputWeightsInFile(double time){
 }
 
 int SimulationSingleton::exportNeurons(){
-    cout<<"\nEporting neurons...\r";
+    cout<<"\nExporting neurons...\r";
     using namespace vf_file;
     if(!(neuron_array[0]->exportData()))
         return 1;
@@ -340,7 +370,7 @@ int SimulationSingleton::exportNeurons(){
         fprintf(fid, one_line.c_str());
     }
     fclose(fid);
-    cout<<"Neurons exported.  ";
+    cout<<"Neurons exported.    ";
     return 0;
 }
 
@@ -439,6 +469,38 @@ int SimulationSingleton::importSynapses(){
         synapse_array[buf0]->setDeliveries(dt);
         buf0++;
     }
+    fclose(fid);
+    return 0;
+}
+
+int SimulationSingleton::exportStimulation(){
+    cout<<"\nExport stimulation...\r";
+    exportStimulationNeuron();
+    exportStimulationSynapse();
+    cout<<"Stimulation exported.   ";
+    return errorReport();
+}
+
+int SimulationSingleton::exportStimulationNeuron(){
+    using namespace vf_file;
+    FILE* fid = fopen(getFilenameFromIni(DATAFILES, FILE_EXP_STIMUL_NEURON).c_str(), "w");
+    buf31 = "";
+    for(int i=0; i < N; i++){
+        buf31 += convertDoubleToString(Inoise[i]) + " ";
+    }
+    fprintf(fid, "%s", buf31.c_str());
+    fclose(fid);
+    return 0;
+}
+
+int SimulationSingleton::exportStimulationSynapse(){
+    using namespace vf_file;
+    FILE* fid = fopen(getFilenameFromIni(DATAFILES, FILE_EXP_STIMUL_SYNAPSE).c_str(), "w");
+    buf31 = "";
+    for(int i=0; i < M; i++){
+        buf31 += convertDoubleToString(synaptic_excitation_period[i]) + " ";
+    }
+    fprintf(fid, "%s", buf31.c_str());
     fclose(fid);
     return 0;
 }

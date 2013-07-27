@@ -37,6 +37,7 @@ public:
     virtual int importData(double *arr);
     virtual int initNeurons();
     virtual int numEssentialVariables();
+    virtual int excite(double time);
     int setCoordinates(double xo, double yo);
 };
 

@@ -402,30 +402,30 @@ int SynapseTsodyksMarkramRK::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
-    fprintf(fid, "x = %.2f;\n", init_x);
-    fprintf(fid, "y = %.2f;\n", init_y);
-    fprintf(fid, "z = %.2f;\n\n", init_z);
+    fprintf(fid, "tau_one = %.4f;\n", init_tau_one);
+    fprintf(fid, "x = %.4f;\n", init_x);
+    fprintf(fid, "y = %.4f;\n", init_y);
+    fprintf(fid, "z = %.4f;\n\n", init_z);
 
-    fprintf(fid, "Aee = %.2f;\n", init_Aee);
-    fprintf(fid, "Uee = %.2f;\n", init_Uee);
-    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
-    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+    fprintf(fid, "Aee = %.4f;\n", init_Aee);
+    fprintf(fid, "Uee = %.4f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.4f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.4f;\n\n", init_tau_facilee);
 
-    fprintf(fid, "Aei = %.2f;\n", init_Aei);
-    fprintf(fid, "Uei = %.2f;\n", init_Uei);
-    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
-    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+    fprintf(fid, "Aei = %.4f;\n", init_Aei);
+    fprintf(fid, "Uei = %.4f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.4f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.4f;\n\n", init_tau_facilei);
 
-    fprintf(fid, "Aie = %.2f;\n", init_Aie);
-    fprintf(fid, "Uie = %.2f;\n", init_Uie);
-    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
-    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+    fprintf(fid, "Aie = %.4f;\n", init_Aie);
+    fprintf(fid, "Uie = %.4f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.4f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.4f;\n\n", init_tau_facilie);
 
-    fprintf(fid, "Aii = %.2f;\n", init_Aii);
-    fprintf(fid, "Uii = %.2f;\n", init_Uii);
-    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
-    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+    fprintf(fid, "Aii = %.4f;\n", init_Aii);
+    fprintf(fid, "Uii = %.4f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.4f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.4f;\n\n", init_tau_facilii);
 
     fprintf(fid, "DISTRIBUTE_PARAMETERS = %d;\n", init_distribute_params);
     fclose(fid);
@@ -686,36 +686,36 @@ int SynapseTsodyksMarkramRKNest::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
-    fprintf(fid, "x = %.2f;\n", init_x);
-    fprintf(fid, "y = %.2f;\n", init_y);
-    fprintf(fid, "z = %.2f;\n\n", init_z);
+    fprintf(fid, "tau_one = %.4f;\n", init_tau_one);
+    fprintf(fid, "x = %.4f;\n", init_x);
+    fprintf(fid, "y = %.4f;\n", init_y);
+    fprintf(fid, "z = %.4f;\n\n", init_z);
 
-    fprintf(fid, "Aee = %.2f;\n", init_Aee);
-    fprintf(fid, "Uee = %.2f;\n", init_Uee);
-    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
-    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+    fprintf(fid, "Aee = %.4f;\n", init_Aee);
+    fprintf(fid, "Uee = %.4f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.4f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.4f;\n\n", init_tau_facilee);
 
-    fprintf(fid, "Aei = %.2f;\n", init_Aei);
-    fprintf(fid, "Uei = %.2f;\n", init_Uei);
-    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
-    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+    fprintf(fid, "Aei = %.4f;\n", init_Aei);
+    fprintf(fid, "Uei = %.4f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.4f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.4f;\n\n", init_tau_facilei);
 
-    fprintf(fid, "Aie = %.2f;\n", init_Aie);
-    fprintf(fid, "Uie = %.2f;\n", init_Uie);
-    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
-    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+    fprintf(fid, "Aie = %.4f;\n", init_Aie);
+    fprintf(fid, "Uie = %.4f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.4f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.4f;\n\n", init_tau_facilie);
 
-    fprintf(fid, "Aii = %.2f;\n", init_Aii);
-    fprintf(fid, "Uii = %.2f;\n", init_Uii);
-    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
-    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+    fprintf(fid, "Aii = %.4f;\n", init_Aii);
+    fprintf(fid, "Uii = %.4f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.4f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.4f;\n\n", init_tau_facilii);
 
-    fprintf(fid, "g = %.2f;\n", init_g);
-    fprintf(fid, "Ee = %.2f;\n", init_Ee);
-    fprintf(fid, "Ei = %.2f;\n", init_Ei);
-    fprintf(fid, "tau_ge = %.2f;\n", init_tau_ge);
-    fprintf(fid, "tau_gi = %.2f;\n", init_tau_gi);
+    fprintf(fid, "g = %.4f;\n", init_g);
+    fprintf(fid, "Ee = %.4f;\n", init_Ee);
+    fprintf(fid, "Ei = %.4f;\n", init_Ei);
+    fprintf(fid, "tau_ge = %.4f;\n", init_tau_ge);
+    fprintf(fid, "tau_gi = %.4f;\n", init_tau_gi);
 
     fclose(fid);
 
@@ -840,12 +840,12 @@ int SynapseSTDPG::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "g = %.2f\n", init_g);
-    fprintf(fid, "tau_s = %.2f\n", init_tau_s);
-    fprintf(fid, "lambda = %.2f\n", init_lambda);
-    fprintf(fid, "alpha = %.2f\n", init_alpha);
-    fprintf(fid, "tau_corr = %.2f\n", init_tau_corr);
-    fprintf(fid, "weight = %.2f\n", init_weight);
+    fprintf(fid, "g = %.4f\n", init_g);
+    fprintf(fid, "tau_s = %.4f\n", init_tau_s);
+    fprintf(fid, "lambda = %.4f\n", init_lambda);
+    fprintf(fid, "alpha = %.4f\n", init_alpha);
+    fprintf(fid, "tau_corr = %.4f\n", init_tau_corr);
+    fprintf(fid, "weight = %.4f\n", init_weight);
 
     fclose(fid);
 
@@ -1172,37 +1172,37 @@ int SynapseTMexcSTDP::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
-    fprintf(fid, "x = %.2f;\n", init_x);
-    fprintf(fid, "y = %.2f;\n", init_y);
-    fprintf(fid, "z = %.2f;\n\n", init_z);
+    fprintf(fid, "tau_one = %.4f;\n", init_tau_one);
+    fprintf(fid, "x = %.4f;\n", init_x);
+    fprintf(fid, "y = %.4f;\n", init_y);
+    fprintf(fid, "z = %.4f;\n\n", init_z);
 
-    fprintf(fid, "Aee = %.2f;\n", init_Aee);
-    fprintf(fid, "Uee = %.2f;\n", init_Uee);
-    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
-    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+    fprintf(fid, "Aee = %.4f;\n", init_Aee);
+    fprintf(fid, "Uee = %.4f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.4f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.4f;\n\n", init_tau_facilee);
 
-    fprintf(fid, "Aei = %.2f;\n", init_Aei);
-    fprintf(fid, "Uei = %.2f;\n", init_Uei);
-    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
-    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+    fprintf(fid, "Aei = %.4f;\n", init_Aei);
+    fprintf(fid, "Uei = %.4f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.4f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.4f;\n\n", init_tau_facilei);
 
-    fprintf(fid, "Aie = %.2f;\n", init_Aie);
-    fprintf(fid, "Uie = %.2f;\n", init_Uie);
-    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
-    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+    fprintf(fid, "Aie = %.4f;\n", init_Aie);
+    fprintf(fid, "Uie = %.4f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.4f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.4f;\n\n", init_tau_facilie);
 
-    fprintf(fid, "Aii = %.2f;\n", init_Aii);
-    fprintf(fid, "Uii = %.2f;\n", init_Uii);
-    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
-    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+    fprintf(fid, "Aii = %.4f;\n", init_Aii);
+    fprintf(fid, "Uii = %.4f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.4f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.4f;\n\n", init_tau_facilii);
 
-    fprintf(fid, "t_start = %.2f;\n", init_t_start);
+    fprintf(fid, "t_start = %.4f;\n", init_t_start);
     fprintf(fid, "type_of_weight = %d;\n", init_type_of_weight);
-    fprintf(fid, "lambda = %.2f;\n", init_lambda);
-    fprintf(fid, "alpha = %.2f;\n", init_alpha);
-    fprintf(fid, "tau_corr = %.2f;\n", init_tau_corr);
-    fprintf(fid, "weight = %.2f;\n", init_weight);
+    fprintf(fid, "lambda = %.4f;\n", init_lambda);
+    fprintf(fid, "alpha = %.4f;\n", init_alpha);
+    fprintf(fid, "tau_corr = %.4f;\n", init_tau_corr);
+    fprintf(fid, "weight = %.4f;\n", init_weight);
     fclose(fid);
 
     return 0;
@@ -1553,39 +1553,39 @@ int SynapseTMSTDP::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "tau_one = %.2f;\n", init_tau_one);
-    fprintf(fid, "INIT_x = %.2f;\n", init_x);
-    fprintf(fid, "INIT_y = %.2f;\n", init_y);
-    fprintf(fid, "INIT_z = %.2f;\n\n", init_z);
+    fprintf(fid, "tau_one = %.4f;\n", init_tau_one);
+    fprintf(fid, "INIT_x = %.4f;\n", init_x);
+    fprintf(fid, "INIT_y = %.4f;\n", init_y);
+    fprintf(fid, "INIT_z = %.4f;\n\n", init_z);
 
-    fprintf(fid, "Aee = %.2f;\n", init_Aee);
-    fprintf(fid, "Uee = %.2f;\n", init_Uee);
-    fprintf(fid, "tau_recee = %.2f;\n", init_tau_recee);
-    fprintf(fid, "tau_facilee = %.2f;\n\n", init_tau_facilee);
+    fprintf(fid, "Aee = %.4f;\n", init_Aee);
+    fprintf(fid, "Uee = %.4f;\n", init_Uee);
+    fprintf(fid, "tau_recee = %.4f;\n", init_tau_recee);
+    fprintf(fid, "tau_facilee = %.4f;\n\n", init_tau_facilee);
 
-    fprintf(fid, "Aei = %.2f;\n", init_Aei);
-    fprintf(fid, "Uei = %.2f;\n", init_Uei);
-    fprintf(fid, "tau_recei = %.2f;\n", init_tau_recei);
-    fprintf(fid, "tau_facilei = %.2f;\n\n", init_tau_facilei);
+    fprintf(fid, "Aei = %.4f;\n", init_Aei);
+    fprintf(fid, "Uei = %.4f;\n", init_Uei);
+    fprintf(fid, "tau_recei = %.4f;\n", init_tau_recei);
+    fprintf(fid, "tau_facilei = %.4f;\n\n", init_tau_facilei);
 
-    fprintf(fid, "Aie = %.2f;\n", init_Aie);
-    fprintf(fid, "Uie = %.2f;\n", init_Uie);
-    fprintf(fid, "tau_recie = %.2f;\n", init_tau_recie);
-    fprintf(fid, "tau_facilie = %.2f;\n\n", init_tau_facilie);
+    fprintf(fid, "Aie = %.4f;\n", init_Aie);
+    fprintf(fid, "Uie = %.4f;\n", init_Uie);
+    fprintf(fid, "tau_recie = %.4f;\n", init_tau_recie);
+    fprintf(fid, "tau_facilie = %.4f;\n\n", init_tau_facilie);
 
-    fprintf(fid, "Aii = %.2f;\n", init_Aii);
-    fprintf(fid, "Uii = %.2f;\n", init_Uii);
-    fprintf(fid, "tau_recii = %.2f;\n", init_tau_recii);
-    fprintf(fid, "tau_facilii = %.2f;\n\n", init_tau_facilii);
+    fprintf(fid, "Aii = %.4f;\n", init_Aii);
+    fprintf(fid, "Uii = %.4f;\n", init_Uii);
+    fprintf(fid, "tau_recii = %.4f;\n", init_tau_recii);
+    fprintf(fid, "tau_facilii = %.4f;\n\n", init_tau_facilii);
 
-    fprintf(fid, "t_start = %.2f;\n", init_t_start);
+    fprintf(fid, "t_start = %.4f;\n", init_t_start);
     fprintf(fid, "type_of_weight = %d;\n", init_type_of_weight);
-    fprintf(fid, "Weight = %.2f;\n\n", init_weight);
+    fprintf(fid, "Weight = %.4f;\n\n", init_weight);
 
-    fprintf(fid, "A_plus = %.2f;\n", init_A_plus);
-    fprintf(fid, "A_minus = %.2f;\n", init_A_minus);
-    fprintf(fid, "tau_corr_plus = %.2f;\n", init_tau_corr_plus);
-    fprintf(fid, "tau_corr_minus = %.2f;\n", init_tau_corr_minus);
+    fprintf(fid, "A_plus = %.4f;\n", init_A_plus);
+    fprintf(fid, "A_minus = %.4f;\n", init_A_minus);
+    fprintf(fid, "tau_corr_plus = %.4f;\n", init_tau_corr_plus);
+    fprintf(fid, "tau_corr_minus = %.4f;\n", init_tau_corr_minus);
 
     fprintf(fid, "DISTRIBUTE_PARAMETERS = %d;\n", init_distribute_params);
     fclose(fid);
@@ -1600,6 +1600,144 @@ int SynapseTMSTDP::initSynapses(){
 double SynapseTMSTDP::test(){
     return init_type_of_weight;
 }
+
+
+//Simple synapse with no short- or long-term plasticity.
+
+std::string SynapseSimpleG::synapsetype = "Simple_g-synapse";
+
+double SynapseSimpleG::init_g = 0.0;
+double SynapseSimpleG::init_tau_se = 3;
+double SynapseSimpleG::init_tau_si = 7;
+double SynapseSimpleG::init_g_jump = 0.2;
+double SynapseSimpleG::init_A = 30;
+int SynapseSimpleG::TYPE = 0;
+
+double* SynapseSimpleG::exportData(){
+    double* arr = new double[numEssentialVariables()+1];
+    arr[0] = numEssentialVariables()+1;
+    arr[1] = presynaptic;
+    arr[2] = postsynaptic;
+    arr[3] = weight;
+    arr[4] = delay;
+    arr[5] = g;
+    arr[6] = tau_s;
+    arr[7] = g_jump;
+    arr[8] = A;
+    arr[9] = max_spikes;
+    return arr;
+}
+
+int SynapseSimpleG::importData(double *arr){
+    presynaptic =   arr[0];
+    postsynaptic =  arr[1];
+    weight =        arr[2];
+    delay =         arr[3];
+    g =             arr[4];
+    tau_s =         arr[5];
+    g_jump =        arr[6];
+    A =             arr[7];
+    max_spikes =    arr[8];
+    if(tau_s < 1e-5)
+        tau_s = 1e-5;
+    last_spiked = -100;
+    last_spiked_post = -100;
+    return 0;
+}
+
+int SynapseSimpleG::numEssentialVariables(){
+    return 9;
+}
+
+int SynapseSimpleG::initSynapsesLocal(){
+    using namespace vf_file;
+    std::string buf30 = loadFileToString("./init/SynapseGSimple.ini");
+
+    TYPE = getParameterIni("TYPE", buf30);
+    init_g = getParameterIni("INIT_g", buf30);
+    init_A = getParameterIni("INIT_A", buf30);
+    init_tau_se = getParameterIni("tau_se", buf30);
+    init_tau_si = getParameterIni("tau_si", buf30);
+    init_g_jump = getParameterIni("g_jump", buf30);
+
+    FILE* fid = fopen (getFilenameFromIni(DATAFILES, FILE_EXP_INIT_SYNAPSES).c_str(), "w");
+    if(!fid){
+        exit(15);
+    }
+    fprintf(fid, "TYPE = %d;\n", TYPE);
+    fprintf(fid, "INIT_g = %.4f;\n", init_g);
+    fprintf(fid, "INIT_A = %.4f;\n", init_A);
+    fprintf(fid, "tau_se = %.4f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.4f;\n", init_tau_si);
+    fprintf(fid, "g_jump = %.4f;\n", init_g_jump);
+    fclose(fid);
+    
+    return 0;
+}
+
+int SynapseSimpleG::initSynapses(){
+    return initSynapsesLocal();
+}
+
+std::string SynapseSimpleG::getName(){
+    return synapsetype;
+}
+
+void SynapseSimpleG::setData(int pre, int pos, int preex, int posex, \
+                                 double dt){
+    presynaptic = pre;
+    postsynaptic = pos;
+    weight = 1;
+    last_spiked = -100;
+    last_spiked_post = -100;
+    g_jump = init_g_jump;
+    g = init_g;
+    A = init_A;
+
+    if(preex){
+        tau_s = init_tau_se;
+    } else {
+        tau_s = init_tau_si;
+    }
+
+    now_spikes = 0;
+    max_spikes = (tau_s*6.6383 + 1)/3; //accuracy ~0.01
+    if(TYPE == 1){
+        spikerow = Malloc(max_spikes, double);
+        for(int i=0; i<max_spikes; i++){
+            spikerow[i] = 0;
+        }
+    } else 
+        max_spikes = 0;
+
+}
+
+double SynapseSimpleG::alphaFunction(double x){
+    return x/tau_s * exp(-x/tau_s);
+}
+
+double SynapseSimpleG::evolve(double dt, double timen, double Vpre, \
+                                  double Vpost){
+
+    if(TYPE==1){
+        if(timen - last_spiked < dt/2){
+            spikerow[now_spikes%max_spikes] = timen;
+            now_spikes++;
+        }
+
+        g = 0.0;
+        for(int i=0; i<now_spikes && i<max_spikes; i++)
+            g += alphaFunction(timen - spikerow[i]);
+        g = g * g_jump;
+    } else {
+        g += -g / tau_s + g_jump*vf_discrete::diracDelta(timen - last_spiked, dt);
+    }
+
+    out_current = g * A;
+
+    return moveDeliveries();
+}
+
 
 /// Models with g
 // First type. No cut on post, differential equation.
@@ -1653,7 +1791,7 @@ int SynapseGFirstType::initSynapsesLocal(){
     using namespace vf_file;
     std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    init_g = getParameterIni("g", buf30);
+    init_g = getParameterIni("INIT_g", buf30);
     init_tau_se = getParameterIni("tau_se", buf30);
     init_tau_si = getParameterIni("tau_si", buf30);
     init_gs = getParameterIni("g_s", buf30);
@@ -1664,12 +1802,12 @@ int SynapseGFirstType::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "g = %.2f;\n", init_g);
-    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
-    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
-    fprintf(fid, "g_s = %.2f;\n", init_gs);
-    fprintf(fid, "Ee = %.2f;\n", init_Ee);
-    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fprintf(fid, "g = %.4f;\n", init_g);
+    fprintf(fid, "tau_se = %.4f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.4f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.4f;\n", init_gs);
+    fprintf(fid, "Ee = %.4f;\n", init_Ee);
+    fprintf(fid, "Ei = %.4f;\n", init_Ei);
     fclose(fid);
 
     return 0;
@@ -1691,6 +1829,7 @@ void SynapseGFirstType::setData(int pre, int pos, int preex, int posex, \
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
+    g = init_g;
 
     if(preex){
         tau_s = init_tau_se;
@@ -1757,7 +1896,7 @@ int SynapseGFirstTypeWCUT::initSynapsesLocal(){
     using namespace vf_file;
     std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    init_g = getParameterIni("g", buf30);
+    init_g = getParameterIni("INIT_g", buf30);
     init_tau_se = getParameterIni("tau_se", buf30);
     init_tau_si = getParameterIni("tau_si", buf30);
     init_gs = getParameterIni("g_s", buf30);
@@ -1768,12 +1907,12 @@ int SynapseGFirstTypeWCUT::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "g = %.2f;\n", init_g);
-    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
-    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
-    fprintf(fid, "g_s = %.2f;\n", init_gs);
-    fprintf(fid, "Ee = %.2f;\n", init_Ee);
-    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fprintf(fid, "g = %.4f;\n", init_g);
+    fprintf(fid, "tau_se = %.4f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.4f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.4f;\n", init_gs);
+    fprintf(fid, "Ee = %.4f;\n", init_Ee);
+    fprintf(fid, "Ei = %.4f;\n", init_Ei);
     fclose(fid);
 
     return 0;
@@ -1795,6 +1934,7 @@ void SynapseGFirstTypeWCUT::setData(int pre, int pos, int preex, int posex, \
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
+    g = init_g;
 
     if(preex){
         tau_s = init_tau_se;
@@ -1865,7 +2005,7 @@ int SynapseGSecondType::initSynapsesLocal(){
     using namespace vf_file;
     std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    init_g = getParameterIni("g", buf30);
+    init_g = getParameterIni("INIT_g", buf30);
     init_tau_se = getParameterIni("tau_se", buf30);
     init_tau_si = getParameterIni("tau_si", buf30);
     init_gs = getParameterIni("g_s", buf30);
@@ -1876,12 +2016,12 @@ int SynapseGSecondType::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "g = %.2f;\n", init_g);
-    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
-    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
-    fprintf(fid, "g_s = %.2f;\n", init_gs);
-    fprintf(fid, "Ee = %.2f;\n", init_Ee);
-    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fprintf(fid, "g = %.4f;\n", init_g);
+    fprintf(fid, "tau_se = %.4f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.4f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.4f;\n", init_gs);
+    fprintf(fid, "Ee = %.4f;\n", init_Ee);
+    fprintf(fid, "Ei = %.4f;\n", init_Ei);
     fclose(fid);
     
     return 0;
@@ -1904,6 +2044,7 @@ void SynapseGSecondType::setData(int pre, int pos, int preex, int posex, \
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
+    g = init_g;
 
     if(preex){
         tau_s = init_tau_se;
@@ -1992,7 +2133,7 @@ int SynapseGSecondTypeWCUT::initSynapsesLocal(){
     using namespace vf_file;
     std::string buf30 = loadFileToString("./init/SynapseG.ini");
 
-    init_g = getParameterIni("g", buf30);
+    init_g = getParameterIni("INIT_g", buf30);
     init_tau_se = getParameterIni("tau_se", buf30);
     init_tau_si = getParameterIni("tau_si", buf30);
     init_gs = getParameterIni("g_s", buf30);
@@ -2003,12 +2144,12 @@ int SynapseGSecondTypeWCUT::initSynapsesLocal(){
     if(!fid){
         exit(15);
     }
-    fprintf(fid, "g = %.2f;\n", init_g);
-    fprintf(fid, "tau_se = %.2f;\n", init_tau_se);
-    fprintf(fid, "tau_si = %.2f;\n", init_tau_si);
-    fprintf(fid, "g_s = %.2f;\n", init_gs);
-    fprintf(fid, "Ee = %.2f;\n", init_Ee);
-    fprintf(fid, "Ei = %.2f;\n", init_Ei);
+    fprintf(fid, "g = %.4f;\n", init_g);
+    fprintf(fid, "tau_se = %.4f;\n", init_tau_se);
+    fprintf(fid, "tau_si = %.4f;\n", init_tau_si);
+    fprintf(fid, "g_s = %.4f;\n", init_gs);
+    fprintf(fid, "Ee = %.4f;\n", init_Ee);
+    fprintf(fid, "Ei = %.4f;\n", init_Ei);
     fclose(fid);
     
     return 0;
@@ -2031,6 +2172,7 @@ void SynapseGSecondTypeWCUT::setData(int pre, int pos, int preex, int posex, \
     last_spiked = -100;
     last_spiked_post = -100;
     gs = init_gs;
+    g = init_g;
 
     if(preex){
         tau_s = init_tau_se;

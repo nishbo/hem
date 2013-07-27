@@ -9,11 +9,15 @@ pi = 3.14159265359;
     LOAD_SYNAPSE_DATA = 0;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
-    LOAD_CURRENTS = 1;
+    LOAD_CURRENTS = 0;
+    LOAD_STIM_SYNAPSE = 0;
+    LOAD_STIM_NEURON = 0;
     
     CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;              %Plots an average potential vs time
     CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;                  %Plots average synaptic current (with SD) vs time
     CALCULATE_BG_CURRENT_HISTOGRAM = LOAD_NEURON_PARAMETERS * 1;    %Plots a histogram of background currents of neurons
+    CALCULATE_STIM_NEURON_HISTOGRAM = LOAD_STIM_NEURON * 1;         %Plots a histogram of background currents of neurons
+    CALCULATE_STIM_SYNAPSE_HISTOGRAM = LOAD_STIM_SYNAPSE * 1;         %Plots a histogram of background currents of neurons
     
     CALCULATE_ACTIVITY_HISTOGRAM = LOAD_SPIKES * 1;                 %Plots an activity histogram (activity of network vs time)
     CALCULATE_AVERAGE_ISI = LOAD_SPIKES * 0;                        %Plots average InterSpike Interval vs time
@@ -158,7 +162,20 @@ pi = 3.14159265359;
         fprintf('Currents loaded.\n');
     end
     
+    %% Analysing export/stimulation_neuron.txt
+    if LOAD_STIM_NEURON == 1
+        fid = fopen('export/stimulation_neuron.txt');
+        stim_neuron = fscanf(fid, ' %f ');
+        fclose(fid);
+    end
     
+    %% Analysing export/stimulation_synapse.txt
+    if LOAD_STIM_SYNAPSE == 1
+        fid = fopen('export/stimulation_synapse.txt');
+        stim_synapse = fscanf(fid, ' %f ');
+        fclose(fid);
+    end
+
     fprintf('\tSimulation loaded.\n\n');
 %%%%%%%%%%%%%%%%%%%%%%%%CALCULATING DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Calculate average potential
@@ -448,6 +465,17 @@ pi = 3.14159265359;
         fprintf('Synapse bursts amplitudes calculated.\n');
     end
 
+    %% Neuron Stimulation Histogram
+    if CALCULATE_STIM_NEURON_HISTOGRAM == 1
+        [neuron_stim_hist_ind neuron_stim_hist] = createDefiniteHistogram(stim_neuron ...
+            , min(min(stim_neuron)), max(max(stim_neuron)), 0, 40);
+    end
+    %% Synapse Stimulation Histogram
+    if CALCULATE_STIM_SYNAPSE_HISTOGRAM == 1
+        [synapse_stim_hist_ind synapse_stim_hist] = createDefiniteHistogram(stim_synapse ...
+            , min(min(stim_synapse)), max(max(stim_synapse)), 0, 40);
+    end
+
     fprintf('\t\tData analysed.\n');
 %%%%%%%%%%%%%%%%%%%%%%%%PLOTTING DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     plotnum = 1;    %number of the free figure
@@ -607,6 +635,30 @@ pi = 3.14159265359;
         plotnum = plotnum + 1;
     end
 
+    %% Stimulation Neuron histogram
+    if CALCULATE_STIM_NEURON_HISTOGRAM == 1
+        figure(plotnum);
+        hold on;
+        plot(neuron_stim_hist_ind, neuron_stim_hist);
+        title('Background current histogram')
+        xlabel('I_{bg}, pA');
+        ylabel(' ');
+        hold off;
+        plotnum = plotnum + 1;
+    end
+
+    %% Stimulation Synapse histogram
+    if CALCULATE_STIM_SYNAPSE_HISTOGRAM == 1
+        figure(plotnum);
+        hold on;
+        plot(synapse_stim_hist_ind, synapse_stim_hist);
+        title('Synapse exc period')
+        xlabel('Period, msec');
+        ylabel(' ');
+        hold off;
+        plotnum = plotnum + 1;
+    end
+
 %%%%%%%%%%%%%%%%%%%%%%%%PRINTING DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Burst data:
     if FIND_BURSTS == 1
@@ -643,4 +695,19 @@ end
 function answ = normalDistrTheor(average, sd, index)
 global pi
     answ = 1 ./ (sqrt(2.*pi).*sd) .* exp(- (index - average).^2 ./ (2 .* sd.^2));
+end
+
+function [index answ] = createDefiniteHistogram(data, min, max, step, N)
+    if step > 0
+        index = min : step : max;
+        N = length(index);
+    else
+        step = (max - min) / (N - 1);
+        index = min : step : max;
+    end
+    answ = zeros(1, N);
+    for i=1 : 1 : length(data)
+        buf = floor( (data(i) - min) / step) + 1;
+        answ(buf) = answ(buf) + 1;
+    end
 end

@@ -240,6 +240,29 @@ public:
     int numEssentialVariables();
 };
 
+class SynapseSimpleG: public Synapse{
+public:
+    static std::string synapsetype;
+    double g, A, g_jump;
+    double tau_s;
+    int max_spikes;
+    double *spikerow;
+    int now_spikes;
+
+    static int TYPE;
+    static double init_g, init_g_jump, init_A, init_tau_se, init_tau_si;
+
+    std::string getName();
+    double alphaFunction(double x);
+    double evolve(double dt, double timen, double Vpre, double Vpost);
+    void setData(int pre, int pos, int preex, int posex, double dt);
+    double* exportData();
+    int importData(double *arr);
+    int initSynapses();
+    static int initSynapsesLocal();
+    int numEssentialVariables();
+};
+
 class SynapseGFirstType: public Synapse{
     // Differential eq, no cut
 public:
