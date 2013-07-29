@@ -5,25 +5,27 @@ pi = 3.14159265359;
     fprintf('\n\t\tNew instance %4.0f\n', random('Uniform', 1, 99999));
 
     LOAD_NEURON_PARAMETERS = 0;
-    LOAD_POTENTIALS = 0;
+    LOAD_POTENTIALS = 1;
     LOAD_SYNAPSE_DATA = 0;
     LOAD_SPIKES = 1;
     LOAD_SYNAPSES = 0;
-    LOAD_CURRENTS = 0;
+    LOAD_CURRENTS = 1;
     LOAD_STIM_SYNAPSE = 0;
     LOAD_STIM_NEURON = 0;
     
     CALCULATE_AVERAGE_POTENTIAL = LOAD_POTENTIALS * 1;              %Plots an average potential vs time
+    CALCULATE_PSD_POTENTIAL = CALCULATE_AVERAGE_POTENTIAL * 1;      %Plots a PSD (power spectral density) based on neuron potentials
     CALCULATE_AVERAGE_CURRENT = LOAD_CURRENTS * 1;                  %Plots average synaptic current (with SD) vs time
+    CALCULATE_PSD_CURRENT = CALCULATE_AVERAGE_CURRENT * 1;          %Plots a PSD (power spectral density) based on synaptic currents
     CALCULATE_BG_CURRENT_HISTOGRAM = LOAD_NEURON_PARAMETERS * 1;    %Plots a histogram of background currents of neurons
     CALCULATE_STIM_NEURON_HISTOGRAM = LOAD_STIM_NEURON * 1;         %Plots a histogram of background currents of neurons
     CALCULATE_STIM_SYNAPSE_HISTOGRAM = LOAD_STIM_SYNAPSE * 1;         %Plots a histogram of background currents of neurons
     
     CALCULATE_ACTIVITY_HISTOGRAM = LOAD_SPIKES * 1;                 %Plots an activity histogram (activity of network vs time)
     CALCULATE_AVERAGE_ISI = LOAD_SPIKES * 0;                        %Plots average InterSpike Interval vs time
-    CALCULATE_ISI_HISTOGRAM = LOAD_SPIKES * 0;                      %Plots a histogram of ISI
+    CALCULATE_ISI_HISTOGRAM = LOAD_SPIKES * 1;                      %Plots a histogram of ISI
     
-    FIND_BURSTS = CALCULATE_ACTIVITY_HISTOGRAM * 1;                 %Finds bursts and marks them on other plots
+    FIND_BURSTS = CALCULATE_ACTIVITY_HISTOGRAM * 0;                 %Finds bursts and marks them on other plots
     BURSTS_STATISTICS = FIND_BURSTS * 1;                            %Calculates and outputs some statistics about bursts, like length, amount os spikes, etc.
     CALCULATE_IBI = FIND_BURSTS * 0;    PLOT_IBI = CALCULATE_IBI * 0;%Calculates (and Plots resp.) time since last burst vs time.
     CALCULATE_IBI_HISTOGRAM = CALCULATE_IBI * 1;                    %Plots InterBurst Interval histogram vs time.
@@ -189,6 +191,28 @@ pi = 3.14159265359;
         end
         fprintf('Average potential calculated.\n');
     end
+
+    %% Calculate PSD from average potential || psd_pot_ prefix
+    if CALCULATE_PSD_POTENTIAL == 1
+        psd_pot_nof = floor(number_of_exports*0.8); %stabilization of system
+        psd_pot_move = number_of_exports - psd_pot_nof;
+        psd_pot_G = zeros(1, psd_pot_nof);
+        psd_pot_tau = zeros(1, psd_pot_nof);
+        psd_pot_dt = time13(floor(number_of_exports/2)) - time13(floor(number_of_exports/2) - 1);
+        for i=1 : 1 : psd_pot_nof % for each tau
+            for j=1 : 1 : psd_pot_nof - i % integrate
+                psd_pot_G(i) = psd_pot_G(i) + V_average(psd_pot_move+j) * V_average(psd_pot_move+j+i);
+            end
+            psd_pot_G(i) = psd_pot_G(i) * psd_pot_dt;
+        end
+        psd_pot_PSD = fft(psd_pot_G);
+        i=1;
+        while time13(i) < 400
+            psd_pot_PSD_print(i) = psd_pot_PSD(i);
+            psd_pot_time(i) = time13(i);
+            i = i+1;
+        end
+    end
     
     %% Calculate average current
     if CALCULATE_AVERAGE_CURRENT == 1
@@ -199,12 +223,40 @@ pi = 3.14159265359;
                 I_average(i) =  I_average(i) + I(i, j);
             end
             I_average(i) = I_average(i) / N;
-            for j=1 : 1 : number_of_exports
+            for j=1 : 1 : N
                 I_sd(i) = I_sd(i) + (I_average(i) - I(i, j))^2;
             end
             I_sd(i) = sqrt(I_sd(i) / (N - 1));
         end
         fprintf('Average current calculated.\n');
+    end
+
+    %% Calculate PSD from average current || psd_cur_ prefix
+    if CALCULATE_PSD_CURRENT == 1
+        psd_cur_V = zeros(1, number_of_exports);
+        psd_cur_dt = I_time(floor(number_of_exports/2)) - I_time(floor(number_of_exports/2) - 1);
+        psd_cur_V(1) = I_average(1);
+        for i = 2 : 1 : number_of_exports
+            psd_cur_V(i) = I_average(i) + I_average(i-1);
+        end
+        psd_cur_V = psd_cur_V * psd_cur_dt / 2;
+        psd_cur_nof = floor(number_of_exports*0.8); %stabilization of system
+        psd_cur_move = number_of_exports - psd_cur_nof;
+        psd_cur_G = zeros(1, psd_cur_nof);
+        psd_cur_tau = zeros(1, psd_cur_nof);
+        for i=1 : 1 : psd_cur_nof % for each tau
+            for j=1 : 1 : psd_cur_nof - i % integrate
+                psd_cur_G(i) = psd_cur_G(i) + psd_cur_V(psd_cur_move+j) * psd_cur_V(psd_cur_move+j+i);
+            end
+            psd_cur_G(i) = psd_cur_G(i) * psd_cur_dt;
+        end
+        psd_cur_PSD = fft(psd_cur_G);
+        i=1;
+        while I_time(i) < 400
+            psd_cur_PSD_print(i) = psd_cur_PSD(i);
+            psd_cur_time(i) = I_time(i);
+            i = i+1;
+        end
     end
     
     %% BG current histogram
@@ -610,8 +662,9 @@ pi = 3.14159265359;
     if LOAD_CURRENTS == 1
         figure(plotnum);
         hold on;
-        errorbar(I_time, I_average, I_sd, 'k');
-        title('Average currents with sd')
+%         errorbar(I_time, I_average, I_sd, 'k');
+        plot(I_time, I_average, 'k');
+        title('Average synaptic current')
         xlabel('Time, ms');
         ylabel('Synaptic current, pA');
         axis([0 time_length min(min(I))*1.1 max(max(I))*1.1]);
@@ -656,6 +709,34 @@ pi = 3.14159265359;
         xlabel('Period, msec');
         ylabel(' ');
         hold off;
+        plotnum = plotnum + 1;
+    end
+
+    %% PSD from potentials
+    if CALCULATE_PSD_POTENTIAL == 1
+        figure(plotnum);
+        % hold on;
+        loglog(psd_pot_time, psd_pot_PSD_print);
+        title('Power Spectral Density, generated from neural potentials');
+        grid on;
+%         axis([0 400 min(psd_pot_PSD_print)*0.8 max(psd_pot_PSD_print)]*1.2);
+        ylabel('PSD, muV^2 /Hz');
+        xlabel('Frequency, Hz');
+        % hold off;
+        plotnum = plotnum + 1;
+    end
+
+    %% PSD from currents
+    if CALCULATE_PSD_CURRENT == 1
+        figure(plotnum);
+        % hold on;
+        loglog(psd_cur_time, psd_cur_PSD_print);
+        title('Power Spectral Density, generated from synaptic currents');
+        grid on;
+%         axis([0 400 min(psd_pot_PSD_print)*0.8 max(psd_pot_PSD_print)]*1.2);
+        ylabel('PSD, muV^2 /Hz');
+        xlabel('Frequency, Hz');
+        % hold off;
         plotnum = plotnum + 1;
     end
 
