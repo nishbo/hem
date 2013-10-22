@@ -103,6 +103,7 @@ public:
     static SimulationSingleton* instance();
     // Creating network:
     int createNetwork();
+    int resetNetwork();
 
     int loadParameters();
     int loadParametersFromFile();
@@ -121,6 +122,12 @@ public:
     int createSynapses();
     int createNamedSynapses();
     int createSynapseLists();
+
+    int saveWeights(std::string _a);
+    double *svspikes4secstim;
+    int svscount;
+    int svscount2;
+    int trig12;
 
 
     int errorReport();

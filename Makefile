@@ -1,7 +1,7 @@
 
 CC            = gcc
 CXX           = g++ #-m64
-CFLAGS        = -g -Wall
+CFLAGS        = -g -Wall -std=c++11
 
 DEL_FILE      = rm
 CREATE_DIR    = mkdir -p
