@@ -26,6 +26,7 @@ private:
     static int randomTopology(const int N, int *Mfull, int **sout);
     static int smallWorldTopology(const int N, int *Mfull, int **sout);
     static int fromOneTopology(const int N, int *Mfull, int **sout);
+    static int fromTwoTopology(const int N, int *Mfull, int **sout);
 
     static int setDelaysdt(const int N, const int Mfull, double *delays);
     static int setDelaysRandom(const int N, const int Mfull, double *delays);

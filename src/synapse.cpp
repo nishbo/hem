@@ -1,4 +1,6 @@
 #include "synapse.h"
+#include <random>
+#include <ctime>
 
 double* Synapse::innerDataArr = NULL;
 
@@ -725,6 +727,132 @@ int SynapseTsodyksMarkramRKNest::initSynapsesLocal(){
 int SynapseTsodyksMarkramRKNest::initSynapses(){
     return initSynapsesLocal();
 }
+
+/// Tsodyks-Markram for kostya style
+
+std::string SynapseKostya::synapsetype = \
+        "Kostya_synapse";
+
+std::string SynapseKostya::getName(){
+    return synapsetype;
+}
+
+SynapseKostya::SynapseKostya(){
+    toggler = 1;
+}
+
+void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
+    last_spiked = -100;
+    last_spiked2 = -100;
+    last_spiked_post = -100;
+
+    if(toggler){
+        WP = 0.3;
+        WM = 0.3105;
+        w_min = 0;
+        taup = 20;
+        taum = 20;
+        
+        presynaptic = pre;
+        postsynaptic = pos;
+
+        // STDP:
+        if(rand()%2){
+            w = vf_distributions::normal(54, 10.8, 0, 100);
+            w_max = w;
+        } else {
+            w = 0;
+            w_max = vf_distributions::normal(54, 10.8, 0, 100);
+        }
+
+        // tm
+        if(!preex){
+            //exc
+            U = 0.5;
+            D = 1100;
+            F = 50;
+            exc = 1;
+        } else {
+            // inh
+            U = 0.25;
+            D = 700;
+            F = 20;
+            exc = 0;
+        }
+        U = vf_distributions::normal(U, U/10, 0, 1);
+        D = vf_distributions::normal(D, D/10, 0, 10*D);
+        F = vf_distributions::normal(F, F/10, 0, 10*F);
+
+        tau_one = 1;
+        toggler = 0;
+    } else {
+        std::default_random_engine generator(rand());
+        std::gamma_distribution<double> distribution (9.0,6.3);
+        w = MIN(distribution(generator), w_max);
+        toggler = 1;
+    }
+
+    u = U;
+    R = 1;
+    g = 0;
+    weight = w;
+}
+
+double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
+
+    if(vf_discrete::diracDelta(time - last_spiked, dt)){
+        // buffer
+        w1 = w; u1 = u; R1 = R;
+
+        // t-m
+        h = last_spiked - last_spiked2;
+        last_spiked2 = last_spiked;
+        u = U + u1 * ( 1 - U ) * exp( - h / F );
+        R = 1 + ( R1 - u1 * R1 - 1) * exp( - h / D);
+
+        // stdp
+        if(toggler){
+            h = last_spiked_post - last_spiked;
+            if(h > 0){
+                w = MIN( w_max , w1 + WP * exp( - h / taup ));
+            } else {
+                w = MAX( w_min , w1 - WM * exp( h / taup ));
+            }
+        }
+
+        A = w * u * R;
+        if(exc)
+            g += A;
+        else
+            g -= A;
+    }
+
+    g -= dt * (g / tau_one);
+    out_current = g;
+
+    weight = w;
+
+    return moveDeliveries();
+}
+
+double* SynapseKostya::exportData(){
+    double* arr = new double[numEssentialVariables()+1];
+    arr[0] = numEssentialVariables()+1;
+    arr[1] = 1;
+    return arr;
+}
+
+int SynapseKostya::importData(double *arr){
+    return 0;
+}
+
+int SynapseKostya::numEssentialVariables(){
+    return 1;
+}
+int SynapseKostya::initSynapses(){
+    return 0;
+}
+
 
 /// Spike-Timing Dependent Plasticity Model with transmission function (g)
 

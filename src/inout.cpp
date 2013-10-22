@@ -338,14 +338,11 @@ int SimulationSingleton::outputWeightsInFile(double time){
         for(int j=0; j < outgoing_synapses_to[i][0]; j++){
             while (buf0 < outgoing_synapses_to[i][j+1] && buf0 < N){
                 buf0++;
-                buf31 += "0 ";
             }
             buf31 += vf_file::convertDoubleToString(\
                 synapse_array[outgoing_synapses[i][j+1]]->weight) + " ";
             buf0++;
         }
-        for(;buf0<N; buf0++)
-            buf31 += "0 ";
         buf31 += "\n";
         fprintf(weight_file, buf31.c_str());
     }

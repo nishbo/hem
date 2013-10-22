@@ -136,6 +136,29 @@ public:
     int numEssentialVariables();
 };
 
+class SynapseKostya: public Synapse{
+    // 154 paper
+public:
+    static std::string synapsetype;
+    double A, w, u, R, U, F, D, WP, WM, w_max, w_min, taup, taum;
+    double w1, u1, R1, h; // buffers
+    double tau_one, g; // form of current
+    double last_spiked2;
+    
+    int toggler;
+    SynapseKostya();
+
+    int exc;
+
+    std::string getName();
+    double evolve(double dt, double time, double Vpre, double Vpost);
+    void setData(int pre, int pos, int preex, int posex, double dt);
+    double* exportData();
+    int initSynapses();
+    int importData(double *arr);
+    int numEssentialVariables();
+};
+
 class SynapseSTDPG: public Synapse{
     // STDP+G
 public:

@@ -4,8 +4,36 @@
 		"selected_items":
 		[
 			[
+				"eq",
+				"eqStep"
+			],
+			[
+				"integral",
+				"integralStep"
+			],
+			[
 				"tau",
-				"tau_s"
+				"tau_fac"
+			],
+			[
+				"ta",
+				"tau_I"
+			],
+			[
+				"psd",
+				"psd_cur_V"
+			],
+			[
+				"psdcur",
+				"psd_cur_V"
+			],
+			[
+				"psd_pot_",
+				"psd_pot_G"
+			],
+			[
+				"number",
+				"number_of_exports"
 			],
 			[
 				"vf_d",
@@ -296,75 +324,10 @@
 			}
 		},
 		{
-			"file": "init/SynapseGSimple.ini",
-			"settings":
-			{
-				"buffer_size": 121,
-				"line_ending": "Windows",
-				"name": "INIT_g = 0.0"
-			}
-		},
-		{
-			"file": "export/synapses.txt",
-			"settings":
-			{
-				"buffer_size": 4272042,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "init/SynapseTsodyksMarkram.ini",
-			"settings":
-			{
-				"buffer_size": 301,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/simulation.cpp",
-			"settings":
-			{
-				"buffer_size": 14804,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/inout.cpp",
-			"settings":
-			{
-				"buffer_size": 18625,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/neuron.cpp",
-			"settings":
-			{
-				"buffer_size": 11052,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/synapse.cpp",
-			"settings":
-			{
-				"buffer_size": 65340,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/synapse.h",
-			"settings":
-			{
-				"buffer_size": 11811,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "/E/Dropbox/tasks/daily.TODO",
 			"settings":
 			{
-				"buffer_size": 1380,
+				"buffer_size": 1870,
 				"line_ending": "Windows"
 			}
 		},
@@ -383,22 +346,46 @@
 				"buffer_size": 1100,
 				"line_ending": "Windows"
 			}
-		},
-		{
-			"file": "src/simulation.h",
-			"settings":
-			{
-				"buffer_size": 5055,
-				"line_ending": "Windows"
-			}
 		}
 	],
-	"build_system": "Packages/User/c++/my-make-build.sublime-build",
+	"build_system": "Packages/User/C++/my-make-build.sublime-build",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 219.0,
 		"selected_items":
 		[
+			[
+				"clos",
+				"Project: Close"
+			],
+			[
+				"mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"matl",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"user",
+				"Preferences: Settings - User"
+			],
+			[
+				"defa",
+				"Preferences: Settings - Default"
+			],
+			[
+				"pref",
+				"Preferences: Settings - User"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"matla",
+				"Set Syntax: MATLAB"
+			],
 			[
 				"pro",
 				"Project: Close"
@@ -420,20 +407,12 @@
 				"Code Folding: Fold Tag Attributes"
 			],
 			[
-				"mat",
-				"Set Syntax: MATLAB"
-			],
-			[
 				"close",
 				"Project: Close"
 			],
 			[
 				"keyb",
 				"Preferences: Key Bindings - Default"
-			],
-			[
-				"clos",
-				"Project: Close"
 			],
 			[
 				"sql",
@@ -454,10 +433,6 @@
 			[
 				"unf",
 				"Code Folding: Unfold All"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			],
 			[
 				"Snippet: pr",
@@ -529,30 +504,60 @@
 	},
 	"file_history":
 	[
+		"/C/Python27/include/structseq.h",
+		"/C/Users/Overseer/Desktop/alha_cut/main.tex",
+		"/E/Dropbox/programs/MatLab/tsmnNEW.m",
+		"/C/Users/Overseer/Desktop/open_system2/readme.txt",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim01_3Hz/pard.m",
+		"/E/Dropbox/programs/MatLab/yakovenko.m",
+		"/E/Dropbox/programs/MatLab/change_distr.m",
+		"/E/Dropbox/papers/nest/tum_simul_del.py",
+		"/E/Dropbox/programs/python/py2hw/ex32.py",
+		"/E/Dropbox/programs/python/py2hw/ex42.py",
+		"/E/Dropbox/programs/python/py2hw/ex30.py",
+		"/E/Dropbox/programs/MatLab/alpha_function_test.m",
+		"/E/Dropbox/programs/MatLab/alpha_function_cut.m",
+		"/E/Dropbox/papers/mypapers/13.06.26_diploma/my_diploma/v3/main.tex",
+		"/E/Dropbox/programs/LaTeX/formulae.tex",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/E/Dropbox/programs/MatLab/alpha-function-test.m",
+		"/E/Programs/GitHub/hem/src/simulation.h",
+		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
+		"/E/Programs/GitHub/hem/export/synapses.txt",
+		"/E/Programs/GitHub/hem/init/SynapseGSimple.ini",
+		"/E/Programs/GitHub/hem/src/simulation.cpp",
+		"/E/Programs/GitHub/hem/src/synapse.h",
+		"/E/Programs/GitHub/hem/src/synapse.cpp",
+		"/E/Programs/GitHub/hem/src/neuron.cpp",
+		"/E/Programs/GitHub/hem/src/inout.cpp",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim01_3Hz/data/current.txt",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim10_40Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim09_40Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim08_20Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim07_20Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim06_10Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim05_10Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim04_6Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim03_6Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim02_3Hz/init/simulation.ini",
+		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.28_open_nonconnected_system_current_and_potential_output/sim01_3Hz/init/simulation.ini",
 		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.11_open_nonconnected_system_little_syn/matlab.mat",
 		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.11_open_nonconnected_system_little_syn/sim05_10Hz/init/SynapseGSimple.ini",
 		"/E/Programs/GitHub/hem/data/synapse.txt",
-		"/E/Programs/GitHub/hem/export/synapses.txt",
 		"/E/Programs/GitHub/hem/data/conn_matr.txt",
 		"/E/Programs/GitHub/hem/init/SynapseG.ini",
 		"/E/Programs/GitHub/hem/data/parameters.txt",
 		"/E/Dropbox/tasks/daily.TODO",
 		"/E/YandexDisk/_SIMULATION_STORAGE/13.07.03_fake_neuron_exc/sim1/init/simulation.ini",
-		"/E/Programs/GitHub/hem/src/synapse.cpp",
 		"/E/Programs/GitHub/hem/src/neuron.h",
-		"/E/Programs/GitHub/hem/src/neuron.cpp",
 		"/E/Programs/GitHub/hem/src/main.cpp",
 		"/E/Programs/GitHub/hem/pard.m",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
-		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkram.ini",
 		"/E/Programs/GitHub/hem/init/SynapseTMSTDP.ini",
 		"/E/Programs/GitHub/hem/data/spikes.txt",
-		"/E/Programs/GitHub/hem/src/simulation.h",
 		"/E/Programs/GitHub/hem/src/topology.h",
 		"/E/Programs/GitHub/hem/src/topology.cpp",
-		"/E/Programs/GitHub/hem/src/synapse.h",
-		"/E/Programs/GitHub/hem/src/simulation.cpp",
-		"/E/Programs/GitHub/hem/src/inout.cpp",
 		"/E/Programs/GitHub/hem/src/vfdistributions.cpp",
 		"/E/Programs/GitHub/hem/README.txt",
 		"/E/Programs/GitHub/hem/Makefile",
@@ -562,8 +567,6 @@
 		"/C/Users/Overseer/Desktop/result2/current_hist_data.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my-make-build.sublime-build",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/c++/my-make-clean-build.sublime-build",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 		"/E/Programs/GitHub/hem/src/vffile.cpp",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/README.md",
@@ -628,9 +631,7 @@
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/Base File.sublime-settings",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt",
 		"/C/Users/Overseer/AppData/Roaming/Sublime Text 2/Packages/User/Side Bar.sublime-settings",
-		"/E/YandexDisk/C/avp/rand_distrs.c",
-		"/E/YandexDisk/C/avp/net2.c",
-		"/E/YandexDisk/C/avp/net.c"
+		"/E/YandexDisk/C/avp/rand_distrs.c"
 	],
 	"find":
 	{
@@ -648,6 +649,42 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"2cm",
+			" V_{max}",
+			"exc",
+			"200",
+			"V_",
+			"delta",
+			"nS",
+			"$ $",
+			"\\cdot",
+			"0.0001",
+			"exc",
+			"tau",
+			"juhfybxbdftnc",
+			"$",
+			"i",
+			"halfheight",
+			"( -",
+			" ",
+			"	",
+			"end",
+			"800",
+			"_",
+			"time13",
+			"I_time",
+			"pot",
+			"V_average",
+			"psd_pot_",
+			"psd_pot_PSD",
+			"psd_pot_PSD_print",
+			"psd_pot_nof",
+			"number_of_exports",
+			"time13",
+			"CALCULATE_AVERAGE_POTENTIAL",
+			"CALCULATE_PSD_POTENTIAL",
+			"CALCULATE_AVERAGE_POTENTIAL",
+			"CALCULATE_PSD_CURRENT",
 			"gs = init_gs;",
 			"\n    gs = init_gs;",
 			"g\"",
@@ -739,43 +776,7 @@
 			"1e-3",
 			"1e",
 			"1e-3",
-			"if",
-			"\n    ",
-			"lsp2",
-			"test",
-			"	",
-			"createNetwork",
-			"outgoing_synapses_to",
-			"U = vf_distributions::normal",
-			"tau_ref_abs",
-			"importd",
-			"ctrl",
-			"t",
-			"ctrl+pagedown",
-			"file",
-			"\n    std::cout<<\"\\nIAMALIVE\\n\"<<delays[0]<<\" | \"<<delays[M-1]<<std::endl;",
-			"cout<<buf31<<\"|\\n\";",
-			"free",
-			"std::cout<<\"\\nIAMALIVE\\n\"<<N<<std::endl;",
-			"FILE_EXP_NEURON_PARAMS",
-			"FILE_EXP_PARAMETERS",
-			"FILE_EXP_NEURON_PARAMS",
-			"import",
-			"createSynapses",
-			"Mfull",
-			"outgoing_synapses_to",
-			"j",
-			"]\n",
-			", const int *con",
-			"topol",
-			"SynapseTMSTDPAsymmetrical",
-			"down",
-			"SynapseTsodyksMarkramRK",
-			"double",
-			"outputSynapseDataInFile",
-			"init_tau_facilii",
-			"init_type_of_weight",
-			"type_"
+			"if"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1028,958 +1029,27 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "init/SynapseGSimple.ini",
-					"settings":
-					{
-						"buffer_size": 121,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								121,
-								121
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"auto_name": "INIT_g = 0.0",
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "export/synapses.txt",
-					"settings":
-					{
-						"buffer_size": 4272042,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 137471.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "init/SynapseTsodyksMarkram.ini",
-					"settings":
-					{
-						"buffer_size": 301,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 5,
-					"file": "src/simulation.cpp",
-					"settings":
-					{
-						"buffer_size": 14804,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2911,
-								2911
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1789.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/inout.cpp",
-					"settings":
-					{
-						"buffer_size": 18625,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12588,
-								12588
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5576.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "src/neuron.cpp",
-					"settings":
-					{
-						"buffer_size": 11052,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2633,
-								2633
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1050.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/synapse.cpp",
-					"settings":
-					{
-						"buffer_size": 65340,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								52621,
-								52621
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 23489.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "src/synapse.h",
-					"settings":
-					{
-						"buffer_size": 11811,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8796,
-								8796
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2898.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
+					"buffer": 2,
 					"file": "/E/Dropbox/tasks/daily.TODO",
 					"settings":
 					{
-						"buffer_size": 1380,
+						"buffer_size": 1870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								110,
-								110
+								269,
+								269
 							]
 						],
 						"settings":
@@ -2085,11 +1155,11 @@
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 11,
+					"buffer": 3,
 					"file": "init/files.ini",
 					"settings":
 					{
@@ -2204,7 +1274,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 4,
 					"file": "src/cad.h",
 					"settings":
 					{
@@ -2317,123 +1387,6 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "src/simulation.h",
-					"settings":
-					{
-						"buffer_size": 5055,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5026,
-								5026
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": true,
-							"sublimelinter_gutter_marks_theme": "simple",
-							"sublimelinter_mark_style": "none",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2055.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
 				}
 			]
 		}
@@ -2472,7 +1425,7 @@
 		"cols":
 		[
 			0.0,
-			0.563926326678,
+			0.680820318391,
 			1.0
 		],
 		"rows":
@@ -2779,7 +1732,7 @@
 		[
 			[
 				"",
-				"/E/Dropbox/diploma/my_diploma/v2/tex-project.sublime-project"
+				"/E/Programs/GitHub/hem/hem.sublime-project"
 			]
 		],
 		"width": 380.0
@@ -2787,7 +1740,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 291.0,
 	"status_bar_visible": true
 }

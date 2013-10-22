@@ -40,6 +40,9 @@ int Topology::setTopology(const int N, int *Mfull, int **sout, double **delays, 
     case 2:
         fromOneTopology(N, Mfull, sout);
         break;
+    case 3:
+        fromTwoTopology(N, Mfull, sout);
+        break;
     default:
         randomTopology(N, Mfull, sout);
     }
@@ -151,6 +154,30 @@ int Topology::fromOneTopology(const int N, int *Mfull, int **sout){
         sout[i][0] = 0;
     }
     *Mfull = (N-1)*m;
+    return 0;
+}
+
+int Topology::fromTwoTopology(const int N, int *Mfull, int **sout){
+    m = vf_file::getParameterIni("FROM_TWO_AMOUNT", fle);
+    int m0 = 0.8 * m, m1 = m - m0;
+
+    sout[0] = new int [ ( N - 2 ) * m0 + 1];
+    sout[0][0] = ( N - 2 ) * m0;
+    sout[1] = new int [ ( N - 2 ) * m1 + 1];
+    sout[1][0] = ( N - 2 ) * m1;
+    for(int i=2; i < N; i++){
+        for(int j=1; j < m0 + 1; j++){
+            sout[0][(i-2) * m0 + j] = i;
+        }
+        for(int j=1; j < m1 + 1; j++){
+            sout[1][(i-2) * m1 + j] = i;
+        }
+    }
+    for(int i=2; i < N; i++){
+        sout[i] = new int[1];
+        sout[i][0] = 0;
+    }
+    *Mfull = (N-2)*m;
     return 0;
 }
 

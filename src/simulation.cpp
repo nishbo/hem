@@ -12,6 +12,34 @@ SimulationSingleton::SimulationSingleton(){
     time_now = 0.0;
 }
 
+int SimulationSingleton::resetNetwork(){
+    storage_file = fopen ("data/output2.txt", "w");
+    spike_file = fopen ("data/spikes2.txt", "w");
+    synapse_file = fopen ("data/synapse2.txt", "w");
+    weight_file = fopen ("data/weight2.txt", "w");
+
+    for(int i=0; i < M; i++){
+        synapse_array[i]->setData(1,1,1,1,1);
+    }
+    neuron_array[2]->V = 0;
+    neuron_array[2]->I = 0;
+    neuron_array[2]->last_spiked = -100;
+
+    svscount = 0;
+    trig12 = 1;
+    Inoise2[2] = 0;
+}
+
+int SimulationSingleton::saveWeights(std::string _a){
+    FILE* fi = fopen(_a.c_str(), "w");
+    for(int i=0; i < M; i++){
+        fprintf(fi, "%f\n", synapse_array[i]->weight);
+    }
+    fclose(fi);
+
+    return 0;
+}
+
 int SimulationSingleton::errorReport(){
     // reports an error to terminal and returns it's number.
     //otherwise returns 0;
@@ -153,6 +181,10 @@ int SimulationSingleton::createNamedSynapses(){
     case 54:
         for(int i=0; i<M; i++)
             synapse_array[i] = new SynapseGSecondTypeWCUT;
+        break;
+    case 154:
+        for(int i=0; i<M; i++)
+            synapse_array[i] = new SynapseKostya;
         break;
     default:
         error_number = 4;
@@ -396,6 +428,13 @@ int SimulationSingleton::createNetwork(){
     spikes_numbers = new int[buf0];
     spikes_resent = 0;
 
+    svscount = 0;
+    trig12 = 0;
+    svspikes4secstim = new double [(int)length_of_simulation];
+    for(int i=0; i < (int)length_of_simulation; i++){
+        svspikes4secstim[i] = -1;
+    }
+
     return errorReport();
 }
 
@@ -431,6 +470,13 @@ int SimulationSingleton::sendNeuralNoise(){
                     neuronSpiked(i);
                 }
     }
+// std::cout<<"\nIAMALIVE"<<time_now - svspikes4secstim[svscount]<<std::endl;
+    if(trig12 && svspikes4secstim[svscount] > 0 &&
+        time_now - svspikes4secstim[svscount] >0){
+        svscount++;
+        // std::cout<<"\nIAMALIVE\n"<<time_now<<std::endl;
+        neuron_array[2]->V = 30;
+    }
 
     return 0;
 }
@@ -463,11 +509,9 @@ int SimulationSingleton::sendSynapseNoise(){
 }
 
 int SimulationSingleton::evolveAllNeurons(){
-    for(int i=0; i < N; i++){
-        if(neuron_array[i]->evolve(dt, time_now)){
-            saveSpike(i);
-            neuronSpiked(i);
-        }
+    if(neuron_array[2]->evolve(dt, time_now)){
+        saveSpike(2);
+        neuronSpiked(2);
     }
 
     return 0;
@@ -500,20 +544,18 @@ void SimulationSingleton::saveSpike(int n){
     spikes_time[spikes_resent] = time_now;
     spikes_numbers[spikes_resent] = n;
     spikes_resent++;
+    std::cout<<"\nIAMALIVE spike"<<time_now<<std::endl;
+    if(!trig12){
+        svspikes4secstim[svscount] = time_now;
+        svscount++;
+    }
 }
 
 
 void SimulationSingleton::test(){
-    FILE* fid = fopen("idioto.txt", "w");
-
-    for(int i=0; i < N; i++){
-        fprintf(fid, "%d : \n", i);
-        for(int j=0; j < outgoing_synapses[i][0]; j++){
-            fprintf(fid, " %f ", synapse_array[outgoing_synapses[i][j+1]]->test());
-        }
-        fprintf(fid, "\n");
+    int i=0;
+    while(svspikes4secstim[i]>0){
+        std::cout<<"\nIAMALIVE test"<<svspikes4secstim[i]<<std::endl;
+        i++;
     }
-    fclose(fid);
-    cin.ignore();
-    exit(14);
 }

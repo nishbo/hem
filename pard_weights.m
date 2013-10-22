@@ -18,7 +18,7 @@ pi = 3.14159265359;
     Aweightmin = -200;  
     Aweightmax = 200;
     Ahistparts = 101;   %Intervals in histogram
-    Aweight_histograms = [0];   %where to plot histograms (time)
+    Aweight_histograms = [];   %where to plot histograms (time)
     Aweight_index = Aweightmin : (Aweightmax - Aweightmin) / (Ahistparts - 1) : Aweightmax;
     
     %Finding A from export/synapse.txt
