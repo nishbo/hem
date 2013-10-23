@@ -6,6 +6,11 @@
 #include "vfdistributions.h"
 #include "vfdiscrete.h"
 
+#include <iomanip>
+#include <locale>
+#include <sstream>
+#include <string>
+
 using namespace std;
 
 int main(){
@@ -56,7 +61,7 @@ int main(){
     std::cout<<"\nThird rand: "<<rand()<<std::endl;
 
     storage->closeOutputFile();
-    storage->saveWeights("data/weight_1.txt");
+    storage->saveWeights("data/weight_target.txt");
     /// LOL**********************************************************************
     cout<<"\n\n\tStarting simulation. AGAIN\n";
     //************
@@ -67,7 +72,7 @@ int main(){
     storage->createSynapseStimulation();
     std::cout<<"\nSecond rand: "<<rand()<<std::endl;
     //************
-    storage->saveWeights("data/weight_2.txt");
+    storage->saveWeights("data/weight_2sim.txt");
 
     for(storage->time_now = 0.0; \
         storage->time_now < storage->length_of_simulation ;\
@@ -79,16 +84,22 @@ int main(){
         storage->evolveAllSynapses();
         storage->outputChangingData();
 
+        if(vf_discrete::inBetween(storage->time_now, 100, storage->dt)){
+            storage->saveWeights("data/we/weight_"+\
+                static_cast<ostringstream*>( &(ostringstream() << storage->time_now) )->str() \
+                +".txt");
+        }
+
         cout<<"Finished "<<fixed<<(storage->time_now)/ \
                                   (storage->length_of_simulation)<<"\r";
     }
     std::cout<<"\nThird rand: "<<rand()<<std::endl;
 
-    storage->saveWeights("data/weight_3.txt");
+    storage->saveWeights("data/weight_final.txt");
     storage->closeOutputFile();
 
     cout<<"Finished 1.00000"<<endl<<"Press RETURN to exit..."<<endl;
-    storage->test();
+    // storage->test();
     cin.ignore();
     return 0;
 }

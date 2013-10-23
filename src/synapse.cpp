@@ -786,9 +786,11 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
         tau_one = 1;
         toggler = 0;
     } else {
-        std::default_random_engine generator(rand());
-        std::gamma_distribution<double> distribution (9.0,6.3);
-        w = MIN(distribution(generator), w_max);
+        if(exc){
+            std::default_random_engine generator(rand());
+            std::gamma_distribution<double> distribution (9.0,6.3);
+            w = MIN(distribution(generator), w_max);
+        }
         toggler = 1;
     }
 
@@ -811,7 +813,7 @@ double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
         R = 1 + ( R1 - u1 * R1 - 1) * exp( - h / D);
 
         // stdp
-        if(toggler){
+        if(toggler && exc){
             h = last_spiked_post - last_spiked;
             if(h > 0){
                 w = MIN( w_max , w1 + WP * exp( - h / taup ));

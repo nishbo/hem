@@ -27,7 +27,7 @@ int SimulationSingleton::resetNetwork(){
 
     svscount = 0;
     trig12 = 1;
-    Inoise2[2] = 0;
+    // Inoise2[2] = 0;
 }
 
 int SimulationSingleton::saveWeights(std::string _a){
@@ -472,7 +472,7 @@ int SimulationSingleton::sendNeuralNoise(){
     }
 // std::cout<<"\nIAMALIVE"<<time_now - svspikes4secstim[svscount]<<std::endl;
     if(trig12 && svspikes4secstim[svscount] > 0 &&
-        time_now - svspikes4secstim[svscount] >0){
+        time_now - svspikes4secstim[svscount] >-dt){
         svscount++;
         // std::cout<<"\nIAMALIVE\n"<<time_now<<std::endl;
         neuron_array[2]->V = 30;
@@ -544,7 +544,7 @@ void SimulationSingleton::saveSpike(int n){
     spikes_time[spikes_resent] = time_now;
     spikes_numbers[spikes_resent] = n;
     spikes_resent++;
-    std::cout<<"\nIAMALIVE spike"<<time_now<<std::endl;
+    // std::cout<<"\nIAMALIVE spike"<<time_now<<std::endl;
     if(!trig12){
         svspikes4secstim[svscount] = time_now;
         svscount++;
