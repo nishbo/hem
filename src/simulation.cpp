@@ -501,6 +501,8 @@ int SimulationSingleton::sendSynapseNoise(){
                     poisson_synaptic_excitation_freq_sd, \
                     poisson_synaptic_excitation_freq_min, \
                     poisson_synaptic_excitation_freq_max);
+                // std::cout<<"\nIAMALIVE nn: "<<i<<" tos: " \
+                //     <<poisson_synaptic_excitation_next[i]<<std::endl;
             }
         }
     }
