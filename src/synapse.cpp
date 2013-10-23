@@ -747,8 +747,8 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
     last_spiked_post = -100;
 
     if(toggler){
-        WP = 0.3;
-        WM = 0.3105;
+        WP = 0.3;//0.3;
+        WM = 0.03;//0.3105;
         w_min = 0;
         taup = 20;
         taum = 20;
@@ -788,7 +788,7 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
     } else {
         if(exc){
             std::default_random_engine generator(rand());
-            std::gamma_distribution<double> distribution (9.0,6.3);
+            std::gamma_distribution<double> distribution (90.0/7.0,0.7);
             w = MIN(distribution(generator), w_max);
         }
         toggler = 1;

@@ -159,7 +159,7 @@ int Topology::fromOneTopology(const int N, int *Mfull, int **sout){
 
 int Topology::fromTwoTopology(const int N, int *Mfull, int **sout){
     m = vf_file::getParameterIni("FROM_TWO_AMOUNT", fle);
-    int m0 = 0.8 * m, m1 = m - m0;
+    int m0 = 0.9 * m, m1 = m - m0;
 
     sout[0] = new int [ ( N - 2 ) * m0 + 1];
     sout[0][0] = ( N - 2 ) * m0;
