@@ -52,7 +52,7 @@ def calcAPlotMainPoints(_fig_iter):
     wfi = importWeightsAsArray('../data/weight_final.txt')
 
     plotWeigthHistogram(trg, _fig_iter, 30, '_target_weights')
-    plotWeigthHistogram(stw, _fig_iter, 30, '_new_gamma_weights')
+    # plotWeigthHistogram(stw, _fig_iter, 30, '_new_gamma_weights')
     plotWeigthHistogram(wfi, _fig_iter, 30, '_final_weights')
 
     print 'Difference between target and start 2: ',
@@ -61,7 +61,7 @@ def calcAPlotMainPoints(_fig_iter):
     print calculateDifferenceOfWeigths(trg, wfi)
 
 def calcAPlotAllOutput(_fig_iter):
-    [ti, di] = getEvolutionOfWeights(100, 81)
+    [ti, di] = getEvolutionOfWeights(100, 41)
     pltSomePlot(ti, di, _fig_iter, 'change of weight through time',
      'time, ms', 'weight difference from target')
 
@@ -70,4 +70,4 @@ def wa():
     calcAPlotMainPoints(fig_iter)
     calcAPlotAllOutput(fig_iter)
     pl.show()
-    print '%d plots created' %fig_iter[0]
+    print '%d plots created' %(fig_iter[0]-1)
