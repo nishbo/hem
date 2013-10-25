@@ -758,11 +758,11 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
 
         // STDP:
         if(rand()%2){
-            w = vf_distributions::normal(54, 10.8, 0, 100);
+            w = vf_distributions::normal(54, 10.8, 21.6, 86.4);
             w_max = w;
         } else {
             w = 0;
-            w_max = vf_distributions::normal(54, 10.8, 0, 100);
+            w_max = vf_distributions::normal(54, 10.8, 21.6, 86.4);
         }
 
         // tm

@@ -22,7 +22,7 @@ int main(){
     SimulationSingleton *storage = SimulationSingleton::instance();
     storage->createNetwork();
 
-    cout<<"\nSaving network parameters to file...\r";
+    cout<<"\nSaving network parameters to file...\n";
     storage->outputParametersInFile();
     storage->outputConnectivityMatrixInFile();
     cout<<"Network parameters saved to file.   ";

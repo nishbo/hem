@@ -8,7 +8,6 @@ int SimulationSingleton::loadParameters(){
 int SimulationSingleton::loadParametersFromFile(){
     cout<<"\nLoading main parameters...\r";
     using namespace vf_file;
-
     buf31 = loadFileToString(FILE_IMP_PARAMETERS, DATAFILES);
 
     neurons_in_simulation = getParameterIni("Amount_of_neurons", buf31);
@@ -61,7 +60,6 @@ int SimulationSingleton::loadParametersFromFile(){
 
     number_of_threads = getParameterIni("Number_of_threads", buf31);
     enable_test = getParameterIni("Test", buf31);
-
     cout<<"Main parameters loaded.   ";
     return 0;
 }

@@ -1,5 +1,7 @@
 #include "vffile.h"
-
+#include <cstdlib>
+#include <cstdio>
+#include <vector>
 using namespace std;
 
 int VFFile::buf0 = 0;
@@ -71,6 +73,16 @@ double VFFile::getParameterIni(string paramname, string inifile){
 int VFFile::tryReadFile(string name_of_file){
     //Return 1 if file exists
     buf40 = fopen(name_of_file.c_str(), "r");
+    buf40 = fopen("init/simulation.ini", "r");
+
+    // std::vector<char> v;
+    // if (FILE *fp = fopen(name_of_file.c_str(), "r")){
+    //     char buf[1024];
+    //     while (size_t len = fread(buf, 1, sizeof(buf), fp))
+    //         v.insert(v.end(), buf, buf + len);
+    //     fclose(fp);
+    // }
+    // std::cout<<"\nIAMALIVE "<<v<<std::endl;
     if(!buf40)
         return 0;
     fclose(buf40);
@@ -110,7 +122,7 @@ string VFFile::getFilenameFromIni(string file_with_files, string filename){
 string VFFile::loadFileToString(string filename, string file_with_files){
     buf31 = getFilenameFromIni(file_with_files, filename);
     if(!(tryReadFile(buf31))){
-        cout<<"Problems reading a file named "<<buf31<<", key "<<filename<<".";
+        cout<<"Problems reading a file named "<<buf31<<", key "<<filename<<".\n";
         exit(74);
     }
     return loadFileToString(buf31);

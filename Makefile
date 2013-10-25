@@ -1,6 +1,6 @@
 
 CC            = gcc
-CXX           = g++ #-m64
+CXX           = /sw/bin/g++-4 #-m64
 CFLAGS        = -g -Wall -std=c++11 #-std=gnu++11
 
 DEL_FILE      = rm
@@ -26,7 +26,7 @@ OBJECTS       = $(OBJECT_DIR)/main.o \
     $(OBJECT_DIR)/vfdiscrete.o \
     $(OBJECT_DIR)/vffile.o \
     $(OBJECT_DIR)/inout.o
-DESTDIR_TARGET = hem.exe
+DESTDIR_TARGET = hem
 
 first: all
 
