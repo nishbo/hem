@@ -4,11 +4,13 @@
 
 double* Synapse::innerDataArr = NULL;
 
-void Synapse::incSpike(double timen){
+double Synapse::incSpike(double timen){
     last_spiked = timen;
+    return weight;
 }
-void Synapse::incAfterSpike(double timen){
+double Synapse::incAfterSpike(double timen){
     last_spiked_post = timen;
+    return weight;
 }
 void Synapse::setDeliveries(double dt){
     number_of_possible_transfers = delay / dt;
@@ -733,6 +735,26 @@ int SynapseTsodyksMarkramRKNest::initSynapses(){
 std::string SynapseKostya::synapsetype = \
         "Kostya_synapse";
 
+
+double SynapseKostya::incSpike(double _t){
+    if(toggler && exc){
+        h = last_spiked_post - _t;
+        w = MAX( w_min , w1 - WM * exp( h / taup ));
+    }
+    last_spiked = _t;
+    return w;
+}
+
+double SynapseKostya::incAfterSpike(double _t){
+    if(toggler && exc){
+        h = _t - last_spiked;
+        w = MIN( w_max , w1 + WP * exp( - h / taup ));
+    }
+    last_spiked_post = _t;
+    return w;
+}
+
+
 std::string SynapseKostya::getName(){
     return synapsetype;
 }
@@ -748,7 +770,7 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
 
     if(toggler){
         WP = 0.3;//0.3;
-        WM = 0.03;//0.3105;
+        WM = 0.3105;//0.3105;
         w_min = 0;
         taup = 20;
         taum = 20;
@@ -811,16 +833,6 @@ double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
         last_spiked2 = last_spiked;
         u = U + u1 * ( 1 - U ) * exp( - h / F );
         R = 1 + ( R1 - u1 * R1 - 1) * exp( - h / D);
-
-        // stdp
-        if(toggler && exc){
-            h = last_spiked_post - last_spiked;
-            if(h > 0){
-                w = MIN( w_max , w1 + WP * exp( - h / taup ));
-            } else {
-                w = MAX( w_min , w1 - WM * exp( h / taup ));
-            }
-        }
 
         A = w * u * R;
         if(exc)

@@ -27,8 +27,8 @@ public:
     static double* innerDataArr;
 
     /// Everyones' functions
-    void incSpike(double timen);
-    void incAfterSpike(double timen);
+    virtual double incSpike(double timen);
+    virtual double incAfterSpike(double timen);
     double moveDeliveries();
     void setDeliveries(double dt);
     int to();
@@ -147,6 +147,8 @@ public:
     
     int toggler;
     SynapseKostya();
+    double incSpike(double _t);
+    double incAfterSpike(double _t);
 
     int exc;
 

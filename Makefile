@@ -1,6 +1,6 @@
 
 CC            = gcc
-CXX           = /sw/bin/g++-4 #-m64
+CXX           = g++ #-m64
 CFLAGS        = -g -Wall -std=c++11 #-std=gnu++11
 
 DEL_FILE      = rm
