@@ -69,5 +69,5 @@ def wa():
     fig_iter = [1]
     calcAPlotMainPoints(fig_iter)
     calcAPlotAllOutput(fig_iter)
-    pl.show()
+    # pl.show()
     print '%d plots created' %(fig_iter[0]-1)
