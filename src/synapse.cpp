@@ -742,6 +742,7 @@ double SynapseKostya::incSpike(double _t){
         w = MAX( w_min , w1 - WM * exp( h / taup ));
     }
     last_spiked = _t;
+    weight = w;
     return w;
 }
 
@@ -751,6 +752,7 @@ double SynapseKostya::incAfterSpike(double _t){
         w = MIN( w_max , w1 + WP * exp( - h / taup ));
     }
     last_spiked_post = _t;
+    weight = w;
     return w;
 }
 
@@ -824,6 +826,8 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
 
 double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
 
+    g = 0;
+    
     if(vf_discrete::diracDelta(time - last_spiked, dt)){
         // buffer
         w1 = w; u1 = u; R1 = R;
@@ -836,17 +840,14 @@ double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
 
         A = w * u * R;
         if(exc)
-            g += A;
+            g += A / dt;
         else
-            g -= A;
+            g -= A / dt;
     }
 
-    g -= dt * (g / tau_one);
     out_current = g;
 
-    weight = w;
-
-    return moveDeliveries();
+    return g; //moveDeliveries();
 }
 
 double* SynapseKostya::exportData(){
