@@ -52,7 +52,7 @@ def calcAPlotMainPoints(_fig_iter):
     wfi = importWeightsAsArray('../data/weight_final.txt')
 
     plotWeigthHistogram(trg, _fig_iter, 30, '_target_weights')
-    # plotWeigthHistogram(stw, _fig_iter, 30, '_new_gamma_weights')
+    plotWeigthHistogram(stw, _fig_iter, 30, '_new_gamma_weights')
     plotWeigthHistogram(wfi, _fig_iter, 30, '_final_weights')
 
     print 'Difference between target and start 2: ',
