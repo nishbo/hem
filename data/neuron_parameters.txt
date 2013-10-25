@@ -3,7 +3,7 @@ ________Neurons potential threshold:
 ________Neurons Vrest:
 0 0 0 
 ________Neurons Ibg:
-14.0727 14.1698 13.9591 
+14.2891 13.8618 14.0876 
 ________Synapse delays:
 0: 0.1
 1: 0.1
