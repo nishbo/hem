@@ -1,0 +1,26 @@
+tau_one = 3.0000;
+x = 0.9800;
+y = 0.0100;
+z = 0.0100;
+
+Aee = 38.0000;
+Uee = 0.5000;
+tau_recee = 800.0000;
+tau_facilee = 0.0000;
+
+Aei = 54.0000;
+Uei = 0.5000;
+tau_recei = 800.0000;
+tau_facilei = 0.0000;
+
+Aie = -72.0000;
+Uie = 0.0400;
+tau_recie = 100.0000;
+tau_facilie = 1000.0000;
+
+Aii = -72.0000;
+Uii = 0.0400;
+tau_recii = 100.0000;
+tau_facilii = 1000.0000;
+
+DISTRIBUTE_PARAMETERS = 1;
