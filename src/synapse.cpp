@@ -739,7 +739,9 @@ std::string SynapseKostya::synapsetype = \
 double SynapseKostya::incSpike(double _t){
     if(toggler && exc){
         h = last_spiked_post - _t;
-        w = MAX( w_min , w1 - WM * exp( h / taup ));
+        double a = w;
+        w = MAX( w_min , w - WM * exp( h / taup ));
+        // std::cout<<"\nIAMALIVE prev "<<a - w<<std::endl;
     }
     last_spiked = _t;
     weight = w;
@@ -749,7 +751,9 @@ double SynapseKostya::incSpike(double _t){
 double SynapseKostya::incAfterSpike(double _t){
     if(toggler && exc){
         h = _t - last_spiked;
-        w = MIN( w_max , w1 + WP * exp( - h / taup ));
+        double a = w;
+        w = MIN( w_max , w + WP * exp( - h / taup ));
+        // std::cout<<"\nIAMALIVE after spike "<< a - w<<std::endl;
     }
     last_spiked_post = _t;
     weight = w;
@@ -766,12 +770,12 @@ SynapseKostya::SynapseKostya(){
 }
 
 void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
-    last_spiked = -100;
-    last_spiked2 = -100;
-    last_spiked_post = -100;
+    last_spiked = -1000;
+    last_spiked2 = -1000;
+    last_spiked_post = -1000;
 
     if(toggler){
-        WP = 0.3;//0.3;
+        WP = 0.300;//0.3;
         WM = 0.3105;//0.3105;
         w_min = 0;
         taup = 20;
@@ -830,7 +834,7 @@ double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
     
     if(vf_discrete::diracDelta(time - last_spiked, dt)){
         // buffer
-        w1 = w; u1 = u; R1 = R;
+        u1 = u; R1 = R;
 
         // t-m
         h = last_spiked - last_spiked2;

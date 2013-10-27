@@ -1,8 +1,0 @@
-Rin = 1.00;
-tau_m = 30.00;
-Vth = 15.03;
-Vreset = 14.20;
-Vrest = 0.00;
-INITIAL_POTENTIAL = 0.00;
-tau_ref_excitatory = 3.00;
-tau_ref_inhibitory = 3.00;

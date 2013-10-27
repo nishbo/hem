@@ -26,7 +26,7 @@ OBJECTS       = $(OBJECT_DIR)/main.o \
     $(OBJECT_DIR)/vfdiscrete.o \
     $(OBJECT_DIR)/vffile.o \
     $(OBJECT_DIR)/inout.o
-DESTDIR_TARGET = hem
+DESTDIR_TARGET = hem.exe
 
 first: all
 

@@ -61,13 +61,19 @@ def calcAPlotMainPoints(_fig_iter):
     print calculateDifferenceOfWeigths(trg, wfi)
 
 def calcAPlotAllOutput(_fig_iter):
-    [ti, di] = getEvolutionOfWeights(100, 41)
+    [ti, di] = getEvolutionOfWeights(100, 5001)
     pltSomePlot(ti, di, _fig_iter, 'change of weight through time',
      'time, ms', 'weight difference from target')
+    midi = min(di)
+    miti = ti[di.index(midi)]
+    print 'Minimum of weight difference %f achieved at %f' %( midi, miti )
+    plotWeigthHistogram(
+        importWeightsAsArray(
+            '../data/we/weight_'+str(miti)+'.txt'), _fig_iter, 30, '_target_weights')
 
 def wa():
     fig_iter = [1]
     calcAPlotMainPoints(fig_iter)
     calcAPlotAllOutput(fig_iter)
-    # pl.show()
+    pl.show()
     print '%d plots created' %(fig_iter[0]-1)
