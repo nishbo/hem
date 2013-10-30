@@ -323,7 +323,7 @@
 			"file": "init/Simulation.ini",
 			"settings":
 			{
-				"buffer_size": 1396,
+				"buffer_size": 1398,
 				"line_ending": "Windows"
 			}
 		},
@@ -363,7 +363,7 @@
 			"file": "src/synapse.cpp",
 			"settings":
 			{
-				"buffer_size": 68172,
+				"buffer_size": 68532,
 				"line_ending": "Windows"
 			}
 		},
@@ -376,10 +376,26 @@
 			}
 		},
 		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 3513,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "data/spikes.txt",
+			"settings":
+			{
+				"buffer_size": 35047,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "py/little_weight_analyser.py",
 			"settings":
 			{
-				"buffer_size": 2296,
+				"buffer_size": 2561,
 				"line_ending": "Windows"
 			}
 		}
@@ -689,6 +705,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"a",
 			"fig_iter",
 			", fig_iter",
 			"_max_files",
@@ -815,8 +832,7 @@
 			"________",
 			"n________",
 			"l",
-			"buf01",
-			"smallWorldTopology"
+			"buf01"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -845,15 +861,15 @@
 					"file": "init/Simulation.ini",
 					"settings":
 					{
-						"buffer_size": 1396,
+						"buffer_size": 1398,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								143,
-								143
+								31,
+								31
 							]
 						],
 						"settings":
@@ -1082,8 +1098,8 @@
 						"selection":
 						[
 							[
-								56,
-								56
+								82,
+								82
 							]
 						],
 						"settings":
@@ -1320,8 +1336,8 @@
 						"selection":
 						[
 							[
-								2509,
-								2509
+								2181,
+								2181
 							]
 						],
 						"settings":
@@ -1420,7 +1436,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1430,15 +1446,15 @@
 					"file": "src/synapse.cpp",
 					"settings":
 					{
-						"buffer_size": 68172,
+						"buffer_size": 68532,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22323,
-								22323
+								22523,
+								22523
 							]
 						],
 						"settings":
@@ -1537,7 +1553,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3016.0,
+						"translation.y": 2985.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1658,6 +1674,236 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Makefile",
+					"settings":
+					{
+						"buffer_size": 3513,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								878,
+								878
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "data/spikes.txt",
+					"settings":
+					{
+						"buffer_size": 35047,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29270,
+								29270
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 45388.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		},
@@ -1666,19 +1912,19 @@
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 9,
 					"file": "py/little_weight_analyser.py",
 					"settings":
 					{
-						"buffer_size": 2296,
+						"buffer_size": 2561,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1800,
-								1800
+								2360,
+								2360
 							]
 						],
 						"settings":
@@ -1777,7 +2023,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 810.0,
+						"translation.y": 720.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1845,6 +2091,14 @@
 		"selected_items":
 		[
 			[
+				"spik",
+				"data/spikes.txt"
+			],
+			[
+				"make",
+				"Makefile"
+			],
+			[
 				"py",
 				"py/little_weight_analyser.py"
 			],
@@ -1871,10 +2125,6 @@
 			[
 				"simh",
 				"src/simulation.h"
-			],
-			[
-				"make",
-				"Makefile"
 			],
 			[
 				"outp2",

@@ -778,7 +778,7 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
         WP = 0.300;//0.3;
         WM = 0.3105;//0.3105;
         w_min = 0;
-        taup = 20;
+        taup = 10;
         taum = 20;
         
         presynaptic = pre;
