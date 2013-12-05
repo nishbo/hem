@@ -363,7 +363,7 @@
 			"file": "src/synapse.cpp",
 			"settings":
 			{
-				"buffer_size": 68532,
+				"buffer_size": 68531,
 				"line_ending": "Windows"
 			}
 		},
@@ -387,7 +387,15 @@
 			"file": "data/spikes.txt",
 			"settings":
 			{
-				"buffer_size": 35047,
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/neuron.cpp",
+			"settings":
+			{
+				"buffer_size": 11262,
 				"line_ending": "Windows"
 			}
 		},
@@ -560,6 +568,7 @@
 	},
 	"file_history":
 	[
+		"/E/Dropbox/mypapers_and_docs/13.06.26_diploma/my_diploma/v3/project-predmet-oblast.tex",
 		"/E/Programs/GitHub/hem/data/weight_1.txt",
 		"/E/Programs/GitHub/hem/data/weight_2.txt",
 		"/E/Programs/GitHub/hem/data/weight_3.txt",
@@ -686,8 +695,7 @@
 		"/E/Programs/GitHub/hem/init/system.ini",
 		"/E/Programs/GitHub/hem/init/SynapseTsodyksMarkramRKNest.ini",
 		"/E/Programs/GitHub/hem/src/vfdiscrete.h",
-		"/E/Programs/GitHub/hem/src/vffile.h",
-		"/E/Programs/GitHub/hem/src/vfdiscrete.cpp"
+		"/E/Programs/GitHub/hem/src/vffile.h"
 	],
 	"find":
 	{
@@ -1204,7 +1212,7 @@
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -1446,15 +1454,15 @@
 					"file": "src/synapse.cpp",
 					"settings":
 					{
-						"buffer_size": 68532,
+						"buffer_size": 68531,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22523,
-								22523
+								22460,
+								22460
 							]
 						],
 						"settings":
@@ -1553,7 +1561,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2985.0,
+						"translation.y": 3447.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1795,15 +1803,15 @@
 					"file": "data/spikes.txt",
 					"settings":
 					{
-						"buffer_size": 35047,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								29270,
-								29270
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1904,6 +1912,123 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/neuron.cpp",
+					"settings":
+					{
+						"buffer_size": 11262,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3192,
+								3192
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 450.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		},
@@ -1912,7 +2037,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "py/little_weight_analyser.py",
 					"settings":
 					{
@@ -2023,7 +2148,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 720.0,
+						"translation.y": 123.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2090,6 +2215,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"neuc",
+				"src/neuron.cpp"
+			],
 			[
 				"spik",
 				"data/spikes.txt"
@@ -2303,10 +2432,6 @@
 				"Makefile"
 			],
 			[
-				"neuc",
-				"src/neuron.cpp"
-			],
-			[
 				"mai",
 				"src/main.cpp"
 			],
@@ -2432,7 +2557,7 @@
 		[
 			[
 				"",
-				"/E/Programs/GitHub/test/test-project.sublime-project"
+				"/E/Programs/GitHub/hem_v7.0/hem_v7.0.sublime-project"
 			]
 		],
 		"width": 380.0
