@@ -41,7 +41,7 @@ int main(){
     std::cout<<"\nSEED: "<<stamp<<std::endl;
     std::cout<<"\nFirst rand: "<<rand()<<std::endl;
     storage->createSynapseStimulation();
-    std::cout<<"\nSecond rand: "<<rand()<<std::endl;
+    std::cout<<"Second rand: "<<rand()<<std::endl;
 
     cout<<"\n\tStarting simulation.\n";
 
@@ -70,7 +70,7 @@ int main(){
     std::cout<<"\nSEED: "<<stamp<<std::endl;
     std::cout<<"\nFirst rand: "<<rand()<<std::endl;
     storage->createSynapseStimulation();
-    std::cout<<"\nSecond rand: "<<rand()<<std::endl;
+    std::cout<<"Second rand: "<<rand()<<std::endl;
     //************
     storage->saveWeights("data/weight_2sim.txt");
 

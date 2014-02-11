@@ -140,7 +140,7 @@ class SynapseKostya: public Synapse{
     // 154 paper
 public:
     static std::string synapsetype;
-    double A, w, u, R, U, F, D, WP, WM, w_max, w_min, taup, taum;
+    double A, w, u, R, U, F, D, WP, WM, w_max, w_min, taup, taum, Q, tau_s;
     double w1, u1, R1, h; // buffers
     double tau_one, g; // form of current
     double last_spiked2;

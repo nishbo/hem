@@ -737,29 +737,40 @@ std::string SynapseKostya::synapsetype = \
 
 
 double SynapseKostya::incSpike(double _t){
+    double dw = 0;
     if(toggler && exc){
         h = last_spiked_post - _t;
-        double a = w;
-        w = MAX( w_min , w - WM * exp( h / taup ));
-        // std::cout<<"\nIAMALIVE prev "<<a - w<<std::endl;
+
+        dw = w_min - w;
+        if( h < -2 && h > -60 ){
+            dw = MAX(dw, - WM * exp( h / taup ));
+        }
+        // double a = w;
+        // w = MAX( w_min , w - WM * exp( h / taup ));
+        // // std::cout<<"\nIAMALIVE prev "<<a - w<<std::endl;
     }
     last_spiked = _t;
-    weight = w;
+    w += dw;
+    // weight = w;
     return w;
 }
 
 double SynapseKostya::incAfterSpike(double _t){
+    double dw = 0;
     if(toggler && exc){
         h = _t - last_spiked;
-        double a = w;
-        w = MIN( w_max , w + WP * exp( - h / taup ));
-        // std::cout<<"\nIAMALIVE after spike "<< a - w<<std::endl;
+
+        dw = w_max - w;
+        if( h > 2 && h < 60 ){
+            dw = MIN(dw, WP * exp( - h / taup ));
+        }
+
     }
     last_spiked_post = _t;
-    weight = w;
+    w += dw;
+    // weight = w;
     return w;
 }
-
 
 std::string SynapseKostya::getName(){
     return synapsetype;
@@ -800,12 +811,18 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
             D = 1100;
             F = 50;
             exc = 1;
+
+            Q = 3;
+            tau_s = 3;
         } else {
             // inh
             U = 0.25;
             D = 700;
             F = 20;
             exc = 0;
+
+            Q = 6;
+            tau_s = 6;
         }
         U = vf_distributions::normal(U, U/10, 0, 1);
         D = vf_distributions::normal(D, D/10, 0, 10*D);
@@ -825,13 +842,14 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
     u = U;
     R = 1;
     g = 0;
-    weight = w;
+    out_current = 0;
+    // weight = w;
 }
 
 double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
 
     g = 0;
-    
+
     if(vf_discrete::diracDelta(time - last_spiked, dt)){
         // buffer
         u1 = u; R1 = R;
@@ -844,14 +862,15 @@ double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
 
         A = w * u * R;
         if(exc)
-            g += A / dt;
+            out_current += A * Q / tau_s;
         else
-            g -= A / dt;
+            out_current -= A * Q / tau_s;
     }
 
-    out_current = g;
+    out_current -= dt * out_current / tau_s;
+    // std::cout<<"\nIAMALIVE\n"<<out_current<<std::endl;
 
-    return g; //moveDeliveries();
+    return out_current; //moveDeliveries();
 }
 
 double* SynapseKostya::exportData(){

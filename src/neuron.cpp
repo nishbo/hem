@@ -113,7 +113,7 @@ int NeuronLeakyIAF::evolve(double _dt, double _time){
         // std::cout<<"\nIAMALIVE "<<V<<std::endl;
         V += _dt * ( - (V - Vrest) + Rin * I) / tau_m;
         // std::cout<<"\nIAMALIVE "<<_dt<<std::endl;
-        // std::cout<<"\nIAMALIVE "<<V<<std::endl;
+        std::cout<<"\nIAMALIVE "<<V<<std::endl;
         // std::cout<<"\nIAMALIVE "<<Vrest<<std::endl;
         if(V >= Vth){ // spike
             V = Vreset;
