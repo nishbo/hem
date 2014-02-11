@@ -742,12 +742,10 @@ double SynapseKostya::incSpike(double _t){
         h = last_spiked_post - _t;
 
         dw = w_min - w;
-        if( h < -2 && h > -60 ){
+        if( -60 < h < -2 ){
             dw = MAX(dw, - WM * exp( h / taup ));
         }
-        // double a = w;
-        // w = MAX( w_min , w - WM * exp( h / taup ));
-        // // std::cout<<"\nIAMALIVE prev "<<a - w<<std::endl;
+        
     }
     last_spiked = _t;
     w += dw;
@@ -761,7 +759,7 @@ double SynapseKostya::incAfterSpike(double _t){
         h = _t - last_spiked;
 
         dw = w_max - w;
-        if( h > 2 && h < 60 ){
+        if( 2 < h < 60 ){
             dw = MIN(dw, WP * exp( - h / taup ));
         }
 

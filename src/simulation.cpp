@@ -511,10 +511,11 @@ int SimulationSingleton::sendSynapseNoise(){
 }
 
 int SimulationSingleton::evolveAllNeurons(){
-    if(neuron_array[2]->evolve(dt, time_now)){
-        saveSpike(2);
-        neuronSpiked(2);
-    }
+    for(int i=0; i < N; i++)
+        if(neuron_array[i]->evolve(dt, time_now)){
+            saveSpike(i);
+            neuronSpiked(i);
+        }
 
     return 0;
 }
