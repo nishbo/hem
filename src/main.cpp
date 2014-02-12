@@ -91,7 +91,7 @@ int main(){
         }
 
         cout<<"Finished "<<fixed<<(storage->time_now)/ \
-                                  (storage->length_of_simulation)<<"\r";
+                                  (storage->length_of_simulation)+1<<"\r";
     }
     std::cout<<"\nThird rand: "<<rand()<<std::endl;
 

@@ -745,11 +745,11 @@ double SynapseKostya::incSpike(double _t){
         if( -60 < h < -2 ){
             dw = MAX(dw, - WM * exp( h / taup ));
         }
-        
+
     }
     last_spiked = _t;
     w += dw;
-    // weight = w;
+    weight = w;
     return w;
 }
 
@@ -766,7 +766,7 @@ double SynapseKostya::incAfterSpike(double _t){
     }
     last_spiked_post = _t;
     w += dw;
-    // weight = w;
+    weight = w;
     return w;
 }
 
@@ -787,7 +787,7 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
         WP = 0.300;//0.3;
         WM = 0.3105;//0.3105;
         w_min = 0;
-        taup = 1;
+        taup = 20;
         taum = 20;
         
         presynaptic = pre;
@@ -841,7 +841,7 @@ void SynapseKostya::setData(int pre, int pos, int preex, int posex, double dt){
     R = 1;
     g = 0;
     out_current = 0;
-    // weight = w;
+    weight = w;
 }
 
 double SynapseKostya::evolve(double dt, double time, double Vpre, double Vpost){
